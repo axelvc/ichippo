@@ -1,0 +1,107 @@
+---
+const today = new Date().getDay();
+const days = ['日', '月', '火', '水', '木', '金', '土'];
+---
+
+<html lang="ja">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>一日一歩</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@300;400;500&display=swap" rel="stylesheet" />
+	</head>
+	<body>
+		<main>
+			<p class="phrase">一歩一歩、前へ進む</p>
+			<p class="meaning">Step by step, moving forward</p>
+			<div class="dots">
+				{days.map((day, i) => (
+					<div class="dot-container">
+						<div class:list={['dot', { active: i <= today }]} />
+						<span class="day-label">{day}</span>
+					</div>
+				))}
+			</div>
+		</main>
+	</body>
+</html>
+
+<style>
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+
+	html, body {
+		height: 100%;
+		background: #fafafa;
+		font-family: 'Zen Maru Gothic', sans-serif;
+	}
+
+	body {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 24px;
+	}
+
+	main {
+		width: 100%;
+		max-width: 428px;
+		min-height: 100%;
+		max-height: 926px;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		gap: 12px;
+	}
+
+	.phrase {
+		font-size: 1.75rem;
+		font-weight: 500;
+		color: #1a1a1a;
+		letter-spacing: 0.08em;
+	}
+
+	.meaning {
+		font-size: 0.85rem;
+		font-weight: 300;
+		color: #888;
+		margin-bottom: 32px;
+	}
+
+	.dots {
+		display: flex;
+		gap: 16px;
+	}
+
+	.dot-container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 6px;
+	}
+
+	.dot {
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+		background: #e0e0e0;
+		transition: background 0.2s ease;
+	}
+
+	.dot.active {
+		background: #1a1a1a;
+	}
+
+	.day-label {
+		font-size: 0.65rem;
+		color: #aaa;
+		font-weight: 300;
+	}
+</style>
