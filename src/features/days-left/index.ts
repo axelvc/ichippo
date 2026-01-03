@@ -1,4 +1,4 @@
-export { useDaysLeft } from './useDaysLeft'
-export { DaysLeftDisplay } from './DaysLeftDisplay'
 export { DaysLeftControls } from './DaysLeftControls'
-export type { ProgressMode, DaysLeftState, DaysLeftActions } from './types'
+export { DaysLeftDisplay } from './DaysLeftDisplay'
+export type { DaysLeftActions, DaysLeftState, ProgressMode } from './types'
+export { useDaysLeft } from './useDaysLeft'

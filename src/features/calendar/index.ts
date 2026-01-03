@@ -1,10 +1,10 @@
-export { useCalendar } from './useCalendar'
-export { CalendarDisplay } from './CalendarDisplay'
 export { CalendarControls } from './CalendarControls'
+export { CalendarDisplay } from './CalendarDisplay'
 export {
-	WEEK_LABELS_SUNDAY,
-	WEEK_LABELS_MONDAY,
-	WEEK_LABELS_JA_SUNDAY,
 	WEEK_LABELS_JA_MONDAY,
+	WEEK_LABELS_JA_SUNDAY,
+	WEEK_LABELS_MONDAY,
+	WEEK_LABELS_SUNDAY,
 } from './constants'
-export type { TimeMode, DotStyle, WeekStart, CalendarLang, CalendarState, CalendarActions } from './types'
+export type { CalendarActions, CalendarLang, CalendarState, DotStyle, TimeMode, WeekStart } from './types'
+export { useCalendar } from './useCalendar'

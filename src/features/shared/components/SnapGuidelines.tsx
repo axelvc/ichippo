@@ -2,11 +2,9 @@ import type { ActiveGuideline } from '../hooks/useSnapGuidelines'
 
 interface SnapGuidelinesProps {
 	guidelines: ActiveGuideline[]
-	containerWidth: number
-	containerHeight: number
 }
 
-export function SnapGuidelines({ guidelines, containerWidth, containerHeight }: SnapGuidelinesProps) {
+export function SnapGuidelines({ guidelines }: SnapGuidelinesProps) {
 	if (guidelines.length === 0) return null
 
 	return (

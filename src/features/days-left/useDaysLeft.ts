@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import type { ProgressMode, DaysLeftState, DaysLeftActions } from './types'
+import type { DaysLeftActions, DaysLeftState, ProgressMode } from './types'
 
 export function useDaysLeft(): DaysLeftState & DaysLeftActions {
 	const [showDay, setShowDay] = useState(true)

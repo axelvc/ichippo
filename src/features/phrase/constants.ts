@@ -1,4 +1,4 @@
-import type { Phrase, LanguageCode } from './types'
+import type { LanguageCode, Phrase } from './types'
 
 export const LANGUAGES: Record<LanguageCode, string> = {
 	en: 'English',

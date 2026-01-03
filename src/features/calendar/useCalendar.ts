@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import type { TimeMode, DotStyle, WeekStart, CalendarLang, CalendarState, CalendarActions } from './types'
+import type { CalendarActions, CalendarLang, CalendarState, DotStyle, TimeMode, WeekStart } from './types'
 
 export function useCalendar(): CalendarState & CalendarActions {
 	const [timeMode, setTimeMode] = useState<TimeMode>('week')

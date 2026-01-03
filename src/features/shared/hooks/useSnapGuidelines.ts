@@ -143,5 +143,5 @@ export function useSnapGuidelines({
 			y: snappedY,
 			guidelines,
 		}
-	}, [containerWidth, containerHeight, elementWidth, elementHeight, currentX, currentY, snapThreshold])
+	}, [containerWidth, containerHeight, elementWidth, elementHeight, currentX, currentY, snapThreshold, padding])
 }

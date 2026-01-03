@@ -1,5 +1,5 @@
-import type { PhraseMode, LanguageCode } from './types'
 import { PHRASES } from './constants'
+import type { LanguageCode, PhraseMode } from './types'
 
 interface PhraseDisplayProps {
 	mode: PhraseMode
@@ -26,14 +26,10 @@ export function PhraseDisplay({
 		return (
 			<div className="flex flex-col items-center gap-2 px-8">
 				{customText && (
-					<p className="text-2xl font-medium text-center text-neutral-900 dark:text-neutral-100">
-						{customText}
-					</p>
+					<p className="text-2xl font-medium text-center text-neutral-900 dark:text-neutral-100">{customText}</p>
 				)}
 				{customSubtext && (
-					<p className="text-sm font-light text-center text-neutral-500 dark:text-neutral-400">
-						{customSubtext}
-					</p>
+					<p className="text-sm font-light text-center text-neutral-500 dark:text-neutral-400">{customSubtext}</p>
 				)}
 			</div>
 		)
@@ -41,13 +37,9 @@ export function PhraseDisplay({
 
 	return (
 		<div className="flex flex-col items-center gap-2 px-8">
-			<p className="text-2xl font-medium text-center text-neutral-900 dark:text-neutral-100">
-				{phrase.text}
-			</p>
+			<p className="text-2xl font-medium text-center text-neutral-900 dark:text-neutral-100">{phrase.text}</p>
 			{showHiragana && (
-				<p className="text-sm font-light text-center text-neutral-500 dark:text-neutral-400">
-					{phrase.reading}
-				</p>
+				<p className="text-sm font-light text-center text-neutral-500 dark:text-neutral-400">{phrase.reading}</p>
 			)}
 			{showTranslation && (
 				<p className="text-xs font-light text-center text-neutral-400 dark:text-neutral-500 mt-1">

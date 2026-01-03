@@ -1,6 +1,6 @@
-import StatusBar from './StatusBar'
-import LockClock from './LockClock'
 import BottomControls from './BottomControls'
+import LockClock from './LockClock'
+import StatusBar from './StatusBar'
 
 interface PhoneOverlayProps {
 	isVisible: boolean

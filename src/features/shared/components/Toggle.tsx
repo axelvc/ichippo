@@ -6,6 +6,7 @@ interface ToggleProps {
 export function Toggle({ enabled, onChange }: ToggleProps) {
 	return (
 		<button
+			type="button"
 			onClick={onChange}
 			className={`w-10 h-6 rounded-full transition-colors flex-shrink-0 ${
 				enabled ? 'bg-neutral-900 dark:bg-white' : 'bg-neutral-300 dark:bg-neutral-700'

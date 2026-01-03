@@ -1,6 +1,7 @@
+/** biome-ignore-all lint/suspicious/noArrayIndexKey: Week labels are hardcoded */
 import type { LanguageCode } from '../phrase/types'
-import type { TimeMode, DotStyle, WeekStart, CalendarLang } from './types'
-import { WEEK_LABELS_SUNDAY, WEEK_LABELS_MONDAY, WEEK_LABELS_JA_SUNDAY, WEEK_LABELS_JA_MONDAY } from './constants'
+import { WEEK_LABELS_JA_MONDAY, WEEK_LABELS_JA_SUNDAY, WEEK_LABELS_MONDAY, WEEK_LABELS_SUNDAY } from './constants'
+import type { CalendarLang, DotStyle, TimeMode, WeekStart } from './types'
 
 interface CalendarDisplayProps {
 	timeMode: TimeMode
