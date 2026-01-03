@@ -6,8 +6,11 @@ import {
 	type ModelName,
 	type LanguageCode,
 	type PhraseMode,
+	type TimeMode,
+	type DotStyle,
+	type WeekStart,
 } from '../../data/constants'
-import WeekDots from '../WeekDots'
+import CalendarDots from '../CalendarDots'
 import ModelSelector from './ModelSelector'
 import ControlsPanel from './ControlsPanel'
 import PhoneOverlay from './PhoneOverlay'
@@ -27,6 +30,13 @@ export default function IPhonePreview() {
 	const [translationLang, setTranslationLang] = useState<LanguageCode>('en')
 	const [customText, setCustomText] = useState('Your phrase here')
 	const [customSubtext, setCustomSubtext] = useState('Your subtext here')
+
+	// CalendarDots controls
+	const [timeMode, setTimeMode] = useState<TimeMode>('week')
+	const [showLabel, setShowLabel] = useState(true)
+	const [labelLang, setLabelLang] = useState<LanguageCode | 'ja'>('ja')
+	const [dotStyle, setDotStyle] = useState<DotStyle>('dots')
+	const [weekStart, setWeekStart] = useState<WeekStart>('monday')
 
 	const currentDevice = IPHONE_MODELS[selectedModel]
 	const scaledWidth = Math.round(currentDevice.width / SCALE_FACTOR)
@@ -95,7 +105,7 @@ export default function IPhonePreview() {
 				</button>
 			</div>
 
-			{/* Phrase Controls Panel */}
+			{/* Controls Panel */}
 			{showControls && (
 				<ControlsPanel
 					phraseMode={phraseMode}
@@ -112,6 +122,16 @@ export default function IPhonePreview() {
 					setCustomText={setCustomText}
 					customSubtext={customSubtext}
 					setCustomSubtext={setCustomSubtext}
+					timeMode={timeMode}
+					setTimeMode={setTimeMode}
+					showLabel={showLabel}
+					setShowLabel={setShowLabel}
+					labelLang={labelLang}
+					setLabelLang={setLabelLang}
+					dotStyle={dotStyle}
+					setDotStyle={setDotStyle}
+					weekStart={weekStart}
+					setWeekStart={setWeekStart}
 				/>
 			)}
 
@@ -134,8 +154,10 @@ export default function IPhonePreview() {
 					<p className="text-2xl font-medium text-neutral-900 dark:text-neutral-100 tracking-widest">
 						{phraseContent.text}
 					</p>
-					<p className="text-sm font-light text-neutral-400 dark:text-neutral-500 mb-8 whitespace-pre-line text-center">{phraseContent.subtext}</p>
-					<WeekDots />
+					<p className="text-sm font-light text-neutral-400 dark:text-neutral-500 mb-8 whitespace-pre-line text-center">
+						{phraseContent.subtext}
+					</p>
+					<CalendarDots timeMode={timeMode} showLabel={showLabel} labelLang={labelLang} dotStyle={dotStyle} weekStart={weekStart} />
 				</main>
 			</div>
 
