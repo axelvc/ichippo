@@ -1,26 +1,35 @@
 import { IPHONE_MODELS, MODEL_GROUPS, type ModelName } from '../../data/constants'
+import { ChevronDown } from 'lucide-react'
 
 interface ModelSelectorProps {
-	selectedModel: ModelName
-	setSelectedModel: (model: ModelName) => void
+  selectedModel: ModelName
+  setSelectedModel: (model: ModelName) => void
 }
 
 export default function ModelSelector({ selectedModel, setSelectedModel }: ModelSelectorProps) {
-	return (
-		<select
-			value={selectedModel}
-			onChange={(e) => setSelectedModel(e.target.value as ModelName)}
-			className="px-3 py-1.5 text-xs font-light rounded-full border border-neutral-300 dark:border-neutral-700 text-neutral-500 dark:text-neutral-400 bg-white dark:bg-neutral-900 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors cursor-pointer outline-none"
-		>
-			{Object.entries(MODEL_GROUPS).map(([series, models]) => (
-				<optgroup key={series} label={series}>
-					{models.map((model) => (
-						<option key={model} value={model}>
-							{model} ({IPHONE_MODELS[model].width}×{IPHONE_MODELS[model].height})
-						</option>
-					))}
-				</optgroup>
-			))}
-		</select>
-	)
+  return (
+    <div className="relative">
+      <select
+        value={selectedModel}
+        onChange={e => setSelectedModel(e.target.value as ModelName)}
+        className="
+					appearance-none bg-zinc-800 border border-zinc-700
+					px-3 py-1.5 pr-10 text-xs font-mono text-zinc-200
+					focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500
+					cursor-pointer
+				"
+      >
+        {Object.entries(MODEL_GROUPS).map(([series, models]) => (
+          <optgroup key={series} label={series} className="bg-zinc-800 font-mono">
+            {models.map(model => (
+              <option key={model} value={model} className="bg-zinc-800 font-mono">
+                {model} ({IPHONE_MODELS[model].width}×{IPHONE_MODELS[model].height})
+              </option>
+            ))}
+          </optgroup>
+        ))}
+      </select>
+      <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 pointer-events-none" />
+    </div>
+  )
 }

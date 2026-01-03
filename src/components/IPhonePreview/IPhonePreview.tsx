@@ -4,6 +4,8 @@ import { usePhrase, PhraseDisplay, PHRASES } from '../../features/phrase'
 import { useCalendar, CalendarDisplay } from '../../features/calendar'
 import { useDaysLeft, DaysLeftDisplay } from '../../features/days-left'
 import { DraggableWrapper } from '../../features/shared'
+import { Button } from '../ui'
+import { Edit2, Eye, EyeOff } from 'lucide-react'
 import ModelSelector from './ModelSelector'
 import ControlsPanel from './ControlsPanel'
 import PhoneOverlay from './PhoneOverlay'
@@ -74,19 +76,21 @@ export default function IPhonePreview() {
       <div className="fixed top-6 right-6 flex items-center gap-3 z-50">
         <ModelSelector selectedModel={selectedModel} setSelectedModel={setSelectedModel} />
 
-        <button
+        <Button
           onClick={() => setShowControls(!showControls)}
-          className="px-3 py-1.5 text-xs font-light rounded-full border border-neutral-300 dark:border-neutral-700 text-neutral-500 dark:text-neutral-400 hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors"
+          icon={<Edit2 className="w-4 h-4" />}
+          variant={showControls ? 'primary' : 'secondary'}
         >
-          {showControls ? 'Hide' : 'Edit'}
-        </button>
+          {showControls ? 'DONE' : 'EDIT'}
+        </Button>
 
-        <button
+        <Button
           onClick={() => setIsPreview(!isPreview)}
-          className="px-3 py-1.5 text-xs font-light rounded-full border border-neutral-300 dark:border-neutral-700 text-neutral-500 dark:text-neutral-400 hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors"
+          icon={isPreview ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+          variant={isPreview ? 'primary' : 'secondary'}
         >
-          {isPreview ? 'Exit' : 'Preview'}
-        </button>
+          {isPreview ? 'EXIT' : 'PREVIEW'}
+        </Button>
       </div>
 
       {/* Controls Panel */}

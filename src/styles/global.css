@@ -1,15 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
 @import 'tailwindcss';
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
 	--font-zen: 'Zen Maru Gothic', sans-serif;
+	--font-mono: 'JetBrains Mono', monospace;
 }
 
 @keyframes fade-in {
 	from {
 		opacity: 0;
 	}
+
 	to {
 		opacity: 1;
 	}
