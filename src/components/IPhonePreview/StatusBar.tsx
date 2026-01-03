@@ -9,7 +9,7 @@ export default function StatusBar({ className = '' }: StatusBarProps) {
 				className="text-sm font-semibold text-neutral-900 dark:text-white"
 				style={{ fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif' }}
 			>
-				9:41
+				Status
 			</span>
 			<div className="flex items-center gap-1.5">
 				{/* Signal */}
