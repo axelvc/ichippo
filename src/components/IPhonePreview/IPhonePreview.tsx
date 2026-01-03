@@ -16,6 +16,7 @@ export default function IPhonePreview() {
   const [time, setTime] = useState('')
   const [date, setDate] = useState('')
   const [showControls, setShowControls] = useState(false)
+  const [viewportScale, setViewportScale] = useState(1)
 
   // Feature hooks
   const phrase = usePhrase()
@@ -48,6 +49,23 @@ export default function IPhonePreview() {
     return () => clearInterval(interval)
   }, [])
 
+  // Viewport scaling logic
+  useEffect(() => {
+    const updateScale = () => {
+      const padding = 48 // total padding
+      const availableWidth = window.innerWidth - padding
+      if (availableWidth < scaledWidth) {
+        setViewportScale(availableWidth / scaledWidth)
+      } else {
+        setViewportScale(1)
+      }
+    }
+
+    updateScale()
+    window.addEventListener('resize', updateScale)
+    return () => window.removeEventListener('resize', updateScale)
+  }, [scaledWidth])
+
   // Get current phrase content for legacy display
   const getPhraseContent = () => {
     if (phrase.mode === 'custom') {
@@ -73,24 +91,28 @@ export default function IPhonePreview() {
   return (
     <>
       {/* Top Controls */}
-      <div className="fixed top-6 right-6 flex items-center gap-3 z-50">
+      <div className="fixed top-4 right-4 left-4 md:left-auto md:top-6 md:right-6 flex flex-col items-end justify-end gap-2 md:gap-3 z-50">
         <ModelSelector selectedModel={selectedModel} setSelectedModel={setSelectedModel} />
 
-        <Button
-          onClick={() => setShowControls(!showControls)}
-          icon={<Edit2 className="w-4 h-4" />}
-          variant={showControls ? 'primary' : 'secondary'}
-        >
-          {showControls ? 'DONE' : 'EDIT'}
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            onClick={() => setShowControls(!showControls)}
+            icon={<Edit2 className="w-4 h-4" />}
+            variant={showControls ? 'primary' : 'secondary'}
+            size="sm"
+          >
+            {showControls ? 'DONE' : 'EDIT'}
+          </Button>
 
-        <Button
-          onClick={() => setIsPreview(!isPreview)}
-          icon={isPreview ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-          variant={isPreview ? 'primary' : 'secondary'}
-        >
-          {isPreview ? 'EXIT' : 'PREVIEW'}
-        </Button>
+          <Button
+            onClick={() => setIsPreview(!isPreview)}
+            icon={isPreview ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+            variant={isPreview ? 'primary' : 'secondary'}
+            size="sm"
+          >
+            {isPreview ? 'EXIT' : 'PREVIEW'}
+          </Button>
+        </div>
       </div>
 
       {/* Controls Panel */}
@@ -98,10 +120,11 @@ export default function IPhonePreview() {
 
       {/* iPhone Frame Container */}
       <div
-        className="relative flex items-center justify-center transition-all duration-300"
+        className="relative flex items-center justify-center transition-all duration-300 origin-center"
         style={{
           width: `${scaledWidth}px`,
           height: `${scaledHeight}px`,
+          transform: `scale(${viewportScale})`,
         }}
       >
         <PhoneOverlay isVisible={isPreview} time={time} date={date} />
@@ -163,9 +186,11 @@ export default function IPhonePreview() {
       </div>
 
       {/* Resolution indicator */}
-      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 text-xs text-neutral-400 dark:text-neutral-600">
-        {currentDevice.width} × {currentDevice.height}
-      </div>
+      {!showControls && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 text-[10px] md:text-xs text-neutral-400 dark:text-neutral-600 bg-white/50 dark:bg-black/50 px-2 py-1 backdrop-blur-sm">
+          {currentDevice.width} × {currentDevice.height} ({Math.round(viewportScale * 100)}%)
+        </div>
+      )}
     </>
   )
 }

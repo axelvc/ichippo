@@ -13,7 +13,7 @@ interface ControlsPanelProps {
 
 export default function ControlsPanel({ phrase, calendar, daysLeft }: ControlsPanelProps) {
   return (
-    <div className="fixed left-6 top-1/2 -translate-y-1/2 w-72 bg-zinc-900 border border-zinc-800 p-5 shadow-2xl z-50 max-h-[90vh] overflow-y-auto font-mono">
+    <div className="fixed bottom-0 left-0 right-0 h-[30vh] md:h-auto md:left-6 md:right-auto md:bottom-auto md:top-1/2 md:-translate-y-1/2 md:w-72 bg-zinc-900 border-t md:border border-zinc-800 p-5 shadow-2xl z-50 overflow-y-auto font-mono transition-all duration-300">
       {/* Phrase Settings */}
       <PhraseControls
         mode={phrase.mode}
