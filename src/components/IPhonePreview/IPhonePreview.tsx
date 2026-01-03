@@ -132,15 +132,15 @@ export default function IPhonePreview() {
         {/* Main Content */}
         <main
           ref={containerRef}
-          className={`w-full h-full bg-neutral-50 dark:bg-neutral-950 rounded-[50px] flex flex-col justify-center items-center gap-3 transition-all duration-300 relative overflow-hidden ${
+          className={`w-full h-full bg-neutral-50 dark:bg-neutral-950 rounded-[50px] transition-all duration-300 relative overflow-hidden ${
             isPreview ? 'shadow-2xl' : ''
           }`}
         >
           <DraggableWrapper
             containerWidth={scaledWidth}
             containerHeight={scaledHeight}
-            initialX={scaledWidth / 2 - 100}
-            initialY={100}
+            initialY={scaledHeight / 2 - 50}
+            centerHorizontal
           >
             <div className="flex flex-col items-center gap-2 px-8">
               <p className="text-2xl font-medium text-neutral-900 dark:text-neutral-100 tracking-widest">
@@ -155,8 +155,8 @@ export default function IPhonePreview() {
           <DraggableWrapper
             containerWidth={scaledWidth}
             containerHeight={scaledHeight}
-            initialX={scaledWidth / 2 - 100}
-            initialY={scaledHeight / 2 - 50}
+            initialY={scaledHeight / 2 + 100}
+            centerHorizontal
           >
             <CalendarDisplay
               timeMode={calendar.timeMode}
@@ -170,8 +170,8 @@ export default function IPhonePreview() {
           <DraggableWrapper
             containerWidth={scaledWidth}
             containerHeight={scaledHeight}
-            initialX={scaledWidth / 2 - 50}
-            initialY={scaledHeight - 150}
+            initialY={scaledHeight - 100}
+            centerHorizontal
           >
             <DaysLeftDisplay
               showDay={daysLeft.showDay}

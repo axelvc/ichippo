@@ -8,6 +8,7 @@ interface DraggableWrapperProps {
   containerHeight: number
   initialX?: number
   initialY?: number
+  centerHorizontal?: boolean
   onPositionChange?: (x: number, y: number) => void
 }
 
@@ -17,11 +18,13 @@ export function DraggableWrapper({
   containerHeight,
   initialX = 0,
   initialY = 0,
+  centerHorizontal = false,
   onPositionChange,
 }: DraggableWrapperProps) {
   const [isDragging, setIsDragging] = useState(false)
   const [position, setPosition] = useState({ x: initialX, y: initialY })
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 })
+  const [hasInitialized, setHasInitialized] = useState(false)
   const elementRef = useRef<HTMLDivElement>(null)
 
   // Get element dimensions
@@ -29,10 +32,25 @@ export function DraggableWrapper({
 
   useEffect(() => {
     if (elementRef.current) {
-      const rect = elementRef.current.getBoundingClientRect()
-      setElementSize({ width: rect.width, height: rect.height })
+      const width = elementRef.current.offsetWidth
+      const height = elementRef.current.offsetHeight
+      setElementSize({ width, height })
+
+      // Only set initial position once
+      if (!hasInitialized) {
+        if (centerHorizontal && initialX === 0) {
+          const centeredX = (containerWidth - width) / 2
+          setPosition({ x: Math.max(0, centeredX), y: initialY })
+        } else {
+          setPosition({ x: initialX, y: initialY })
+        }
+
+        // Enable transitions after initial mount/positioning
+        const timer = setTimeout(() => setHasInitialized(true), 50)
+        return () => clearTimeout(timer)
+      }
     }
-  }, [children])
+  }, [containerWidth, initialX, initialY, centerHorizontal])
 
   // Calculate snap guidelines
   const snapResult = useSnapGuidelines({
@@ -138,9 +156,9 @@ export function DraggableWrapper({
         ref={elementRef}
         onMouseDown={handleMouseDown}
         onTouchStart={handleTouchStart}
-        className={`absolute ${isDragging ? 'cursor-grabbing' : 'cursor-grab'} transition-all ${
-          isDragging ? 'duration-0' : 'duration-200'
-        }`}
+        className={`absolute ${isDragging ? 'cursor-grabbing' : 'cursor-grab'} ${
+          hasInitialized && !isDragging ? 'transition-all duration-200' : 'duration-0'
+        } ${hasInitialized ? '' : 'opacity-0'}`}
         style={{
           left: `${currentPosition.x}px`,
           top: `${currentPosition.y}px`,
