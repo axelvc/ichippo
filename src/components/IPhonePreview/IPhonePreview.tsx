@@ -97,7 +97,7 @@ export default function IPhonePreview() {
         <div className="flex gap-2">
           <Button
             onClick={() => setShowControls(!showControls)}
-            icon={<Edit2 className="w-4 h-4" />}
+            icon={<Edit2 className="size-4" />}
             variant={showControls ? 'primary' : 'secondary'}
             size="sm"
           >
@@ -106,11 +106,11 @@ export default function IPhonePreview() {
 
           <Button
             onClick={() => setIsPreview(!isPreview)}
-            icon={isPreview ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+            icon={isPreview ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
             variant={isPreview ? 'primary' : 'secondary'}
             size="sm"
           >
-            {isPreview ? 'EXIT' : 'PREVIEW'}
+            PREVIEW
           </Button>
         </div>
       </div>

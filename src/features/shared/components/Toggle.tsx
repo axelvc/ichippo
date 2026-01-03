@@ -12,7 +12,7 @@ export function Toggle({ enabled, onChange }: ToggleProps) {
 			}`}
 		>
 			<div
-				className={`w-4 h-4 rounded-full bg-white dark:bg-neutral-900 transition-transform mx-1 ${
+				className={`size-4 rounded-full bg-white dark:bg-neutral-900 transition-transform mx-1 ${
 					enabled ? 'translate-x-4' : 'translate-x-0'
 				}`}
 			/>

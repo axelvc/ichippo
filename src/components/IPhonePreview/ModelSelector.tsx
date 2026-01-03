@@ -29,7 +29,7 @@ export default function ModelSelector({ selectedModel, setSelectedModel }: Model
           </optgroup>
         ))}
       </select>
-      <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 pointer-events-none" />
+      <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 size-4 text-zinc-400 pointer-events-none" />
     </div>
   )
 }
