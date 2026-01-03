@@ -1,8 +1,9 @@
 ---
-import '../styles/global.css';
+import '../styles/global.css'
+import IPhonePreview from '../components/IPhonePreview'
 
-const today = new Date().getDay();
-const days = ['日', '月', '火', '水', '木', '金', '土'];
+const today = new Date().getDay()
+const days = ['日', '月', '火', '水', '木', '金', '土']
 ---
 
 <html lang="ja">
@@ -15,13 +16,15 @@ const days = ['日', '月', '火', '水', '木', '金', '土'];
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@300;400;500&display=swap" rel="stylesheet" />
 		<script is:inline>
-			if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-				document.documentElement.classList.add('dark');
-			}
+			document.documentElement.classList.toggle(
+				"dark",
+				localStorage.theme === "dark" ||
+					(!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches),
+			)
 		</script>
 	</head>
-	<body class="h-screen bg-neutral-50 dark:bg-neutral-950 font-zen flex justify-center items-center p-6 transition-colors">
-		<main class="flex flex-col justify-center items-center gap-3">
+	<body class="min-h-screen bg-neutral-100 dark:bg-neutral-900 font-zen flex justify-center items-center p-6 transition-colors">
+		<IPhonePreview client:load>
 			<p class="text-2xl font-medium text-neutral-900 dark:text-neutral-100 tracking-widest">
 				一歩一歩、前へ進む
 			</p>
@@ -33,23 +36,14 @@ const days = ['日', '月', '火', '水', '木', '金', '土'];
 					<div class="flex flex-col items-center gap-1.5">
 						<div class:list={[
 							'w-2.5 h-2.5 rounded-full transition-colors',
-							i <= today
-								? 'bg-neutral-900 dark:bg-neutral-100'
+							i <= today 
+								? 'bg-neutral-900 dark:bg-neutral-100' 
 								: 'bg-neutral-200 dark:bg-neutral-800'
 						]} />
 						<span class="text-[10px] font-light text-neutral-400 dark:text-neutral-600">{day}</span>
 					</div>
 				))}
 			</div>
-		</main>
+		</IPhonePreview>
 	</body>
 </html>
-
-<script>
-	const toggle = document.getElementById('theme-toggle');
-	console.log(toggle);
-	toggle?.addEventListener('click', () => {
-		document.documentElement.classList.toggle('dark');
-		localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
-	});
-</script>
