@@ -4,10 +4,49 @@ interface Props {
 	children: React.ReactNode
 }
 
+// Display resolutions (pixels) - width x height in portrait
+const IPHONE_MODELS = {
+	// iPhone 13 series
+	'iPhone 13 mini': { width: 1080, height: 2340 },
+	'iPhone 13': { width: 1170, height: 2532 },
+	'iPhone 13 Pro': { width: 1170, height: 2532 },
+	'iPhone 13 Pro Max': { width: 1284, height: 2778 },
+	// iPhone 14 series
+	'iPhone 14': { width: 1170, height: 2532 },
+	'iPhone 14 Plus': { width: 1284, height: 2778 },
+	'iPhone 14 Pro': { width: 1179, height: 2556 },
+	'iPhone 14 Pro Max': { width: 1290, height: 2796 },
+	// iPhone 15 series
+	'iPhone 15': { width: 1179, height: 2556 },
+	'iPhone 15 Plus': { width: 1290, height: 2796 },
+	'iPhone 15 Pro': { width: 1179, height: 2556 },
+	'iPhone 15 Pro Max': { width: 1290, height: 2796 },
+	// iPhone 16 series
+	'iPhone 16': { width: 1179, height: 2556 },
+	'iPhone 16 Plus': { width: 1290, height: 2796 },
+	'iPhone 16 Pro': { width: 1206, height: 2622 },
+	'iPhone 16 Pro Max': { width: 1320, height: 2868 },
+	// iPhone 17 series (expected)
+	'iPhone 17': { width: 1179, height: 2556 },
+	'iPhone 17 Air': { width: 1290, height: 2796 },
+	'iPhone 17 Pro': { width: 1206, height: 2622 },
+	'iPhone 17 Pro Max': { width: 1320, height: 2868 },
+} as const
+
+// Scale factor to fit on screen (native res is too large)
+const SCALE_FACTOR = 3
+
+type ModelName = keyof typeof IPHONE_MODELS
+
 export default function IPhonePreview({ children }: Props) {
 	const [isPreview, setIsPreview] = useState(false)
+	const [selectedModel, setSelectedModel] = useState<ModelName>('iPhone 15 Pro Max')
 	const [time, setTime] = useState('')
 	const [date, setDate] = useState('')
+
+	const currentDevice = IPHONE_MODELS[selectedModel]
+	const scaledWidth = Math.round(currentDevice.width / SCALE_FACTOR)
+	const scaledHeight = Math.round(currentDevice.height / SCALE_FACTOR)
 
 	useEffect(() => {
 		const updateClock = () => {
@@ -29,18 +68,53 @@ export default function IPhonePreview({ children }: Props) {
 		return () => clearInterval(interval)
 	}, [])
 
+	// Group models by series
+	const modelGroups: Record<string, ModelName[]> = {
+		'iPhone 13': ['iPhone 13 mini', 'iPhone 13', 'iPhone 13 Pro', 'iPhone 13 Pro Max'],
+		'iPhone 14': ['iPhone 14', 'iPhone 14 Plus', 'iPhone 14 Pro', 'iPhone 14 Pro Max'],
+		'iPhone 15': ['iPhone 15', 'iPhone 15 Plus', 'iPhone 15 Pro', 'iPhone 15 Pro Max'],
+		'iPhone 16': ['iPhone 16', 'iPhone 16 Plus', 'iPhone 16 Pro', 'iPhone 16 Pro Max'],
+		'iPhone 17': ['iPhone 17', 'iPhone 17 Air', 'iPhone 17 Pro', 'iPhone 17 Pro Max'],
+	}
+
 	return (
 		<>
-			{/* Toggle Button */}
-			<button
-				onClick={() => setIsPreview(!isPreview)}
-				className="fixed top-6 right-6 px-3 py-1.5 text-xs font-light rounded-full border border-neutral-300 dark:border-neutral-700 text-neutral-500 dark:text-neutral-400 hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors z-50"
-			>
-				{isPreview ? 'Exit Preview' : 'Preview'}
-			</button>
+			{/* Controls */}
+			<div className="fixed top-6 right-6 flex items-center gap-3 z-50">
+				{/* Model Selector */}
+				<select
+					value={selectedModel}
+					onChange={(e) => setSelectedModel(e.target.value as ModelName)}
+					className="px-3 py-1.5 text-xs font-light rounded-full border border-neutral-300 dark:border-neutral-700 text-neutral-500 dark:text-neutral-400 bg-white dark:bg-neutral-900 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors cursor-pointer outline-none"
+				>
+					{Object.entries(modelGroups).map(([series, models]) => (
+						<optgroup key={series} label={series}>
+							{models.map((model) => (
+								<option key={model} value={model}>
+									{model} ({IPHONE_MODELS[model as ModelName].width}×{IPHONE_MODELS[model as ModelName].height})
+								</option>
+							))}
+						</optgroup>
+					))}
+				</select>
+
+				{/* Toggle Button */}
+				<button
+					onClick={() => setIsPreview(!isPreview)}
+					className="px-3 py-1.5 text-xs font-light rounded-full border border-neutral-300 dark:border-neutral-700 text-neutral-500 dark:text-neutral-400 hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors"
+				>
+					{isPreview ? 'Exit' : 'Preview'}
+				</button>
+			</div>
 
 			{/* iPhone Frame Container */}
-			<div className="relative w-full max-w-[428px] h-[926px] flex items-center justify-center">
+			<div
+				className="relative flex items-center justify-center transition-all duration-300"
+				style={{
+					width: `${scaledWidth}px`,
+					height: `${scaledHeight}px`,
+				}}
+			>
 				{/* iPhone Overlay */}
 				<div
 					className={`absolute inset-0 pointer-events-none transition-opacity duration-300 z-10 ${
@@ -149,6 +223,11 @@ export default function IPhonePreview({ children }: Props) {
 				>
 					{children}
 				</main>
+			</div>
+
+			{/* Resolution indicator */}
+			<div className="fixed bottom-6 left-1/2 -translate-x-1/2 text-xs text-neutral-400 dark:text-neutral-600">
+				{currentDevice.width} × {currentDevice.height}
 			</div>
 		</>
 	)
