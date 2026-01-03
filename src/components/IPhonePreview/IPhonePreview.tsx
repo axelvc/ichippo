@@ -9,8 +9,10 @@ import {
 	type TimeMode,
 	type DotStyle,
 	type WeekStart,
+	type ProgressMode,
 } from '../../data/constants'
 import CalendarDots from '../CalendarDots'
+import DaysLeft from '../DaysLeft'
 import ModelSelector from './ModelSelector'
 import ControlsPanel from './ControlsPanel'
 import PhoneOverlay from './PhoneOverlay'
@@ -37,6 +39,14 @@ export default function IPhonePreview() {
 	const [labelLang, setLabelLang] = useState<LanguageCode | 'ja'>('ja')
 	const [dotStyle, setDotStyle] = useState<DotStyle>('dots')
 	const [weekStart, setWeekStart] = useState<WeekStart>('monday')
+
+	// DaysLeft controls
+	const [showDay, setShowDay] = useState(true)
+	const [dayMode, setDayMode] = useState<ProgressMode>('year')
+	const [showPercentage, setShowPercentage] = useState(true)
+	const [percentageMode, setPercentageMode] = useState<ProgressMode>('year')
+	const [showDaysLeft, setShowDaysLeft] = useState(true)
+	const [daysLeftMode, setDaysLeftMode] = useState<ProgressMode>('year')
 
 	const currentDevice = IPHONE_MODELS[selectedModel]
 	const scaledWidth = Math.round(currentDevice.width / SCALE_FACTOR)
@@ -132,6 +142,18 @@ export default function IPhonePreview() {
 					setDotStyle={setDotStyle}
 					weekStart={weekStart}
 					setWeekStart={setWeekStart}
+					showDay={showDay}
+					setShowDay={setShowDay}
+					dayMode={dayMode}
+					setDayMode={setDayMode}
+					showPercentage={showPercentage}
+					setShowPercentage={setShowPercentage}
+					percentageMode={percentageMode}
+					setPercentageMode={setPercentageMode}
+					showDaysLeft={showDaysLeft}
+					setShowDaysLeft={setShowDaysLeft}
+					daysLeftMode={daysLeftMode}
+					setDaysLeftMode={setDaysLeftMode}
 				/>
 			)}
 
@@ -147,7 +169,7 @@ export default function IPhonePreview() {
 
 				{/* Main Content */}
 				<main
-					className={`w-full h-full bg-neutral-50 dark:bg-neutral-950 rounded-[50px] flex flex-col justify-center items-center gap-3 transition-all duration-300 ${
+					className={`w-full h-full bg-neutral-50 dark:bg-neutral-950 rounded-[50px] flex flex-col justify-center items-center gap-3 transition-all duration-300 relative ${
 						isPreview ? 'shadow-2xl' : ''
 					}`}
 				>
@@ -157,7 +179,25 @@ export default function IPhonePreview() {
 					<p className="text-sm font-light text-neutral-400 dark:text-neutral-500 mb-8 whitespace-pre-line text-center">
 						{phraseContent.subtext}
 					</p>
-					<CalendarDots timeMode={timeMode} showLabel={showLabel} labelLang={labelLang} dotStyle={dotStyle} weekStart={weekStart} />
+					<CalendarDots
+						timeMode={timeMode}
+						showLabel={showLabel}
+						labelLang={labelLang}
+						dotStyle={dotStyle}
+						weekStart={weekStart}
+					/>
+
+					{/* Days Left - bottom center */}
+					<div className="absolute bottom-16 left-1/2 -translate-x-1/2">
+						<DaysLeft
+							showDay={showDay}
+							dayMode={dayMode}
+							showPercentage={showPercentage}
+							percentageMode={percentageMode}
+							showDaysLeft={showDaysLeft}
+							daysLeftMode={daysLeftMode}
+						/>
+					</div>
 				</main>
 			</div>
 

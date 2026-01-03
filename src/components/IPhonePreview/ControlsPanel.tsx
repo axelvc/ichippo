@@ -1,4 +1,4 @@
-import { PHRASES, LANGUAGES, type LanguageCode, type PhraseMode, type TimeMode, type DotStyle, type WeekStart } from '../../data/constants'
+import { PHRASES, LANGUAGES, type LanguageCode, type PhraseMode, type TimeMode, type DotStyle, type WeekStart, type ProgressMode } from '../../data/constants'
 
 interface ControlsPanelProps {
 	// Phrase settings
@@ -16,7 +16,7 @@ interface ControlsPanelProps {
 	setCustomText: (text: string) => void
 	customSubtext: string
 	setCustomSubtext: (text: string) => void
-	// WeekDots settings
+	// CalendarDots settings
 	timeMode: TimeMode
 	setTimeMode: (mode: TimeMode) => void
 	showLabel: boolean
@@ -27,6 +27,19 @@ interface ControlsPanelProps {
 	setDotStyle: (style: DotStyle) => void
 	weekStart: WeekStart
 	setWeekStart: (start: WeekStart) => void
+	// DaysLeft settings
+	showDay: boolean
+	setShowDay: (show: boolean) => void
+	dayMode: ProgressMode
+	setDayMode: (mode: ProgressMode) => void
+	showPercentage: boolean
+	setShowPercentage: (show: boolean) => void
+	percentageMode: ProgressMode
+	setPercentageMode: (mode: ProgressMode) => void
+	showDaysLeft: boolean
+	setShowDaysLeft: (show: boolean) => void
+	daysLeftMode: ProgressMode
+	setDaysLeftMode: (mode: ProgressMode) => void
 }
 
 export default function ControlsPanel({
@@ -54,7 +67,35 @@ export default function ControlsPanel({
 	setDotStyle,
 	weekStart,
 	setWeekStart,
+	showDay,
+	setShowDay,
+	dayMode,
+	setDayMode,
+	showPercentage,
+	setShowPercentage,
+	percentageMode,
+	setPercentageMode,
+	showDaysLeft,
+	setShowDaysLeft,
+	daysLeftMode,
+	setDaysLeftMode,
 }: ControlsPanelProps) {
+	// Reusable toggle component
+	const Toggle = ({ enabled, onChange }: { enabled: boolean; onChange: () => void }) => (
+		<button
+			onClick={onChange}
+			className={`w-10 h-6 rounded-full transition-colors flex-shrink-0 ${
+				enabled ? 'bg-neutral-900 dark:bg-white' : 'bg-neutral-300 dark:bg-neutral-700'
+			}`}
+		>
+			<div
+				className={`w-4 h-4 rounded-full bg-white dark:bg-neutral-900 transition-transform mx-1 ${
+					enabled ? 'translate-x-4' : 'translate-x-0'
+				}`}
+			/>
+		</button>
+	)
+
 	return (
 		<div className="fixed left-6 top-1/2 -translate-y-1/2 w-64 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl p-4 shadow-lg z-50 max-h-[90vh] overflow-y-auto">
 			{/* Phrase Settings */}
@@ -98,34 +139,12 @@ export default function ControlsPanel({
 
 					<div className="mb-4 flex items-center justify-between">
 						<label className="text-xs text-neutral-500 dark:text-neutral-500">Hiragana</label>
-						<button
-							onClick={() => setShowHiragana(!showHiragana)}
-							className={`w-10 h-6 rounded-full transition-colors ${
-								showHiragana ? 'bg-neutral-900 dark:bg-white' : 'bg-neutral-300 dark:bg-neutral-700'
-							}`}
-						>
-							<div
-								className={`w-4 h-4 rounded-full bg-white dark:bg-neutral-900 transition-transform mx-1 ${
-									showHiragana ? 'translate-x-4' : 'translate-x-0'
-								}`}
-							/>
-						</button>
+						<Toggle enabled={showHiragana} onChange={() => setShowHiragana(!showHiragana)} />
 					</div>
 
 					<div className="mb-4 flex items-center justify-between">
 						<label className="text-xs text-neutral-500 dark:text-neutral-500">Translation</label>
-						<button
-							onClick={() => setShowTranslation(!showTranslation)}
-							className={`w-10 h-6 rounded-full transition-colors ${
-								showTranslation ? 'bg-neutral-900 dark:bg-white' : 'bg-neutral-300 dark:bg-neutral-700'
-							}`}
-						>
-							<div
-								className={`w-4 h-4 rounded-full bg-white dark:bg-neutral-900 transition-transform mx-1 ${
-									showTranslation ? 'translate-x-4' : 'translate-x-0'
-								}`}
-							/>
-						</button>
+						<Toggle enabled={showTranslation} onChange={() => setShowTranslation(!showTranslation)} />
 					</div>
 
 					{showTranslation && (
@@ -223,18 +242,7 @@ export default function ControlsPanel({
 				<>
 					<div className="mb-4 flex items-center justify-between">
 						<label className="text-xs text-neutral-500 dark:text-neutral-500">Show Label</label>
-						<button
-							onClick={() => setShowLabel(!showLabel)}
-							className={`w-10 h-6 rounded-full transition-colors ${
-								showLabel ? 'bg-neutral-900 dark:bg-white' : 'bg-neutral-300 dark:bg-neutral-700'
-							}`}
-						>
-							<div
-								className={`w-4 h-4 rounded-full bg-white dark:bg-neutral-900 transition-transform mx-1 ${
-									showLabel ? 'translate-x-4' : 'translate-x-0'
-								}`}
-							/>
-						</button>
+						<Toggle enabled={showLabel} onChange={() => setShowLabel(!showLabel)} />
 					</div>
 
 					{showLabel && (
@@ -276,6 +284,93 @@ export default function ControlsPanel({
 					))}
 				</div>
 			</div>
+
+			{/* Divider */}
+			<div className="border-t border-neutral-200 dark:border-neutral-800 my-4" />
+
+			{/* Days Left Settings */}
+			<h3 className="text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-4">Days Left</h3>
+
+			{/* Day - with toggle */}
+			<div className="mb-4 flex items-center justify-between">
+				<label className="text-xs text-neutral-500 dark:text-neutral-500">Day</label>
+				<Toggle enabled={showDay} onChange={() => setShowDay(!showDay)} />
+			</div>
+
+			{showDay && (
+				<div className="mb-4">
+					<label className="text-xs text-neutral-500 dark:text-neutral-500 mb-2 block">Day Mode</label>
+					<div className="flex gap-1">
+						{(['week', 'month', 'year'] as ProgressMode[]).map((mode) => (
+							<button
+								key={mode}
+								onClick={() => setDayMode(mode)}
+								className={`flex-1 px-2 py-1.5 text-xs rounded-lg transition-colors ${
+									dayMode === mode
+										? 'bg-neutral-900 dark:bg-white text-white dark:text-neutral-900'
+										: 'bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 hover:bg-neutral-200 dark:hover:bg-neutral-700'
+								}`}
+							>
+								{mode.charAt(0).toUpperCase() + mode.slice(1)}
+							</button>
+						))}
+					</div>
+				</div>
+			)}
+
+			{/* Percentage - with toggle */}
+			<div className="mb-4 flex items-center justify-between">
+				<label className="text-xs text-neutral-500 dark:text-neutral-500">Percentage</label>
+				<Toggle enabled={showPercentage} onChange={() => setShowPercentage(!showPercentage)} />
+			</div>
+
+			{showPercentage && (
+				<div className="mb-4">
+					<label className="text-xs text-neutral-500 dark:text-neutral-500 mb-2 block">Percentage Mode</label>
+					<div className="flex gap-1">
+						{(['week', 'month', 'year'] as ProgressMode[]).map((mode) => (
+							<button
+								key={mode}
+								onClick={() => setPercentageMode(mode)}
+								className={`flex-1 px-2 py-1.5 text-xs rounded-lg transition-colors ${
+									percentageMode === mode
+										? 'bg-neutral-900 dark:bg-white text-white dark:text-neutral-900'
+										: 'bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 hover:bg-neutral-200 dark:hover:bg-neutral-700'
+								}`}
+							>
+								{mode.charAt(0).toUpperCase() + mode.slice(1)}
+							</button>
+						))}
+					</div>
+				</div>
+			)}
+
+			{/* Days Left - with toggle */}
+			<div className="mb-4 flex items-center justify-between">
+				<label className="text-xs text-neutral-500 dark:text-neutral-500">Days Left</label>
+				<Toggle enabled={showDaysLeft} onChange={() => setShowDaysLeft(!showDaysLeft)} />
+			</div>
+
+			{showDaysLeft && (
+				<div className="mb-4">
+					<label className="text-xs text-neutral-500 dark:text-neutral-500 mb-2 block">Days Left Mode</label>
+					<div className="flex gap-1">
+						{(['week', 'month', 'year'] as ProgressMode[]).map((mode) => (
+							<button
+								key={mode}
+								onClick={() => setDaysLeftMode(mode)}
+								className={`flex-1 px-2 py-1.5 text-xs rounded-lg transition-colors ${
+									daysLeftMode === mode
+										? 'bg-neutral-900 dark:bg-white text-white dark:text-neutral-900'
+										: 'bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 hover:bg-neutral-200 dark:hover:bg-neutral-700'
+								}`}
+							>
+								{mode.charAt(0).toUpperCase() + mode.slice(1)}
+							</button>
+						))}
+					</div>
+				</div>
+			)}
 		</div>
 	)
 }

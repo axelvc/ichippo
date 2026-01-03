@@ -194,3 +194,6 @@ export const WEEK_LABELS_MONDAY: Record<LanguageCode, string[]> = {
 
 export const WEEK_LABELS_JA_SUNDAY = ['日', '月', '火', '水', '木', '金', '土']
 export const WEEK_LABELS_JA_MONDAY = ['月', '火', '水', '木', '金', '土', '日']
+
+// DaysLeft settings
+export type ProgressMode = 'week' | 'month' | 'year'
