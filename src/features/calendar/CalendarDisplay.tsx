@@ -1,23 +1,16 @@
-import {
-	WEEK_LABELS_SUNDAY,
-	WEEK_LABELS_MONDAY,
-	WEEK_LABELS_JA_SUNDAY,
-	WEEK_LABELS_JA_MONDAY,
-	type LanguageCode,
-	type TimeMode,
-	type DotStyle,
-	type WeekStart,
-} from '../data/constants'
+import type { LanguageCode } from '../phrase/types'
+import type { TimeMode, DotStyle, WeekStart, CalendarLang } from './types'
+import { WEEK_LABELS_SUNDAY, WEEK_LABELS_MONDAY, WEEK_LABELS_JA_SUNDAY, WEEK_LABELS_JA_MONDAY } from './constants'
 
-interface CalendarDotsProps {
+interface CalendarDisplayProps {
 	timeMode: TimeMode
 	showLabel: boolean
-	labelLang: LanguageCode | 'ja'
+	labelLang: CalendarLang
 	dotStyle: DotStyle
 	weekStart: WeekStart
 }
 
-export default function CalendarDots({ timeMode, showLabel, labelLang, dotStyle, weekStart }: CalendarDotsProps) {
+export function CalendarDisplay({ timeMode, showLabel, labelLang, dotStyle, weekStart }: CalendarDisplayProps) {
 	const now = new Date()
 	const jsDay = now.getDay() // 0 = Sunday
 	const currentDate = now.getDate()
@@ -33,7 +26,9 @@ export default function CalendarDots({ timeMode, showLabel, labelLang, dotStyle,
 		if (labelLang === 'ja') {
 			return weekStart === 'monday' ? WEEK_LABELS_JA_MONDAY : WEEK_LABELS_JA_SUNDAY
 		}
-		return weekStart === 'monday' ? WEEK_LABELS_MONDAY[labelLang] : WEEK_LABELS_SUNDAY[labelLang]
+		return weekStart === 'monday'
+			? WEEK_LABELS_MONDAY[labelLang as LanguageCode]
+			: WEEK_LABELS_SUNDAY[labelLang as LanguageCode]
 	}
 
 	// Convert JS day (0=Sun) to week index based on weekStart

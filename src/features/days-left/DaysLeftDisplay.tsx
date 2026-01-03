@@ -1,6 +1,6 @@
-import type { ProgressMode } from '../data/constants'
+import type { ProgressMode } from './types'
 
-interface DaysLeftProps {
+interface DaysLeftDisplayProps {
 	showDay: boolean
 	dayMode: ProgressMode
 	showPercentage: boolean
@@ -9,14 +9,14 @@ interface DaysLeftProps {
 	daysLeftMode: ProgressMode
 }
 
-export default function DaysLeft({
+export function DaysLeftDisplay({
 	showDay,
 	dayMode,
 	showPercentage,
 	percentageMode,
 	showDaysLeft,
 	daysLeftMode,
-}: DaysLeftProps) {
+}: DaysLeftDisplayProps) {
 	const now = new Date()
 	const year = now.getFullYear()
 	const month = now.getMonth()

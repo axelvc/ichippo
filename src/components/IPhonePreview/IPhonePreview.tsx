@@ -1,18 +1,8 @@
 import { useState, useEffect } from 'react'
-import {
-	IPHONE_MODELS,
-	PHRASES,
-	SCALE_FACTOR,
-	type ModelName,
-	type LanguageCode,
-	type PhraseMode,
-	type TimeMode,
-	type DotStyle,
-	type WeekStart,
-	type ProgressMode,
-} from '../../data/constants'
-import CalendarDots from '../CalendarDots'
-import DaysLeft from '../DaysLeft'
+import { IPHONE_MODELS, SCALE_FACTOR, type ModelName } from '../../data/constants'
+import { usePhrase, PhraseDisplay, PHRASES } from '../../features/phrase'
+import { useCalendar, CalendarDisplay } from '../../features/calendar'
+import { useDaysLeft, DaysLeftDisplay } from '../../features/days-left'
 import ModelSelector from './ModelSelector'
 import ControlsPanel from './ControlsPanel'
 import PhoneOverlay from './PhoneOverlay'
@@ -24,29 +14,10 @@ export default function IPhonePreview() {
 	const [date, setDate] = useState('')
 	const [showControls, setShowControls] = useState(false)
 
-	// Phrase controls
-	const [phraseMode, setPhraseMode] = useState<PhraseMode>('preset')
-	const [selectedPhraseIndex, setSelectedPhraseIndex] = useState(0)
-	const [showHiragana, setShowHiragana] = useState(false)
-	const [showTranslation, setShowTranslation] = useState(true)
-	const [translationLang, setTranslationLang] = useState<LanguageCode>('en')
-	const [customText, setCustomText] = useState('Your phrase here')
-	const [customSubtext, setCustomSubtext] = useState('Your subtext here')
-
-	// CalendarDots controls
-	const [timeMode, setTimeMode] = useState<TimeMode>('week')
-	const [showLabel, setShowLabel] = useState(true)
-	const [labelLang, setLabelLang] = useState<LanguageCode | 'ja'>('ja')
-	const [dotStyle, setDotStyle] = useState<DotStyle>('dots')
-	const [weekStart, setWeekStart] = useState<WeekStart>('monday')
-
-	// DaysLeft controls
-	const [showDay, setShowDay] = useState(true)
-	const [dayMode, setDayMode] = useState<ProgressMode>('year')
-	const [showPercentage, setShowPercentage] = useState(true)
-	const [percentageMode, setPercentageMode] = useState<ProgressMode>('year')
-	const [showDaysLeft, setShowDaysLeft] = useState(true)
-	const [daysLeftMode, setDaysLeftMode] = useState<ProgressMode>('year')
+	// Feature hooks
+	const phrase = usePhrase()
+	const calendar = useCalendar()
+	const daysLeft = useDaysLeft()
 
 	const currentDevice = IPHONE_MODELS[selectedModel]
 	const scaledWidth = Math.round(currentDevice.width / SCALE_FACTOR)
@@ -72,24 +43,24 @@ export default function IPhonePreview() {
 		return () => clearInterval(interval)
 	}, [])
 
-	// Get current phrase content
+	// Get current phrase content for legacy display
 	const getPhraseContent = () => {
-		if (phraseMode === 'custom') {
-			return { text: customText, subtext: customSubtext }
+		if (phrase.mode === 'custom') {
+			return { text: phrase.customText, subtext: phrase.customSubtext }
 		}
 
-		const phrase = PHRASES[selectedPhraseIndex]
+		const currentPhrase = PHRASES[phrase.selectedIndex]
 		let subtext = ''
 
-		if (showHiragana && showTranslation) {
-			subtext = `${phrase.reading}\n${phrase.translations[translationLang]}`
-		} else if (showHiragana) {
-			subtext = phrase.reading
-		} else if (showTranslation) {
-			subtext = phrase.translations[translationLang]
+		if (phrase.showHiragana && phrase.showTranslation) {
+			subtext = `${currentPhrase.reading}\n${currentPhrase.translations[phrase.translationLang]}`
+		} else if (phrase.showHiragana) {
+			subtext = currentPhrase.reading
+		} else if (phrase.showTranslation) {
+			subtext = currentPhrase.translations[phrase.translationLang]
 		}
 
-		return { text: phrase.text, subtext }
+		return { text: currentPhrase.text, subtext }
 	}
 
 	const phraseContent = getPhraseContent()
@@ -117,44 +88,7 @@ export default function IPhonePreview() {
 
 			{/* Controls Panel */}
 			{showControls && (
-				<ControlsPanel
-					phraseMode={phraseMode}
-					setPhraseMode={setPhraseMode}
-					selectedPhraseIndex={selectedPhraseIndex}
-					setSelectedPhraseIndex={setSelectedPhraseIndex}
-					showHiragana={showHiragana}
-					setShowHiragana={setShowHiragana}
-					showTranslation={showTranslation}
-					setShowTranslation={setShowTranslation}
-					translationLang={translationLang}
-					setTranslationLang={setTranslationLang}
-					customText={customText}
-					setCustomText={setCustomText}
-					customSubtext={customSubtext}
-					setCustomSubtext={setCustomSubtext}
-					timeMode={timeMode}
-					setTimeMode={setTimeMode}
-					showLabel={showLabel}
-					setShowLabel={setShowLabel}
-					labelLang={labelLang}
-					setLabelLang={setLabelLang}
-					dotStyle={dotStyle}
-					setDotStyle={setDotStyle}
-					weekStart={weekStart}
-					setWeekStart={setWeekStart}
-					showDay={showDay}
-					setShowDay={setShowDay}
-					dayMode={dayMode}
-					setDayMode={setDayMode}
-					showPercentage={showPercentage}
-					setShowPercentage={setShowPercentage}
-					percentageMode={percentageMode}
-					setPercentageMode={setPercentageMode}
-					showDaysLeft={showDaysLeft}
-					setShowDaysLeft={setShowDaysLeft}
-					daysLeftMode={daysLeftMode}
-					setDaysLeftMode={setDaysLeftMode}
-				/>
+				<ControlsPanel phrase={phrase} calendar={calendar} daysLeft={daysLeft} />
 			)}
 
 			{/* iPhone Frame Container */}
@@ -179,23 +113,23 @@ export default function IPhonePreview() {
 					<p className="text-sm font-light text-neutral-400 dark:text-neutral-500 mb-8 whitespace-pre-line text-center">
 						{phraseContent.subtext}
 					</p>
-					<CalendarDots
-						timeMode={timeMode}
-						showLabel={showLabel}
-						labelLang={labelLang}
-						dotStyle={dotStyle}
-						weekStart={weekStart}
+					<CalendarDisplay
+						timeMode={calendar.timeMode}
+						showLabel={calendar.showLabel}
+						labelLang={calendar.labelLang}
+						dotStyle={calendar.dotStyle}
+						weekStart={calendar.weekStart}
 					/>
 
 					{/* Days Left - bottom center */}
 					<div className="absolute bottom-16 left-1/2 -translate-x-1/2">
-						<DaysLeft
-							showDay={showDay}
-							dayMode={dayMode}
-							showPercentage={showPercentage}
-							percentageMode={percentageMode}
-							showDaysLeft={showDaysLeft}
-							daysLeftMode={daysLeftMode}
+						<DaysLeftDisplay
+							showDay={daysLeft.showDay}
+							dayMode={daysLeft.dayMode}
+							showPercentage={daysLeft.showPercentage}
+							percentageMode={daysLeft.percentageMode}
+							showDaysLeft={daysLeft.showDaysLeft}
+							daysLeftMode={daysLeft.daysLeftMode}
 						/>
 					</div>
 				</main>
