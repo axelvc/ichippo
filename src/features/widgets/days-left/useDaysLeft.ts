@@ -1,26 +1,17 @@
 import { useState } from 'react'
-import type { DaysLeftActions, DaysLeftState, ProgressMode } from './types'
+import type { DateMode, DaysLeftActions, DaysLeftMode, DaysLeftState } from './types'
 
 export function useDaysLeft(): DaysLeftState & DaysLeftActions {
-	const [showDay, setShowDay] = useState(true)
-	const [dayMode, setDayMode] = useState<ProgressMode>('year')
-	const [showPercentage, setShowPercentage] = useState(true)
-	const [percentageMode, setPercentageMode] = useState<ProgressMode>('year')
-	const [showDaysLeft, setShowDaysLeft] = useState(true)
-	const [daysLeftMode, setDaysLeftMode] = useState<ProgressMode>('year')
+	const [enabled, setEnabled] = useState(true)
+	const [mode, setMode] = useState<DaysLeftMode>('count')
+	const [dateMode, setDateMode] = useState<DateMode>('year')
 
 	return {
-		showDay,
-		dayMode,
-		showPercentage,
-		percentageMode,
-		showDaysLeft,
-		daysLeftMode,
-		setShowDay,
-		setDayMode,
-		setShowPercentage,
-		setPercentageMode,
-		setShowDaysLeft,
-		setDaysLeftMode,
+		enabled,
+		mode,
+		dateMode,
+		setEnabled,
+		setMode,
+		setDateMode,
 	}
 }

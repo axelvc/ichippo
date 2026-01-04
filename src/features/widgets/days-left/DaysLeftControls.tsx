@@ -1,78 +1,52 @@
 import { Label, SegmentedControl, Switch } from '@/components/ui'
-import type { ProgressMode } from './types'
+import type { DateMode, DaysLeftMode } from './types'
 
 interface DaysLeftControlsProps {
-	showDay: boolean
-	setShowDay: (show: boolean) => void
-	dayMode: ProgressMode
-	setDayMode: (mode: ProgressMode) => void
-	showPercentage: boolean
-	setShowPercentage: (show: boolean) => void
-	percentageMode: ProgressMode
-	setPercentageMode: (mode: ProgressMode) => void
-	showDaysLeft: boolean
-	setShowDaysLeft: (show: boolean) => void
-	daysLeftMode: ProgressMode
-	setDaysLeftMode: (mode: ProgressMode) => void
+	enabled: boolean
+	setEnabled: (enabled: boolean) => void
+	mode: DaysLeftMode
+	setMode: (mode: DaysLeftMode) => void
+	dateMode: DateMode
+	setDateMode: (dateMode: DateMode) => void
 }
 
-function ModeSelector({ mode, setMode }: { mode: ProgressMode; setMode: (mode: ProgressMode) => void }) {
-	return (
-		<div className="mb-4 ml-4">
-			<SegmentedControl
-				value={mode}
-				onChange={setMode}
-				options={[
-					{ value: 'week', label: 'W' },
-					{ value: 'month', label: 'M' },
-					{ value: 'year', label: 'Y' },
-				]}
-			/>
-		</div>
-	)
-}
-
-export function DaysLeftControls({
-	showDay,
-	setShowDay,
-	dayMode,
-	setDayMode,
-	showPercentage,
-	setShowPercentage,
-	percentageMode,
-	setPercentageMode,
-	showDaysLeft,
-	setShowDaysLeft,
-	daysLeftMode,
-	setDaysLeftMode,
-}: DaysLeftControlsProps) {
+export function DaysLeftControls({ enabled, setEnabled, mode, setMode, dateMode, setDateMode }: DaysLeftControlsProps) {
 	return (
 		<>
-			<h3 className="text-sm font-semibold text-zinc-200 mb-4 uppercase tracking-wider">Days Left</h3>
-
-			{/* Day - with toggle */}
 			<div className="mb-4 flex items-center justify-between">
-				<Label>Day</Label>
-				<Switch checked={showDay} onChange={() => setShowDay(!showDay)} />
+				<h3 className="text-sm font-semibold text-zinc-200 uppercase tracking-wider">Days Left</h3>
+				<Switch checked={enabled} onChange={() => setEnabled(!enabled)} />
 			</div>
 
-			{showDay && <ModeSelector mode={dayMode} setMode={setDayMode} />}
+			{enabled && (
+				<>
+					<div className="mb-4">
+						<Label className="mb-2 block">Mode</Label>
+						<SegmentedControl
+							value={mode}
+							onChange={setMode}
+							options={[
+								{ value: 'count', label: 'COUNT' },
+								{ value: 'daysLeft', label: 'LEFT' },
+								{ value: 'percentage', label: 'ELAPSED' },
+							]}
+						/>
+					</div>
 
-			{/* Percentage - with toggle */}
-			<div className="mb-4 flex items-center justify-between">
-				<Label>Percentage</Label>
-				<Switch checked={showPercentage} onChange={() => setShowPercentage(!showPercentage)} />
-			</div>
-
-			{showPercentage && <ModeSelector mode={percentageMode} setMode={setPercentageMode} />}
-
-			{/* Days Left - with toggle */}
-			<div className="mb-4 flex items-center justify-between">
-				<Label>Days Left</Label>
-				<Switch checked={showDaysLeft} onChange={() => setShowDaysLeft(!showDaysLeft)} />
-			</div>
-
-			{showDaysLeft && <ModeSelector mode={daysLeftMode} setMode={setDaysLeftMode} />}
+					<div className="mb-4">
+						<Label className="mb-2 block">Date Mode</Label>
+						<SegmentedControl
+							value={dateMode}
+							onChange={setDateMode}
+							options={[
+								{ value: 'week', label: 'WEEK' },
+								{ value: 'month', label: 'MONTH' },
+								{ value: 'year', label: 'YEAR' },
+							]}
+						/>
+					</div>
+				</>
+			)}
 		</>
 	)
 }

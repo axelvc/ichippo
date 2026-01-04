@@ -1,19 +1,15 @@
-export type ProgressMode = 'week' | 'month' | 'year'
+export type DateMode = 'week' | 'month' | 'year'
+
+export type DaysLeftMode = 'count' | 'daysLeft' | 'percentage'
 
 export interface DaysLeftState {
-	showDay: boolean
-	dayMode: ProgressMode
-	showPercentage: boolean
-	percentageMode: ProgressMode
-	showDaysLeft: boolean
-	daysLeftMode: ProgressMode
+	enabled: boolean
+	mode: DaysLeftMode
+	dateMode: DateMode
 }
 
 export interface DaysLeftActions {
-	setShowDay: (show: boolean) => void
-	setDayMode: (mode: ProgressMode) => void
-	setShowPercentage: (show: boolean) => void
-	setPercentageMode: (mode: ProgressMode) => void
-	setShowDaysLeft: (show: boolean) => void
-	setDaysLeftMode: (mode: ProgressMode) => void
+	setEnabled: (enabled: boolean) => void
+	setMode: (mode: DaysLeftMode) => void
+	setDateMode: (dateMode: DateMode) => void
 }

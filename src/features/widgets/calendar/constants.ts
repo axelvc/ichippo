@@ -1,4 +1,4 @@
-import type { LanguageCode } from "../shared/types"
+import type { LanguageCode } from '../shared/types'
 
 // Sunday-first order (JS default)
 export const WEEK_LABELS_SUNDAY: Record<LanguageCode, string[]> = {

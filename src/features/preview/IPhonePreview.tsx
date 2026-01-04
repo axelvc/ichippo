@@ -173,14 +173,7 @@ export default function IPhonePreview() {
 						initialY={scaledHeight - 100}
 						centerHorizontal
 					>
-						<DaysLeftDisplay
-							showDay={daysLeft.showDay}
-							dayMode={daysLeft.dayMode}
-							showPercentage={daysLeft.showPercentage}
-							percentageMode={daysLeft.percentageMode}
-							showDaysLeft={daysLeft.showDaysLeft}
-							daysLeftMode={daysLeft.daysLeftMode}
-						/>
+						<DaysLeftDisplay enabled={daysLeft.enabled} mode={daysLeft.mode} dateMode={daysLeft.dateMode} />
 					</DraggableWrapper>
 				</main>
 			</div>

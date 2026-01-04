@@ -54,18 +54,12 @@ export function ControlsPanel({ phrase, calendar, daysLeft }: ControlsPanelProps
 
 			{/* Days Left Settings */}
 			<DaysLeftControls
-				showDay={daysLeft.showDay}
-				setShowDay={daysLeft.setShowDay}
-				dayMode={daysLeft.dayMode}
-				setDayMode={daysLeft.setDayMode}
-				showPercentage={daysLeft.showPercentage}
-				setShowPercentage={daysLeft.setShowPercentage}
-				percentageMode={daysLeft.percentageMode}
-				setPercentageMode={daysLeft.setPercentageMode}
-				showDaysLeft={daysLeft.showDaysLeft}
-				setShowDaysLeft={daysLeft.setShowDaysLeft}
-				daysLeftMode={daysLeft.daysLeftMode}
-				setDaysLeftMode={daysLeft.setDaysLeftMode}
+				enabled={daysLeft.enabled}
+				setEnabled={daysLeft.setEnabled}
+				mode={daysLeft.mode}
+				setMode={daysLeft.setMode}
+				dateMode={daysLeft.dateMode}
+				setDateMode={daysLeft.setDateMode}
 			/>
 		</div>
 	)
