@@ -3,6 +3,8 @@ import { LANGUAGES } from '@/features/widgets/phrase/constants'
 import type { CalendarLang, DotStyle, TimeMode, WeekStart } from './types'
 
 interface CalendarControlsProps {
+	enabled: boolean
+	setEnabled: (enabled: boolean) => void
 	timeMode: TimeMode
 	setTimeMode: (mode: TimeMode) => void
 	showLabel: boolean
@@ -16,6 +18,8 @@ interface CalendarControlsProps {
 }
 
 export function CalendarControls({
+	enabled,
+	setEnabled,
 	timeMode,
 	setTimeMode,
 	showLabel,
@@ -29,37 +33,50 @@ export function CalendarControls({
 }: CalendarControlsProps) {
 	return (
 		<>
-			<h3 className="text-sm font-semibold text-zinc-200 mb-4 uppercase tracking-wider">Progress</h3>
-
-			{/* Time Mode */}
-			<div className="mb-4">
-				<Label className="mb-2 block">Show</Label>
-				<SegmentedControl
-					value={timeMode}
-					onChange={setTimeMode}
-					options={[
-						{ value: 'week', label: 'WEEK' },
-						{ value: 'month', label: 'MONTH' },
-					]}
-				/>
+			<div className="mb-4 flex items-center justify-between">
+				<h3 className="text-sm font-semibold text-zinc-200 uppercase tracking-wider">Calendar</h3>
+				<Switch checked={enabled} onChange={() => setEnabled(!enabled)} />
 			</div>
 
-			{/* Week Start */}
-			<div className="mb-4">
-				<Label className="mb-2 block">Week Starts</Label>
-				<SegmentedControl
-					value={weekStart}
-					onChange={setWeekStart}
-					options={[
-						{ value: 'monday', label: 'MON' },
-						{ value: 'sunday', label: 'SUN' },
-					]}
-				/>
-			</div>
-
-			{/* Show Label (only for week) */}
-			{timeMode === 'week' && (
+			{enabled && (
 				<>
+					<div className="mb-4">
+						<Label className="mb-2 block">Mode</Label>
+						<SegmentedControl
+							value={timeMode}
+							onChange={setTimeMode}
+							options={[
+								{ value: 'week', label: 'WEEK' },
+								{ value: 'month', label: 'MONTH' },
+							]}
+						/>
+					</div>
+
+					<div className="mb-4">
+						<Label className="mb-2 block">Week Starts</Label>
+						<SegmentedControl
+							value={weekStart}
+							onChange={setWeekStart}
+							options={[
+								{ value: 'monday', label: 'MON' },
+								{ value: 'sunday', label: 'SUN' },
+							]}
+						/>
+					</div>
+
+					<div className="mb-4">
+						<Label className="mb-2 block">Style</Label>
+						<SegmentedControl
+							value={dotStyle}
+							onChange={setDotStyle}
+							options={[
+								{ value: 'dots', label: '●' },
+								{ value: 'squares', label: '■' },
+								{ value: 'lines', label: '│' },
+							]}
+						/>
+					</div>
+
 					<div className="mb-4 flex items-center justify-between">
 						<Label>Show Label</Label>
 						<Switch checked={showLabel} onChange={() => setShowLabel(!showLabel)} />
@@ -83,20 +100,6 @@ export function CalendarControls({
 					)}
 				</>
 			)}
-
-			{/* Style */}
-			<div className="mb-4">
-				<Label className="mb-2 block">Style</Label>
-				<SegmentedControl
-					value={dotStyle}
-					onChange={setDotStyle}
-					options={[
-						{ value: 'dots', label: '●' },
-						{ value: 'lines', label: '│' },
-						{ value: 'squares', label: '■' },
-					]}
-				/>
-			</div>
 		</>
 	)
 }

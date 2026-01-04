@@ -1,6 +1,7 @@
 import { Input, Label, SegmentedControl, Select, Switch } from '@/components/ui'
+import type { LanguageCode } from '../shared/types'
 import { LANGUAGES, PHRASES } from './constants'
-import type { LanguageCode, PhraseMode } from './types'
+import type { PhraseMode } from './types'
 
 interface PhraseControlsProps {
 	mode: PhraseMode

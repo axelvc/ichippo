@@ -7,6 +7,7 @@ export type WeekStart = 'monday' | 'sunday'
 export type CalendarLang = LanguageCode | 'ja'
 
 export interface CalendarState {
+	enabled: boolean
 	timeMode: TimeMode
 	showLabel: boolean
 	labelLang: CalendarLang
@@ -15,6 +16,7 @@ export interface CalendarState {
 }
 
 export interface CalendarActions {
+	setEnabled: (enabled: boolean) => void
 	setTimeMode: (mode: TimeMode) => void
 	setShowLabel: (show: boolean) => void
 	setLabelLang: (lang: CalendarLang) => void

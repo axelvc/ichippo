@@ -37,6 +37,8 @@ export function ControlsPanel({ phrase, calendar, daysLeft }: ControlsPanelProps
 
 			{/* Calendar Settings */}
 			<CalendarControls
+				enabled={calendar.enabled}
+				setEnabled={calendar.setEnabled}
 				timeMode={calendar.timeMode}
 				setTimeMode={calendar.setTimeMode}
 				showLabel={calendar.showLabel}

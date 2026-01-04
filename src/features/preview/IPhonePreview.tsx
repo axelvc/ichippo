@@ -15,7 +15,7 @@ export default function IPhonePreview() {
 	const [selectedModel, setSelectedModel] = useState<ModelName>('iPhone 15 Pro Max')
 	const [time, setTime] = useState('')
 	const [date, setDate] = useState('')
-	const [showControls, setShowControls] = useState(false)
+	const [showControls, setShowControls] = useState(true)
 	const [viewportScale, setViewportScale] = useState(1)
 
 	// Feature hooks
@@ -159,6 +159,7 @@ export default function IPhonePreview() {
 						centerHorizontal
 					>
 						<CalendarDisplay
+							enabled={calendar.enabled}
 							timeMode={calendar.timeMode}
 							showLabel={calendar.showLabel}
 							labelLang={calendar.labelLang}
