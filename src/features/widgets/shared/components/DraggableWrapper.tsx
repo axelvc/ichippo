@@ -1,4 +1,5 @@
 /** biome-ignore-all lint/a11y/noStaticElementInteractions: DraggableWrapper is a static element */
+/** biome-ignore-all lint/correctness/useExhaustiveDependencies: Dependencies are used to determine when to re-compute Effects */
 import { type ReactNode, useEffect, useRef, useState } from 'react'
 import { useSnapGuidelines } from '../hooks/useSnapGuidelines'
 import { SnapGuidelines } from './SnapGuidelines'
@@ -28,29 +29,47 @@ export function DraggableWrapper({
 	const [hasInitialized, setHasInitialized] = useState(false)
 	const elementRef = useRef<HTMLDivElement>(null)
 
-	// Get element dimensions
+	// Get element dimensions - update when content changes
 	const [elementSize, setElementSize] = useState({ width: 0, height: 0 })
 
 	useEffect(() => {
-		if (elementRef.current) {
-			const width = elementRef.current.offsetWidth
-			const height = elementRef.current.offsetHeight
+		if (!elementRef.current) return
+		const el = elementRef.current
+
+		const updateSize = () => {
+			const width = el.offsetWidth
+			const height = el.offsetHeight
 			setElementSize({ width, height })
+		}
 
-			// Only set initial position once
-			if (!hasInitialized) {
-				if (centerHorizontal && initialX === 0) {
-					const centeredX = (containerWidth - width) / 2
-					setPosition({ x: Math.max(0, centeredX), y: initialY })
-				} else {
-					setPosition({ x: initialX, y: initialY })
-				}
+		updateSize()
 
-				// Enable transitions after initial mount/positioning
-				const timer = setTimeout(() => setHasInitialized(true), 50)
-				return () => clearTimeout(timer)
+		// Use ResizeObserver to detect size changes when content changes
+		const observer = new ResizeObserver(updateSize)
+		observer.observe(elementRef.current)
+		return () => observer.disconnect()
+	}, [children])
+
+	useEffect(() => {
+		if (!elementRef.current || hasInitialized) return
+
+		const width = elementRef.current.offsetWidth
+		const height = elementRef.current.offsetHeight
+		setElementSize({ width, height })
+
+		// Only set initial position once
+		if (!hasInitialized) {
+			if (centerHorizontal && initialX === 0) {
+				const centeredX = (containerWidth - width) / 2
+				setPosition({ x: Math.max(0, centeredX), y: initialY })
+			} else {
+				setPosition({ x: initialX, y: initialY })
 			}
 		}
+
+		// Enable transitions after initial mount/positioning
+		const timer = setTimeout(() => setHasInitialized(true), 50)
+		return () => clearTimeout(timer)
 	}, [containerWidth, initialX, initialY, centerHorizontal, hasInitialized])
 
 	// Calculate snap guidelines
