@@ -1,4 +1,5 @@
 /** biome-ignore-all lint/suspicious/noArrayIndexKey: Week labels are hardcoded */
+import { cn } from '@/lib/utils'
 import type { LanguageCode } from '../shared/types'
 import { WEEK_LABELS_JA_MONDAY, WEEK_LABELS_JA_SUNDAY, WEEK_LABELS_MONDAY, WEEK_LABELS_SUNDAY } from './constants'
 import type { CalendarLang, DotStyle, TimeMode, WeekStart } from './types'
@@ -53,19 +54,6 @@ export function CalendarDisplay({
 		return index + 1 <= currentDate
 	}
 
-	const getStyleClasses = (active: boolean) => {
-		const baseActive = active ? 'bg-neutral-900 dark:bg-neutral-100' : 'bg-neutral-200 dark:bg-neutral-800'
-
-		switch (dotStyle) {
-			case 'dots':
-				return `w-2.5 h-2.5 rounded-full ${baseActive}`
-			case 'lines':
-				return `w-0.5 h-4 rounded-full ${baseActive}`
-			case 'squares':
-				return `w-2.5 h-2.5 rounded-xs ${baseActive}`
-		}
-	}
-
 	const weekLabels = getWeekLabels()
 
 	const cells = isWeek
@@ -87,9 +75,15 @@ export function CalendarDisplay({
 				})),
 			]
 
+	const dotStyleClasses = {
+		dots: 'w-2.5 h-2.5 rounded-full',
+		squares: 'w-2.5 h-2.5 rounded-xs',
+		lines: 'w-0.5 h-4 rounded-full',
+	}
+
 	return (
 		<div className="flex flex-col gap-1">
-			<div className={`grid grid-cols-7 gap-4 mb-1 ${showLabel ? '' : 'opacity-0'}`}>
+			<div className={cn('grid grid-cols-7 gap-4 mb-1', !showLabel && 'opacity-0')}>
 				{weekLabels.map((label, i) => (
 					<span key={i} className="text-xs font-light text-neutral-400 dark:text-neutral-600 text-center">
 						{label}
@@ -103,7 +97,13 @@ export function CalendarDisplay({
 						{cell.empty ? (
 							<div className="w-2.5 h-2.5" />
 						) : (
-							<div className={`transition-colors ${getStyleClasses(isActive(cell.index))}`} />
+							<div
+								className={cn(
+									'transition-colors',
+									isActive(cell.index) ? 'bg-neutral-900 dark:bg-neutral-100' : 'bg-neutral-200 dark:bg-neutral-800',
+									dotStyleClasses[dotStyle],
+								)}
+							/>
 						)}
 					</div>
 				))}

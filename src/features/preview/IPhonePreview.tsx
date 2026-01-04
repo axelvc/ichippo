@@ -6,6 +6,7 @@ import { CalendarDisplay, useCalendar } from '@/features/widgets/calendar'
 import { DaysLeftDisplay, useDaysLeft } from '@/features/widgets/days-left'
 import { PHRASES, usePhrase } from '@/features/widgets/phrase'
 import { DraggableWrapper } from '@/features/widgets/shared'
+import { cn } from '@/lib/utils'
 import { IPHONE_MODELS, type ModelName, SCALE_FACTOR } from './constants.ts'
 import ModelSelector from './ModelSelector'
 import PhoneOverlay from './PhoneOverlay'
@@ -132,9 +133,10 @@ export default function IPhonePreview() {
 				{/* Main Content */}
 				<main
 					ref={containerRef}
-					className={`w-full h-full bg-neutral-50 dark:bg-neutral-950 rounded-[50px] transition-all duration-300 relative overflow-hidden ${
-						isPreview ? 'shadow-2xl' : ''
-					}`}
+					className={cn(
+						'w-full h-full bg-neutral-50 dark:bg-neutral-950 rounded-[50px] transition-all duration-300 relative overflow-hidden',
+						isPreview && 'shadow-2xl',
+					)}
 				>
 					<DraggableWrapper
 						containerWidth={scaledWidth}

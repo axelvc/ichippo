@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { cn } from '@/lib/utils'
 
 interface SegmentedControlProps<T extends string> {
 	value: T
@@ -22,15 +23,13 @@ export function SegmentedControl<T extends string>({
 					key={option.value}
 					type="button"
 					onClick={() => onChange(option.value)}
-					className={`
-						flex-1 ${sizeClasses} font-mono font-medium transition-colors duration-150
-						focus:outline-none focus:ring-2 focus:ring-zinc-700
-						${
-							value === option.value
-								? 'bg-purple-500 text-white'
-								: 'bg-zinc-800 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-700'
-						}
-					`}
+					className={cn(
+						'flex-1 font-mono font-medium transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-zinc-700',
+						sizeClasses,
+						value === option.value
+							? 'bg-purple-500 text-white'
+							: 'bg-zinc-800 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-700',
+					)}
 				>
 					{option.label}
 				</button>

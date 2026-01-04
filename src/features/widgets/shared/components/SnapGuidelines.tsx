@@ -1,3 +1,4 @@
+import { cn } from '@/lib/utils'
 import type { ActiveGuideline } from '../hooks/useSnapGuidelines'
 
 interface SnapGuidelinesProps {
@@ -12,9 +13,10 @@ export function SnapGuidelines({ guidelines }: SnapGuidelinesProps) {
 			{guidelines.map((guideline, index) => (
 				<div
 					key={`${guideline.type}-${index}`}
-					className={`bg-purple-500 animate-fade-in ${
-						guideline.orientation === 'vertical' ? 'absolute top-0 bottom-0 w-px' : 'absolute left-0 right-0 h-px'
-					}`}
+					className={cn(
+						'bg-purple-500 animate-fade-in',
+						guideline.orientation === 'vertical' ? 'absolute top-0 bottom-0 w-px' : 'absolute left-0 right-0 h-px',
+					)}
 					style={
 						guideline.orientation === 'vertical'
 							? { left: `${guideline.position}px` }

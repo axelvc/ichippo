@@ -1,6 +1,8 @@
 /** biome-ignore-all lint/a11y/noStaticElementInteractions: DraggableWrapper is a static element */
+
 /** biome-ignore-all lint/correctness/useExhaustiveDependencies: Dependencies are used to determine when to re-compute Effects */
 import { type ReactNode, useEffect, useRef, useState } from 'react'
+import { cn } from '@/lib/utils'
 import { useSnapGuidelines } from '../hooks/useSnapGuidelines'
 import { SnapGuidelines } from './SnapGuidelines'
 
@@ -170,9 +172,12 @@ export function DraggableWrapper({
 				ref={elementRef}
 				onMouseDown={handleMouseDown}
 				onTouchStart={handleTouchStart}
-				className={`absolute ${isDragging ? 'cursor-grabbing ring ring-inset ring-zinc-100/50' : 'cursor-grab'} ${
-					hasInitialized && !isDragging ? 'transition-all duration-200' : 'duration-0'
-				} ${hasInitialized ? '' : 'opacity-0'}`}
+				className={cn(
+					'absolute',
+					isDragging ? 'cursor-grabbing ring ring-inset ring-zinc-100/50' : 'cursor-grab',
+					hasInitialized && !isDragging && 'transition-all duration-200',
+					hasInitialized ? '' : 'opacity-0',
+				)}
 				style={{
 					left: `${currentPosition.x}px`,
 					top: `${currentPosition.y}px`,
