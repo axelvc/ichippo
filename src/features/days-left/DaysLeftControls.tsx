@@ -1,4 +1,4 @@
-import { Label, SegmentedControl, Switch } from '../../components/ui'
+import { Label, SegmentedControl, Switch } from '@/components/ui'
 import type { ProgressMode } from './types'
 
 interface DaysLeftControlsProps {

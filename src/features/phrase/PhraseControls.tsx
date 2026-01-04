@@ -1,4 +1,4 @@
-import { Input, Label, SegmentedControl, Select, Switch } from '../../components/ui'
+import { Input, Label, SegmentedControl, Select, Switch } from '@/components/ui'
 import { LANGUAGES, PHRASES } from './constants'
 import type { LanguageCode, PhraseMode } from './types'
 

@@ -1,5 +1,5 @@
 import { ChevronDown } from 'lucide-react'
-import { IPHONE_MODELS, MODEL_GROUPS, type ModelName } from '../../data/constants'
+import { IPHONE_MODELS, MODEL_GROUPS, type ModelName } from '@/data/constants'
 
 interface ModelSelectorProps {
 	selectedModel: ModelName

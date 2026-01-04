@@ -1,9 +1,9 @@
-import type { CalendarActions, CalendarState } from '../../features/calendar'
-import { CalendarControls } from '../../features/calendar'
-import type { DaysLeftActions, DaysLeftState } from '../../features/days-left'
-import { DaysLeftControls } from '../../features/days-left'
-import type { PhraseActions, PhraseState } from '../../features/phrase'
-import { PhraseControls } from '../../features/phrase'
+import type { CalendarActions, CalendarState } from '@/features/calendar'
+import { CalendarControls } from '@/features/calendar'
+import type { DaysLeftActions, DaysLeftState } from '@/features/days-left'
+import { DaysLeftControls } from '@/features/days-left'
+import type { PhraseActions, PhraseState } from '@/features/phrase'
+import { PhraseControls } from '@/features/phrase'
 
 interface ControlsPanelProps {
 	phrase: PhraseState & PhraseActions
