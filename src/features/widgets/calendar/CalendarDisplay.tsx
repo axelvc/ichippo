@@ -1,5 +1,5 @@
 /** biome-ignore-all lint/suspicious/noArrayIndexKey: Week labels are hardcoded */
-import type { LanguageCode } from '../phrase/types'
+import type { LanguageCode } from '../shared/types'
 import { WEEK_LABELS_JA_MONDAY, WEEK_LABELS_JA_SUNDAY, WEEK_LABELS_MONDAY, WEEK_LABELS_SUNDAY } from './constants'
 import type { CalendarLang, DotStyle, TimeMode, WeekStart } from './types'
 

@@ -1,5 +1,5 @@
 import { Label, SegmentedControl, Select, Switch } from '@/components/ui'
-import { LANGUAGES } from '@/features/phrase/constants'
+import { LANGUAGES } from '@/features/widgets/phrase/constants'
 import type { CalendarLang, DotStyle, TimeMode, WeekStart } from './types'
 
 interface CalendarControlsProps {

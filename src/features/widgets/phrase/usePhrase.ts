@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import type { LanguageCode, PhraseActions, PhraseMode, PhraseState } from './types'
+import type { LanguageCode } from '../shared/types'
+import type { PhraseActions, PhraseMode, PhraseState } from './types'
 
 export function usePhrase(): PhraseState & PhraseActions {
 	const [mode, setMode] = useState<PhraseMode>('preset')

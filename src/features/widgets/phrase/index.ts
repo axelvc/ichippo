@@ -1,5 +1,5 @@
 export { LANGUAGES, PHRASES } from './constants'
 export { PhraseControls } from './PhraseControls'
 export { PhraseDisplay } from './PhraseDisplay'
-export type { LanguageCode, Phrase, PhraseActions, PhraseMode, PhraseState } from './types'
+export type { Phrase, PhraseActions, PhraseMode, PhraseState } from './types'
 export { usePhrase } from './usePhrase'

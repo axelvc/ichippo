@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css'
-import IPhonePreview from '../components/IPhonePreview'
+import IPhonePreview from '@/features/preview/IPhonePreview.tsx'
 ---
 
 <html lang="ja">
@@ -20,7 +20,7 @@ import IPhonePreview from '../components/IPhonePreview'
 			)
 		</script>
 	</head>
-	<body class="min-h-screen bg-neutral-100 dark:bg-neutral-900 font-zen flex justify-center items-center p-6 transition-colors">
+	<body class="min-h-screen bg-zinc-900 dark:bg-zinc-900 font-zen flex justify-center items-center p-6 transition-colors">
 		<IPhonePreview client:load />
 	</body>
 </html>

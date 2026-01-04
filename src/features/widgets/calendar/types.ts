@@ -1,4 +1,4 @@
-import type { LanguageCode } from '../phrase/types'
+import type { LanguageCode } from "../shared/types"
 
 export type TimeMode = 'week' | 'month'
 export type DotStyle = 'dots' | 'lines' | 'squares'

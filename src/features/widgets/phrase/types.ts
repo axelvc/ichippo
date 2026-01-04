@@ -1,6 +1,6 @@
-export type PhraseMode = 'preset' | 'custom'
+import type { LanguageCode } from '../shared/types'
 
-export type LanguageCode = 'en' | 'es' | 'fr' | 'de' | 'pt'
+export type PhraseMode = 'preset' | 'custom'
 
 export interface Phrase {
 	id: string

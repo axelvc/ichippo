@@ -1,9 +1,9 @@
-import type { CalendarActions, CalendarState } from '@/features/calendar'
-import { CalendarControls } from '@/features/calendar'
-import type { DaysLeftActions, DaysLeftState } from '@/features/days-left'
-import { DaysLeftControls } from '@/features/days-left'
-import type { PhraseActions, PhraseState } from '@/features/phrase'
-import { PhraseControls } from '@/features/phrase'
+import type { CalendarActions, CalendarState } from '@/features/widgets/calendar'
+import { CalendarControls } from '@/features/widgets/calendar'
+import type { DaysLeftActions, DaysLeftState } from '@/features/widgets/days-left'
+import { DaysLeftControls } from '@/features/widgets/days-left'
+import type { PhraseActions, PhraseState } from '@/features/widgets/phrase'
+import { PhraseControls } from '@/features/widgets/phrase'
 
 interface ControlsPanelProps {
 	phrase: PhraseState & PhraseActions
@@ -11,9 +11,9 @@ interface ControlsPanelProps {
 	daysLeft: DaysLeftState & DaysLeftActions
 }
 
-export default function ControlsPanel({ phrase, calendar, daysLeft }: ControlsPanelProps) {
+export function ControlsPanel({ phrase, calendar, daysLeft }: ControlsPanelProps) {
 	return (
-		<div className="fixed bottom-0 left-0 right-0 h-[30vh] md:h-auto md:left-6 md:right-auto md:bottom-auto md:top-1/2 md:-translate-y-1/2 md:w-72 bg-zinc-900 border-t md:border border-zinc-800 p-5 shadow-2xl z-50 overflow-y-auto font-mono transition-all duration-300">
+		<div className="fixed bottom-0 left-0 right-0 max-h-1/3 md:max-h-9/10 md:left-6 md:right-auto md:bottom-auto md:top-1/2 md:-translate-y-1/2 md:w-72 bg-zinc-900 border-t md:border border-zinc-800 p-5 shadow-2xl z-50 overflow-y-auto font-mono transition-all duration-300">
 			{/* Phrase Settings */}
 			<PhraseControls
 				mode={phrase.mode}
