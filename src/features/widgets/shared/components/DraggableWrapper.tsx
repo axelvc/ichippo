@@ -151,7 +151,7 @@ export function DraggableWrapper({
 				ref={elementRef}
 				onMouseDown={handleMouseDown}
 				onTouchStart={handleTouchStart}
-				className={`absolute ${isDragging ? 'cursor-grabbing' : 'cursor-grab'} ${
+				className={`absolute ${isDragging ? 'cursor-grabbing ring ring-inset ring-zinc-100/50' : 'cursor-grab'} ${
 					hasInitialized && !isDragging ? 'transition-all duration-200' : 'duration-0'
 				} ${hasInitialized ? '' : 'opacity-0'}`}
 				style={{
