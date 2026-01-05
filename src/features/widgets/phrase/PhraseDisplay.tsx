@@ -1,9 +1,10 @@
-import { DraggableWrapper, type DraggableWrapperProps } from '../shared'
+import type { RefObject } from 'react'
+import { DraggableWrapper } from '../shared/components/DraggableWrapper'
 import type { LanguageCode } from '../shared/types'
 import { PHRASES } from './constants'
 import type { PhraseMode } from './types'
 
-interface PhraseDisplayProps extends Pick<DraggableWrapperProps, 'containerWidth' | 'containerHeight'> {
+interface PhraseDisplayProps {
 	mode: PhraseMode
 	selectedIndex: number
 	showHiragana: boolean
@@ -11,6 +12,7 @@ interface PhraseDisplayProps extends Pick<DraggableWrapperProps, 'containerWidth
 	translationLang: LanguageCode
 	customText: string
 	customSubtext: string
+	containerRef?: RefObject<HTMLDivElement>
 }
 
 export function PhraseDisplay({
@@ -21,8 +23,7 @@ export function PhraseDisplay({
 	translationLang,
 	customText,
 	customSubtext,
-	containerHeight,
-	containerWidth,
+	containerRef,
 }: PhraseDisplayProps) {
 	const phrase = PHRASES[selectedIndex]
 
@@ -40,23 +41,16 @@ export function PhraseDisplay({
 	}
 
 	return (
-		<DraggableWrapper
-			containerWidth={containerWidth}
-			containerHeight={containerHeight}
-			initialY={containerHeight / 2 - 50}
-			centerHorizontal
-		>
-			<div className="rounded-lg px-8 w-full">
-				<p className="text-2xl font-medium text-center text-zinc-900 dark:text-zinc-100">{phrase.text}</p>
-				{showHiragana && (
-					<p className="text-sm font-light text-center text-zinc-500 dark:text-zinc-400">{phrase.reading}</p>
-				)}
-				{showTranslation && (
-					<p className="text-xs font-light text-center text-zinc-400 dark:text-zinc-500 mt-1">
-						{phrase.translations[translationLang]}
-					</p>
-				)}
-			</div>
+		<DraggableWrapper containerRef={containerRef} className="rounded-lg px-8 w-full top-[calc(50%-50px)]">
+			<p className="text-2xl font-medium text-center text-zinc-900 dark:text-zinc-100">{phrase.text}</p>
+			{showHiragana && (
+				<p className="text-sm font-light text-center text-zinc-500 dark:text-zinc-400">{phrase.reading}</p>
+			)}
+			{showTranslation && (
+				<p className="text-xs font-light text-center text-zinc-400 dark:text-zinc-500 mt-1">
+					{phrase.translations[translationLang]}
+				</p>
+			)}
 		</DraggableWrapper>
 	)
 }

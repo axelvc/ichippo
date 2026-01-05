@@ -1,192 +1,29 @@
-/** biome-ignore-all lint/a11y/noStaticElementInteractions: DraggableWrapper is a static element */
-
-/** biome-ignore-all lint/correctness/useExhaustiveDependencies: Dependencies are used to determine when to re-compute Effects */
-import { type ReactNode, useEffect, useRef, useState } from 'react'
+import { motion } from 'motion/react'
+import { type ReactNode, type RefObject, useRef, useState } from 'react'
 import { cn } from '@/lib/utils'
-import { useSnapGuidelines } from '../hooks/useSnapGuidelines'
-import { SnapGuidelines } from './SnapGuidelines'
 
 interface DraggableWrapperProps {
 	children: ReactNode
-	containerWidth: number
-	containerHeight: number
-	initialX?: number
-	initialY?: number
-	centerHorizontal?: boolean
-	onPositionChange?: (x: number, y: number) => void
+	containerRef?: RefObject<HTMLDivElement>
+	className?: string
 }
 
-export function DraggableWrapper({
-	children,
-	containerWidth,
-	containerHeight,
-	initialX = 0,
-	initialY = 0,
-	centerHorizontal = false,
-	onPositionChange,
-}: DraggableWrapperProps) {
+export function DraggableWrapper({ children, containerRef, className }: DraggableWrapperProps) {
 	const [isDragging, setIsDragging] = useState(false)
-	const [position, setPosition] = useState({ x: initialX, y: initialY })
-	const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 })
-	const [hasInitialized, setHasInitialized] = useState(false)
 	const elementRef = useRef<HTMLDivElement>(null)
 
-	// Get element dimensions - update when content changes
-	const [elementSize, setElementSize] = useState({ width: 0, height: 0 })
-
-	useEffect(() => {
-		if (!elementRef.current) return
-		const el = elementRef.current
-
-		const updateSize = () => {
-			const width = el.offsetWidth
-			const height = el.offsetHeight
-			setElementSize({ width, height })
-		}
-
-		updateSize()
-
-		// Use ResizeObserver to detect size changes when content changes
-		const observer = new ResizeObserver(updateSize)
-		observer.observe(elementRef.current)
-		return () => observer.disconnect()
-	}, [children])
-
-	useEffect(() => {
-		if (!elementRef.current || hasInitialized) return
-
-		const width = elementRef.current.offsetWidth
-		const height = elementRef.current.offsetHeight
-		setElementSize({ width, height })
-
-		// Only set initial position once
-		if (!hasInitialized) {
-			if (centerHorizontal && initialX === 0) {
-				const centeredX = (containerWidth - width) / 2
-				setPosition({ x: Math.max(0, centeredX), y: initialY })
-			} else {
-				setPosition({ x: initialX, y: initialY })
-			}
-		}
-
-		// Enable transitions after initial mount/positioning
-		const timer = setTimeout(() => setHasInitialized(true), 50)
-		return () => clearTimeout(timer)
-	}, [containerWidth, initialX, initialY, centerHorizontal, hasInitialized])
-
-	// Calculate snap guidelines
-	const snapResult = useSnapGuidelines({
-		containerWidth,
-		containerHeight,
-		elementWidth: elementSize.width,
-		elementHeight: elementSize.height,
-		currentX: position.x,
-		currentY: position.y,
-		snapThreshold: 6,
-	})
-
-	// Apply snapped position when dragging
-	const currentPosition = isDragging ? snapResult : position
-
-	const handleMouseDown = (e: React.MouseEvent) => {
-		if (!elementRef.current) return
-
-		const rect = elementRef.current.getBoundingClientRect()
-		const containerRect = elementRef.current.parentElement?.getBoundingClientRect()
-
-		if (!containerRect) return
-
-		// Calculate offset from mouse to element's top-left corner
-		setDragOffset({
-			x: e.clientX - rect.left,
-			y: e.clientY - rect.top,
-		})
-		setIsDragging(true)
-	}
-
-	const handleTouchStart = (e: React.TouchEvent) => {
-		if (!elementRef.current) return
-
-		const rect = elementRef.current.getBoundingClientRect()
-		const containerRect = elementRef.current.parentElement?.getBoundingClientRect()
-
-		if (!containerRect) return
-
-		const touch = e.touches[0]
-		setDragOffset({
-			x: touch.clientX - rect.left,
-			y: touch.clientY - rect.top,
-		})
-		setIsDragging(true)
-	}
-
-	useEffect(() => {
-		if (!isDragging) return
-
-		const handleMove = (clientX: number, clientY: number) => {
-			if (!elementRef.current?.parentElement) return
-
-			const containerRect = elementRef.current.parentElement.getBoundingClientRect()
-
-			let newX = clientX - containerRect.left - dragOffset.x
-			let newY = clientY - containerRect.top - dragOffset.y
-
-			// Constrain to container bounds
-			newX = Math.max(0, Math.min(newX, containerWidth - elementSize.width))
-			newY = Math.max(0, Math.min(newY, containerHeight - elementSize.height))
-
-			setPosition({ x: newX, y: newY })
-		}
-
-		const handleMouseMove = (e: MouseEvent) => handleMove(e.clientX, e.clientY)
-		const handleTouchMove = (e: TouchEvent) => {
-			if (e.cancelable) e.preventDefault()
-			const touch = e.touches[0]
-			handleMove(touch.clientX, touch.clientY)
-		}
-
-		const handleUp = () => {
-			setIsDragging(false)
-			// Apply final snapped position
-			setPosition({ x: snapResult.x, y: snapResult.y })
-			onPositionChange?.(snapResult.x, snapResult.y)
-		}
-
-		document.addEventListener('mousemove', handleMouseMove)
-		document.addEventListener('mouseup', handleUp)
-		document.addEventListener('touchmove', handleTouchMove, { passive: false })
-		document.addEventListener('touchend', handleUp)
-
-		return () => {
-			document.removeEventListener('mousemove', handleMouseMove)
-			document.removeEventListener('mouseup', handleUp)
-			document.removeEventListener('touchmove', handleTouchMove)
-			document.removeEventListener('touchend', handleUp)
-		}
-	}, [isDragging, dragOffset, containerWidth, containerHeight, elementSize, snapResult, onPositionChange])
-
 	return (
-		<>
-			{isDragging && <SnapGuidelines guidelines={snapResult.guidelines} />}
-			<div
-				ref={elementRef}
-				onMouseDown={handleMouseDown}
-				onTouchStart={handleTouchStart}
-				className={cn(
-					'absolute',
-					isDragging ? 'cursor-grabbing ring ring-inset ring-zinc-100/50' : 'cursor-grab',
-					hasInitialized && !isDragging && 'transition-all duration-200',
-					hasInitialized ? '' : 'opacity-0',
-				)}
-				style={{
-					left: `${currentPosition.x}px`,
-					top: `${currentPosition.y}px`,
-					userSelect: 'none',
-					touchAction: 'none',
-				}}
-			>
-				{children}
-			</div>
-		</>
+		<motion.div
+			ref={elementRef}
+			drag="y"
+			dragElastic={0}
+			dragMomentum={false}
+			dragConstraints={containerRef}
+			onDragStart={() => setIsDragging(true)}
+			onDragEnd={() => setIsDragging(false)}
+			className={cn('absolute select-none w-full', isDragging ? 'cursor-grabbing' : 'cursor-grab', className)}
+		>
+			{children}
+		</motion.div>
 	)
 }

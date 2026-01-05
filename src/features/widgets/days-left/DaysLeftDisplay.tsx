@@ -1,13 +1,15 @@
-import { DraggableWrapper, type DraggableWrapperProps } from '../shared'
+import { useMemo, type RefObject } from 'react'
+import { DraggableWrapper } from '../shared/components/DraggableWrapper'
 import type { DateMode, DaysLeftMode } from './types'
 
-interface DaysLeftDisplayProps extends Pick<DraggableWrapperProps, 'containerWidth' | 'containerHeight'> {
+interface DaysLeftDisplayProps {
+	dateMode: DateMode
 	enabled: boolean
 	mode: DaysLeftMode
-	dateMode: DateMode
+	containerRef?: RefObject<HTMLDivElement>
 }
 
-export function DaysLeftDisplay({ enabled, mode, dateMode, containerHeight, containerWidth }: DaysLeftDisplayProps) {
+export function DaysLeftDisplay({ enabled, mode, dateMode, containerRef }: DaysLeftDisplayProps) {
 	if (!enabled) return null
 
 	const now = new Date()
@@ -50,24 +52,20 @@ export function DaysLeftDisplay({ enabled, mode, dateMode, containerHeight, cont
 
 	return (
 		<DraggableWrapper
-			containerWidth={containerWidth}
-			containerHeight={containerHeight}
-			initialY={containerHeight - 80}
-			centerHorizontal
+			containerRef={containerRef}
+			className="top-[calc(100%-80px)] text-center text-zinc-400 dark:text-zinc-600 text-sm font-light"
 		>
-			<div className="flex flex-col items-center gap-1 text-zinc-400 dark:text-zinc-600 text-xs font-light">
-				{mode === 'count' && (
-					<span>
-						{currentDay}/{totalDays}
-					</span>
-				)}
-				{mode === 'daysLeft' && (
-					<span>
-						{daysLeft} {daysLeft === 1 ? 'day' : 'days'} left
-					</span>
-				)}
-				{mode === 'percentage' && <span>{percentage}%</span>}
-			</div>
+			{mode === 'count' && (
+				<span>
+					{currentDay}/{totalDays}
+				</span>
+			)}
+			{mode === 'daysLeft' && (
+				<span>
+					{daysLeft} {daysLeft === 1 ? 'day' : 'days'} left
+				</span>
+			)}
+			{mode === 'percentage' && <span>{percentage}%</span>}
 		</DraggableWrapper>
 	)
 }
