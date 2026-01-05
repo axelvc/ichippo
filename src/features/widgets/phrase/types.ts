@@ -10,6 +10,7 @@ export interface Phrase {
 }
 
 export interface PhraseState {
+	enabled: boolean
 	mode: PhraseMode
 	selectedIndex: number
 	showHiragana: boolean
@@ -20,6 +21,7 @@ export interface PhraseState {
 }
 
 export interface PhraseActions {
+	setEnabled: (enabled: boolean) => void
 	setMode: (mode: PhraseMode) => void
 	setSelectedIndex: (index: number) => void
 	setShowHiragana: (show: boolean) => void

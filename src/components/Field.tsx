@@ -35,5 +35,9 @@ interface FieldLegendProps {
 }
 
 export function FieldLegend({ children, className }: FieldLegendProps) {
-	return <h3 className={cn('text-sm font-semibold text-zinc-200 uppercase tracking-wider select-none', className)}>{children}</h3>
+	return (
+		<h3 className={cn('text-sm font-semibold text-zinc-200 uppercase tracking-wider select-none', className)}>
+			{children}
+		</h3>
+	)
 }

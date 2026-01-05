@@ -43,6 +43,8 @@ export function ControlsPanel({ phrase, calendar, daysLeft, preview }: ControlsP
 			<Separator />
 
 			<PhraseControls
+				enabled={phrase.enabled}
+				setEnabled={phrase.setEnabled}
 				mode={phrase.mode}
 				setMode={phrase.setMode}
 				selectedIndex={phrase.selectedIndex}

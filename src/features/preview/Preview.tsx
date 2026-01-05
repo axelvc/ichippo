@@ -29,16 +29,18 @@ export default function Preview() {
 			>
 				{preview.isPreview && <PhoneOverlay />}
 
-				<PhraseDisplay
-					mode={phrase.mode}
-					selectedIndex={phrase.selectedIndex}
-					showHiragana={phrase.showHiragana}
-					showTranslation={phrase.showTranslation}
-					translationLang={phrase.translationLang}
-					customText={phrase.customText}
-					customSubtext={phrase.customSubtext}
-					containerRef={containerRef}
-				/>
+				{phrase.enabled && (
+					<PhraseDisplay
+						mode={phrase.mode}
+						selectedIndex={phrase.selectedIndex}
+						showHiragana={phrase.showHiragana}
+						showTranslation={phrase.showTranslation}
+						translationLang={phrase.translationLang}
+						customText={phrase.customText}
+						customSubtext={phrase.customSubtext}
+						containerRef={containerRef}
+					/>
+				)}
 				{calendar.enabled && (
 					<CalendarDisplay
 						timeMode={calendar.timeMode}
