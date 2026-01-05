@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils'
 
 interface DraggableWrapperProps {
 	children: ReactNode
-	containerRef?: RefObject<HTMLDivElement>
+	containerRef?: RefObject<HTMLDivElement | null>
 	className?: string
 }
 

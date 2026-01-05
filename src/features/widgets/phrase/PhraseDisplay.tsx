@@ -12,7 +12,7 @@ interface PhraseDisplayProps {
 	translationLang: LanguageCode
 	customText: string
 	customSubtext: string
-	containerRef?: RefObject<HTMLDivElement>
+	containerRef?: RefObject<HTMLDivElement | null>
 }
 
 export function PhraseDisplay({

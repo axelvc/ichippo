@@ -17,7 +17,7 @@ interface CalendarDisplayProps {
 	labelLang: CalendarLang
 	dotStyle: DotStyle
 	weekStart: WeekStart
-	containerRef?: RefObject<HTMLDivElement>
+	containerRef?: RefObject<HTMLDivElement | null>
 }
 
 export function CalendarDisplay({

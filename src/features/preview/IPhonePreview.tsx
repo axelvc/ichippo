@@ -123,6 +123,7 @@ export default function IPhonePreview() {
 						translationLang={phrase.translationLang}
 						customText={phrase.customText}
 						customSubtext={phrase.customSubtext}
+						containerRef={containerRef}
 					/>
 					{calendar.enabled && (
 						<CalendarDisplay
@@ -131,10 +132,16 @@ export default function IPhonePreview() {
 							labelLang={calendar.labelLang}
 							dotStyle={calendar.dotStyle}
 							weekStart={calendar.weekStart}
+							containerRef={containerRef}
 						/>
 					)}
 					{daysLeft.enabled && (
-						<DaysLeftDisplay mode={daysLeft.mode} dateMode={daysLeft.dateMode} weekStart={daysLeft.weekStart} />
+						<DaysLeftDisplay
+							mode={daysLeft.mode}
+							dateMode={daysLeft.dateMode}
+							weekStart={daysLeft.weekStart}
+							containerRef={containerRef}
+						/>
 					)}
 				</main>
 			</div>

@@ -12,7 +12,7 @@ interface DaysLeftDisplayProps {
 	dateMode: DateMode
 	mode: DaysLeftMode
 	weekStart: WeekStart
-	containerRef?: RefObject<HTMLDivElement>
+	containerRef?: RefObject<HTMLDivElement | null>
 }
 
 export function DaysLeftDisplay({ mode, dateMode, weekStart, containerRef }: DaysLeftDisplayProps) {
