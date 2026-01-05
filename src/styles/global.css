@@ -28,3 +28,7 @@
 ::-webkit-scrollbar-thumb {
 	@apply bg-zinc-700 border-3 border-zinc-800;
 }
+
+::selection {
+	@apply bg-accent-300 text-zinc-900;
+}

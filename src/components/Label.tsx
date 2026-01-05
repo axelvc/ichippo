@@ -9,7 +9,7 @@ interface LabelProps {
 
 export function Label({ children, className, htmlFor }: LabelProps) {
 	return (
-		<label htmlFor={htmlFor} className={cn('text-xs font-mono text-zinc-400 uppercase tracking-wider', className)}>
+		<label htmlFor={htmlFor} className={cn('text-xs font-mono text-zinc-400 uppercase tracking-wider select-none', className)}>
 			{children}
 		</label>
 	)
