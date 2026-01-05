@@ -4,8 +4,7 @@ import { Button } from '@/components/ui'
 import { ControlsPanel } from '@/features/controls/ControlsPanel'
 import { CalendarDisplay, useCalendar } from '@/features/widgets/calendar'
 import { DaysLeftDisplay, useDaysLeft } from '@/features/widgets/days-left'
-import { PHRASES, usePhrase } from '@/features/widgets/phrase'
-import { DraggableWrapper } from '@/features/widgets/shared'
+import { PhraseDisplay, usePhrase } from '@/features/widgets/phrase'
 import { cn } from '@/lib/utils'
 import { IPHONE_MODELS, type ModelName, SCALE_FACTOR } from './constants.ts'
 import ModelSelector from './ModelSelector'
@@ -67,28 +66,6 @@ export default function IPhonePreview() {
 		return () => window.removeEventListener('resize', updateScale)
 	}, [scaledWidth])
 
-	// Get current phrase content for legacy display
-	const getPhraseContent = () => {
-		if (phrase.mode === 'custom') {
-			return { text: phrase.customText, subtext: phrase.customSubtext }
-		}
-
-		const currentPhrase = PHRASES[phrase.selectedIndex]
-		let subtext = ''
-
-		if (phrase.showHiragana && phrase.showTranslation) {
-			subtext = `${currentPhrase.reading}\n${currentPhrase.translations[phrase.translationLang]}`
-		} else if (phrase.showHiragana) {
-			subtext = currentPhrase.reading
-		} else if (phrase.showTranslation) {
-			subtext = currentPhrase.translations[phrase.translationLang]
-		}
-
-		return { text: currentPhrase.text, subtext }
-	}
-
-	const phraseContent = getPhraseContent()
-
 	return (
 		<>
 			{/* Top Controls */}
@@ -138,46 +115,34 @@ export default function IPhonePreview() {
 						isPreview && 'shadow-2xl',
 					)}
 				>
-					<DraggableWrapper
+					<PhraseDisplay
+						mode={phrase.mode}
+						selectedIndex={phrase.selectedIndex}
+						showHiragana={phrase.showHiragana}
+						showTranslation={phrase.showTranslation}
+						translationLang={phrase.translationLang}
+						customText={phrase.customText}
+						customSubtext={phrase.customSubtext}
 						containerWidth={scaledWidth}
 						containerHeight={scaledHeight}
-						initialY={scaledHeight / 2 - 50}
-						centerHorizontal
-					>
-						<div className="flex flex-col items-center gap-2 px-8">
-							<p className="text-2xl font-medium text-neutral-900 dark:text-neutral-100 tracking-widest">
-								{phraseContent.text}
-							</p>
-							<p className="text-sm font-light text-neutral-400 dark:text-neutral-500 whitespace-pre-line text-center">
-								{phraseContent.subtext}
-							</p>
-						</div>
-					</DraggableWrapper>
-
-					<DraggableWrapper
+					/>
+					<CalendarDisplay
+						enabled={calendar.enabled}
+						timeMode={calendar.timeMode}
+						showLabel={calendar.showLabel}
+						labelLang={calendar.labelLang}
+						dotStyle={calendar.dotStyle}
+						weekStart={calendar.weekStart}
 						containerWidth={scaledWidth}
 						containerHeight={scaledHeight}
-						initialY={scaledHeight / 2 + 100}
-						centerHorizontal
-					>
-						<CalendarDisplay
-							enabled={calendar.enabled}
-							timeMode={calendar.timeMode}
-							showLabel={calendar.showLabel}
-							labelLang={calendar.labelLang}
-							dotStyle={calendar.dotStyle}
-							weekStart={calendar.weekStart}
-						/>
-					</DraggableWrapper>
-
-					<DraggableWrapper
+					/>
+					<DaysLeftDisplay
+						enabled={daysLeft.enabled}
+						mode={daysLeft.mode}
+						dateMode={daysLeft.dateMode}
 						containerWidth={scaledWidth}
 						containerHeight={scaledHeight}
-						initialY={scaledHeight - 100}
-						centerHorizontal
-					>
-						<DaysLeftDisplay enabled={daysLeft.enabled} mode={daysLeft.mode} dateMode={daysLeft.dateMode} />
-					</DraggableWrapper>
+					/>
 				</main>
 			</div>
 

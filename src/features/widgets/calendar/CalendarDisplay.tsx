@@ -1,10 +1,11 @@
 /** biome-ignore-all lint/suspicious/noArrayIndexKey: Week labels are hardcoded */
 import { cn } from '@/lib/utils'
+import { DraggableWrapper, type DraggableWrapperProps } from '../shared'
 import type { LanguageCode } from '../shared/types'
 import { WEEK_LABELS_JA_MONDAY, WEEK_LABELS_JA_SUNDAY, WEEK_LABELS_MONDAY, WEEK_LABELS_SUNDAY } from './constants'
 import type { CalendarLang, DotStyle, TimeMode, WeekStart } from './types'
 
-interface CalendarDisplayProps {
+interface CalendarDisplayProps extends Pick<DraggableWrapperProps, 'containerWidth' | 'containerHeight'> {
 	enabled: boolean
 	timeMode: TimeMode
 	showLabel: boolean
@@ -20,6 +21,8 @@ export function CalendarDisplay({
 	labelLang,
 	dotStyle,
 	weekStart,
+	containerHeight,
+	containerWidth,
 }: CalendarDisplayProps) {
 	if (!enabled) return null
 
@@ -82,32 +85,39 @@ export function CalendarDisplay({
 	}
 
 	return (
-		<div className="flex flex-col gap-1">
-			<div className={cn('grid grid-cols-7 gap-4 mb-1', !showLabel && 'opacity-0')}>
-				{weekLabels.map((label, i) => (
-					<span key={i} className="text-xs font-light text-neutral-400 dark:text-neutral-600 text-center">
-						{label}
-					</span>
-				))}
-			</div>
+		<DraggableWrapper
+			containerWidth={containerWidth}
+			containerHeight={containerHeight}
+			initialY={containerHeight / 2 + 100}
+			centerHorizontal
+		>
+			<div className="flex flex-col gap-1">
+				<div className={cn('grid grid-cols-7 gap-4 mb-1', !showLabel && 'opacity-0')}>
+					{weekLabels.map((label, i) => (
+						<span key={i} className="text-xs font-light text-zinc-400 dark:text-zinc-600 text-center">
+							{label}
+						</span>
+					))}
+				</div>
 
-			<div className="grid grid-cols-7 gap-4">
-				{cells.map((cell, i) => (
-					<div key={i} className="flex justify-center">
-						{cell.empty ? (
-							<div className="w-2.5 h-2.5" />
-						) : (
-							<div
-								className={cn(
-									'transition-colors',
-									isActive(cell.index) ? 'bg-neutral-900 dark:bg-neutral-100' : 'bg-neutral-200 dark:bg-neutral-800',
-									dotStyleClasses[dotStyle],
-								)}
-							/>
-						)}
-					</div>
-				))}
+				<div className="grid grid-cols-7 gap-4">
+					{cells.map((cell, i) => (
+						<div key={i} className="flex justify-center">
+							{cell.empty ? (
+								<div className="w-2.5 h-2.5" />
+							) : (
+								<div
+									className={cn(
+										'transition-colors',
+										isActive(cell.index) ? 'bg-zinc-900 dark:bg-zinc-100' : 'bg-zinc-200 dark:bg-zinc-800',
+										dotStyleClasses[dotStyle],
+									)}
+								/>
+							)}
+						</div>
+					))}
+				</div>
 			</div>
-		</div>
+		</DraggableWrapper>
 	)
 }
