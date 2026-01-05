@@ -21,16 +21,10 @@
 	--color-accent-950: var(--color-purple-950);
 }
 
-@keyframes fade-in {
-	from {
-		opacity: 0;
-	}
-
-	to {
-		opacity: 1;
-	}
+::-webkit-scrollbar {
+	@apply w-3.5 bg-zinc-800 m-2;
 }
 
-.animate-fade-in {
-	animation: fade-in 0.15s ease-in-out;
+::-webkit-scrollbar-thumb {
+	@apply bg-zinc-700 border-3 border-zinc-800;
 }

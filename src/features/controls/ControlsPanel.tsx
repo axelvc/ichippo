@@ -1,20 +1,47 @@
-import { Separator } from '@/components'
+import { Field, Select, type SelectOptions, Separator, Switch } from '@/components'
+import type { PreviewActions, PreviewState } from '@/features/preview/usePreviewState'
 import type { CalendarActions, CalendarState } from '@/features/widgets/calendar'
 import { CalendarControls } from '@/features/widgets/calendar'
 import type { DaysLeftActions, DaysLeftState } from '@/features/widgets/days-left'
 import { DaysLeftControls } from '@/features/widgets/days-left'
 import type { PhraseActions, PhraseState } from '@/features/widgets/phrase'
 import { PhraseControls } from '@/features/widgets/phrase'
+import { IPHONE_MODELS, MODEL_GROUPS, type ModelName } from './constants'
 
 interface ControlsPanelProps {
 	phrase: PhraseState & PhraseActions
 	calendar: CalendarState & CalendarActions
 	daysLeft: DaysLeftState & DaysLeftActions
+	preview: PreviewState & PreviewActions
 }
 
-export function ControlsPanel({ phrase, calendar, daysLeft }: ControlsPanelProps) {
+const options: SelectOptions = Object.entries(MODEL_GROUPS).map(([series, models]) => ({
+	label: series,
+	options: models.map((model) => ({
+		value: model,
+		label: `${model} (${IPHONE_MODELS[model].width}×${IPHONE_MODELS[model].height})`,
+	})),
+}))
+
+export function ControlsPanel({ phrase, calendar, daysLeft, preview }: ControlsPanelProps) {
 	return (
-		<div className="fixed bottom-0 left-0 right-0 max-h-1/3 md:max-h-9/10 md:left-6 md:right-auto md:bottom-auto md:top-1/2 md:-translate-y-1/2 md:w-72 bg-zinc-900 border-t md:border border-zinc-800 p-5 shadow-2xl z-50 overflow-y-auto font-mono transition-all duration-300">
+		<div className="w-80 max-h-240 overflow-auto bg-zinc-900 border border-zinc-800 p-5 shadow-2xl">
+			<div className="space-y-4">
+				<Field label="Model">
+					<Select
+						value={preview.selectedModel}
+						onChange={(v) => preview.setSelectedModel(v as ModelName)}
+						options={options}
+					/>
+				</Field>
+
+				<Field label="Preview" orientation="horizontal">
+					<Switch checked={preview.isPreview} onChange={() => preview.setIsPreview(!preview.isPreview)} />
+				</Field>
+			</div>
+
+			<Separator />
+
 			<PhraseControls
 				mode={phrase.mode}
 				setMode={phrase.setMode}

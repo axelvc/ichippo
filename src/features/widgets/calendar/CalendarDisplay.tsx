@@ -94,7 +94,13 @@ export function CalendarDisplay({
 			<div className="grid grid-cols-7 gap-4 justify-items-center">
 				{showLabel &&
 					weekLabels.map((label, i) => (
-						<span key={i} className="text-xs text-zinc-400 dark:text-zinc-500 text-center -mb-1 size-3">
+						<span
+							key={i}
+							className={cn(
+								'text-xs text-zinc-400 dark:text-zinc-500 text-center -mb-1 size-3',
+								labelLang === 'ja' && 'font-zen',
+							)}
+						>
 							{label}
 						</span>
 					))}
