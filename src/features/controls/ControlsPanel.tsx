@@ -62,6 +62,8 @@ export function ControlsPanel({ phrase, calendar, daysLeft }: ControlsPanelProps
 				setMode={daysLeft.setMode}
 				dateMode={daysLeft.dateMode}
 				setDateMode={daysLeft.setDateMode}
+				weekStart={daysLeft.weekStart}
+				setWeekStart={daysLeft.setWeekStart}
 			/>
 		</div>
 	)

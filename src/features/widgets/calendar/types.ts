@@ -23,3 +23,9 @@ export interface CalendarActions {
 	setDotStyle: (style: DotStyle) => void
 	setWeekStart: (start: WeekStart) => void
 }
+
+export interface CalendarDayState {
+	past: boolean
+	current: boolean
+	active: boolean
+}

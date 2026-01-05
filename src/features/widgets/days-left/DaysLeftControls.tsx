@@ -1,5 +1,5 @@
 import { Label, SegmentedControl, Switch } from '@/components/ui'
-import type { DateMode, DaysLeftMode } from './types'
+import type { DateMode, DaysLeftMode, WeekStart } from './types'
 
 interface DaysLeftControlsProps {
 	enabled: boolean
@@ -8,9 +8,20 @@ interface DaysLeftControlsProps {
 	setMode: (mode: DaysLeftMode) => void
 	dateMode: DateMode
 	setDateMode: (dateMode: DateMode) => void
+	weekStart: WeekStart
+	setWeekStart: (start: WeekStart) => void
 }
 
-export function DaysLeftControls({ enabled, setEnabled, mode, setMode, dateMode, setDateMode }: DaysLeftControlsProps) {
+export function DaysLeftControls({
+	enabled,
+	setEnabled,
+	mode,
+	setMode,
+	dateMode,
+	setDateMode,
+	weekStart,
+	setWeekStart,
+}: DaysLeftControlsProps) {
 	return (
 		<>
 			<div className="mb-4 flex items-center justify-between">
@@ -45,6 +56,20 @@ export function DaysLeftControls({ enabled, setEnabled, mode, setMode, dateMode,
 							]}
 						/>
 					</div>
+
+					{dateMode === 'week' && (
+						<div className="mb-4">
+							<Label className="mb-2 block">Week Starts</Label>
+							<SegmentedControl
+								value={weekStart}
+								onChange={setWeekStart}
+								options={[
+									{ value: 'monday', label: 'MON' },
+									{ value: 'sunday', label: 'SUN' },
+								]}
+							/>
+						</div>
+					)}
 				</>
 			)}
 		</>

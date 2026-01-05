@@ -1,13 +1,17 @@
 /** biome-ignore-all lint/suspicious/noArrayIndexKey: Week labels are hardcoded */
-import type { RefObject } from 'react'
+import dayjs from 'dayjs'
+import isoWeek from 'dayjs/plugin/isoWeek.js'
+import { Circle, Square } from 'lucide-react'
+import { type RefObject, useMemo } from 'react'
 import { cn } from '@/lib/utils'
 import { DraggableWrapper } from '../shared/components/DraggableWrapper'
 import type { LanguageCode } from '../shared/types'
-import { WEEK_LABELS_JA_MONDAY, WEEK_LABELS_JA_SUNDAY, WEEK_LABELS_MONDAY, WEEK_LABELS_SUNDAY } from './constants'
-import type { CalendarLang, DotStyle, TimeMode, WeekStart } from './types'
+import { WEEK_LABELS_MONDAY, WEEK_LABELS_SUNDAY } from './constants'
+import type { CalendarDayState, CalendarLang, DotStyle, TimeMode, WeekStart } from './types'
+
+dayjs.extend(isoWeek)
 
 interface CalendarDisplayProps {
-	enabled: boolean
 	timeMode: TimeMode
 	showLabel: boolean
 	labelLang: CalendarLang
@@ -17,7 +21,6 @@ interface CalendarDisplayProps {
 }
 
 export function CalendarDisplay({
-	enabled,
 	timeMode,
 	showLabel,
 	labelLang,
@@ -25,90 +28,90 @@ export function CalendarDisplay({
 	weekStart,
 	containerRef,
 }: CalendarDisplayProps) {
-	if (!enabled) return null
+	const cells = useMemo<CalendarDayState[]>(() => {
+		const now = dayjs()
+		const today = now.startOf('day')
 
-	const now = new Date()
-	const jsDay = now.getDay()
-	const currentDate = now.getDate()
-	const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate()
-	const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).getDay()
-	const isWeek = timeMode === 'week'
+		if (timeMode === 'week') {
+			const weekStartDay = weekStart === 'monday' ? now.isoWeekday(1) : now.day(0)
 
-	const getWeekLabels = () => {
-		if (labelLang === 'ja') {
-			return weekStart === 'monday' ? WEEK_LABELS_JA_MONDAY : WEEK_LABELS_JA_SUNDAY
+			return Array.from({ length: 7 }, (_, i) => {
+				const day = weekStartDay.add(i, 'day').startOf('day')
+
+				return {
+					past: false,
+					current: day.isSame(today, 'day'),
+					active: day.isBefore(today, 'day') || day.isSame(today, 'day'),
+				}
+			})
 		}
-		return weekStart === 'monday'
+
+		// Month mode
+		const firstDayOfMonth = now.startOf('month')
+		const lastDayOfMonth = now.endOf('month')
+
+		const firstDayWeekday =
+			weekStart === 'monday'
+				? firstDayOfMonth.isoWeekday() - 1 // isoWeekday: 1 = Monday
+				: firstDayOfMonth.day() // day: 0 = Sunday
+
+		const daysFromPrevMonth = firstDayWeekday
+		const daysInMonth = lastDayOfMonth.date()
+		const totalCells = Math.ceil((daysFromPrevMonth + daysInMonth) / 7) * 7
+
+		return Array.from({ length: totalCells }, (_, i) => {
+			let day: dayjs.Dayjs
+			let isPast = false
+
+			if (i < daysFromPrevMonth) {
+				// Days from previous month
+				day = firstDayOfMonth.subtract(daysFromPrevMonth - i, 'day')
+				isPast = true
+			} else if (i < daysFromPrevMonth + daysInMonth) {
+				// Days from current month
+				day = firstDayOfMonth.add(i - daysFromPrevMonth, 'day')
+			} else {
+				// Days from next month (to fill the grid)
+				day = lastDayOfMonth.add(i - daysFromPrevMonth - daysInMonth + 1, 'day')
+				isPast = true
+			}
+
+			return {
+				past: isPast,
+				current: day.isSame(today, 'day'),
+				active: !isPast && (day.isBefore(today, 'day') || day.isSame(today, 'day')),
+			}
+		})
+	}, [timeMode, weekStart])
+
+	const weekLabels =
+		weekStart === 'monday'
 			? WEEK_LABELS_MONDAY[labelLang as LanguageCode]
 			: WEEK_LABELS_SUNDAY[labelLang as LanguageCode]
-	}
-
-	const getDayIndex = (jsDay: number) => {
-		if (weekStart === 'monday') {
-			return jsDay === 0 ? 6 : jsDay - 1
-		}
-		return jsDay
-	}
-
-	const todayIndex = getDayIndex(jsDay)
-	const firstDayIndex = getDayIndex(firstDayOfMonth)
-
-	const isActive = (index: number) => {
-		if (isWeek) return index <= todayIndex
-		return index + 1 <= currentDate
-	}
-
-	const weekLabels = getWeekLabels()
-
-	const cells = isWeek
-		? Array.from({ length: 7 }, (_, i) => ({
-				empty: false,
-				day: i + 1,
-				index: i,
-			}))
-		: [
-				...Array.from({ length: firstDayIndex }, (_, i) => ({
-					empty: true,
-					day: 0,
-					index: i,
-				})),
-				...Array.from({ length: daysInMonth }, (_, i) => ({
-					empty: false,
-					day: i + 1,
-					index: firstDayIndex + i,
-				})),
-			]
-
-	const dotStyleClasses = {
-		dots: 'w-2.5 h-2.5 rounded-full',
-		squares: 'w-2.5 h-2.5 rounded-xs',
-		lines: 'w-0.5 h-4 rounded-full',
-	}
 
 	return (
 		<DraggableWrapper containerRef={containerRef} className="top-[calc(50%+100px)] grid justify-center">
-			<div className={cn('grid grid-cols-7 gap-4 mb-1', !showLabel && 'opacity-0')}>
-				{weekLabels.map((label, i) => (
-					<span key={i} className="text-xs font-light text-zinc-400 dark:text-zinc-600 text-center">
-						{label}
-					</span>
-				))}
-			</div>
+			<div className="grid grid-cols-7 gap-4 justify-items-center">
+				{showLabel &&
+					weekLabels.map((label, i) => (
+						<span key={i} className="text-xs text-zinc-400 dark:text-zinc-500 text-center -mb-1 size-3">
+							{label}
+						</span>
+					))}
 
-			<div className="grid grid-cols-7 gap-4">
 				{cells.map((cell, i) => (
-					<div key={i} className="flex justify-center">
-						{cell.empty ? (
-							<div className="w-2.5 h-2.5" />
-						) : (
-							<div
-								className={cn(
-									'transition-colors',
-									isActive(cell.index) ? 'bg-zinc-900 dark:bg-zinc-100' : 'bg-zinc-200 dark:bg-zinc-800',
-									dotStyleClasses[dotStyle],
-								)}
-							/>
+					<div
+						key={i}
+						className={cn(
+							'text-zinc-200 dark:text-zinc-800',
+							cell.past && 'opacity-50',
+							cell.active && 'text-zinc-900 dark:text-zinc-100',
+							cell.current && 'text-purple-500 dark:text-purple-400',
 						)}
+					>
+						{dotStyle === 'dots' && <Circle className="size-3 fill-current" />}
+						{dotStyle === 'squares' && <Square className="size-3 fill-current" />}
+						{dotStyle === 'lines' && <div className="w-0.5 h-3 bg-current" />}
 					</div>
 				))}
 			</div>

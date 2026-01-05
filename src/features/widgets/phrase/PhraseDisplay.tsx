@@ -27,30 +27,25 @@ export function PhraseDisplay({
 }: PhraseDisplayProps) {
 	const phrase = PHRASES[selectedIndex]
 
-	if (mode === 'custom') {
-		return (
-			<div className="flex flex-col items-center gap-2 px-8">
-				{customText && (
-					<p className="text-2xl font-medium text-center text-zinc-900 dark:text-zinc-100">{customText}</p>
-				)}
-				{customSubtext && (
-					<p className="text-sm font-light text-center text-zinc-500 dark:text-zinc-400">{customSubtext}</p>
-				)}
-			</div>
-		)
-	}
+	const isCustom = mode === 'custom'
+	const text = isCustom ? customText : phrase.text
+
+	const subTexts = [
+		isCustom && customSubtext,
+		!isCustom && showHiragana && phrase.reading,
+		!isCustom && showTranslation && phrase.translations[translationLang],
+	].filter(Boolean)
 
 	return (
 		<DraggableWrapper containerRef={containerRef} className="rounded-lg px-8 w-full top-[calc(50%-50px)]">
-			<p className="text-2xl font-medium text-center text-zinc-900 dark:text-zinc-100">{phrase.text}</p>
-			{showHiragana && (
-				<p className="text-sm font-light text-center text-zinc-500 dark:text-zinc-400">{phrase.reading}</p>
-			)}
-			{showTranslation && (
-				<p className="text-xs font-light text-center text-zinc-400 dark:text-zinc-500 mt-1">
-					{phrase.translations[translationLang]}
-				</p>
-			)}
+			<div className="flex flex-col items-center gap-1">
+				{text && <p className="mb-1 text-2xl font-medium text-center text-zinc-900 dark:text-zinc-100">{text}</p>}
+				{subTexts.map((text, i) => (
+					<p key={String(i)} className="text-sm font-light text-center text-zinc-400 dark:text-zinc-500">
+						{text}
+					</p>
+				))}
+			</div>
 		</DraggableWrapper>
 	)
 }
