@@ -1,4 +1,4 @@
-import { Label, SegmentedControl, Select, Switch } from '@/components/ui'
+import { Field, FieldLegend, SegmentedControl, Select, Switch } from '@/components/ui'
 import { LANGUAGES } from '@/features/widgets/phrase/constants'
 import type { CalendarLang, DotStyle, TimeMode, WeekStart } from './types'
 
@@ -32,16 +32,15 @@ export function CalendarControls({
 	setWeekStart,
 }: CalendarControlsProps) {
 	return (
-		<>
-			<div className="mb-4 flex items-center justify-between">
-				<h3 className="text-sm font-semibold text-zinc-200 uppercase tracking-wider">Calendar</h3>
+		<div className="space-y-4">
+			<Field orientation="horizontal">
+				<FieldLegend>Calendar</FieldLegend>
 				<Switch checked={enabled} onChange={() => setEnabled(!enabled)} />
-			</div>
+			</Field>
 
 			{enabled && (
 				<>
-					<div className="mb-4">
-						<Label className="mb-2 block">Mode</Label>
+					<Field label="Mode">
 						<SegmentedControl
 							value={timeMode}
 							onChange={setTimeMode}
@@ -50,10 +49,9 @@ export function CalendarControls({
 								{ value: 'month', label: 'MONTH' },
 							]}
 						/>
-					</div>
+					</Field>
 
-					<div className="mb-4">
-						<Label className="mb-2 block">Week Starts</Label>
+					<Field label="Week Starts">
 						<SegmentedControl
 							value={weekStart}
 							onChange={setWeekStart}
@@ -62,10 +60,9 @@ export function CalendarControls({
 								{ value: 'sunday', label: 'SUN' },
 							]}
 						/>
-					</div>
+					</Field>
 
-					<div className="mb-4">
-						<Label className="mb-2 block">Style</Label>
+					<Field label="Style">
 						<SegmentedControl
 							value={dotStyle}
 							onChange={setDotStyle}
@@ -75,16 +72,14 @@ export function CalendarControls({
 								{ value: 'lines', label: '│' },
 							]}
 						/>
-					</div>
+					</Field>
 
-					<div className="mb-4 flex items-center justify-between">
-						<Label>Show Label</Label>
+					<Field label="Show Label" orientation="horizontal">
 						<Switch checked={showLabel} onChange={() => setShowLabel(!showLabel)} />
-					</div>
+					</Field>
 
 					{showLabel && (
-						<div className="mb-4">
-							<Label className="mb-2 block">Label Lang</Label>
+						<Field label="Label Lang">
 							<Select
 								value={labelLang}
 								onChange={(v) => setLabelLang(v as CalendarLang)}
@@ -96,10 +91,10 @@ export function CalendarControls({
 									})),
 								]}
 							/>
-						</div>
+						</Field>
 					)}
 				</>
 			)}
-		</>
+		</div>
 	)
 }

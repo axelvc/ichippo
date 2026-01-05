@@ -1,4 +1,4 @@
-import { Label, SegmentedControl, Switch } from '@/components/ui'
+import { Field, FieldLegend, SegmentedControl, Switch } from '@/components/ui'
 import type { DateMode, DaysLeftMode, WeekStart } from './types'
 
 interface DaysLeftControlsProps {
@@ -23,16 +23,15 @@ export function DaysLeftControls({
 	setWeekStart,
 }: DaysLeftControlsProps) {
 	return (
-		<>
-			<div className="mb-4 flex items-center justify-between">
-				<h3 className="text-sm font-semibold text-zinc-200 uppercase tracking-wider">Days Left</h3>
+		<div className="space-y-4">
+			<Field orientation="horizontal">
+				<FieldLegend>Days Left</FieldLegend>
 				<Switch checked={enabled} onChange={() => setEnabled(!enabled)} />
-			</div>
+			</Field>
 
 			{enabled && (
 				<>
-					<div className="mb-4">
-						<Label className="mb-2 block">Mode</Label>
+					<Field label="Mode">
 						<SegmentedControl
 							value={mode}
 							onChange={setMode}
@@ -42,10 +41,9 @@ export function DaysLeftControls({
 								{ value: 'percentage', label: 'ELAPSED' },
 							]}
 						/>
-					</div>
+					</Field>
 
-					<div className="mb-4">
-						<Label className="mb-2 block">Date Mode</Label>
+					<Field label="Date Mode">
 						<SegmentedControl
 							value={dateMode}
 							onChange={setDateMode}
@@ -55,11 +53,10 @@ export function DaysLeftControls({
 								{ value: 'year', label: 'YEAR' },
 							]}
 						/>
-					</div>
+					</Field>
 
 					{dateMode === 'week' && (
-						<div className="mb-4">
-							<Label className="mb-2 block">Week Starts</Label>
+						<Field label="Week Starts">
 							<SegmentedControl
 								value={weekStart}
 								onChange={setWeekStart}
@@ -68,10 +65,10 @@ export function DaysLeftControls({
 									{ value: 'sunday', label: 'SUN' },
 								]}
 							/>
-						</div>
+						</Field>
 					)}
 				</>
 			)}
-		</>
+		</div>
 	)
 }

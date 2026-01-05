@@ -1,6 +1,8 @@
 export { Button } from './Button'
+export { Field, FieldLegend } from './Field'
 export { Input } from './Input'
 export { Label } from './Label'
 export { SegmentedControl } from './SegmentedControl'
 export { Select } from './Select'
+export { Separator } from './Separator'
 export { Switch } from './Switch'

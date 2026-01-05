@@ -1,4 +1,4 @@
-import { Input, Label, SegmentedControl, Select, Switch } from '@/components/ui'
+import { Field, FieldLegend, Input, SegmentedControl, Select, Switch } from '@/components/ui'
 import type { LanguageCode } from '../shared/types'
 import { LANGUAGES, PHRASES } from './constants'
 import type { PhraseMode } from './types'
@@ -37,11 +37,11 @@ export function PhraseControls({
 	setCustomSubtext,
 }: PhraseControlsProps) {
 	return (
-		<>
-			<h3 className="text-sm font-semibold text-zinc-200 mb-4 uppercase tracking-wider">Phrase</h3>
+		<div className="space-y-4">
+			<FieldLegend>Phrase</FieldLegend>
 
 			{/* Mode Toggle */}
-			<div className="mb-4">
+			<div>
 				<SegmentedControl
 					value={mode}
 					onChange={setMode}
@@ -54,8 +54,7 @@ export function PhraseControls({
 
 			{mode === 'preset' && (
 				<>
-					<div className="mb-4">
-						<Label className="mb-2 block">Topic</Label>
+					<Field label="Topic">
 						<Select
 							value={String(selectedIndex)}
 							onChange={(v) => setSelectedIndex(Number(v))}
@@ -64,21 +63,18 @@ export function PhraseControls({
 								label: phrase.text,
 							}))}
 						/>
-					</div>
+					</Field>
 
-					<div className="mb-4 flex items-center justify-between">
-						<Label>Hiragana</Label>
+					<Field label="Hiragana" orientation="horizontal">
 						<Switch checked={showHiragana} onChange={() => setShowHiragana(!showHiragana)} />
-					</div>
+					</Field>
 
-					<div className="mb-4 flex items-center justify-between">
-						<Label>Translation</Label>
+					<Field label="Translation" orientation="horizontal">
 						<Switch checked={showTranslation} onChange={() => setShowTranslation(!showTranslation)} />
-					</div>
+					</Field>
 
 					{showTranslation && (
-						<div className="mb-4">
-							<Label className="mb-2 block">Language</Label>
+						<Field label="Language">
 							<Select
 								value={translationLang}
 								onChange={(v) => setTranslationLang(v as LanguageCode)}
@@ -87,23 +83,22 @@ export function PhraseControls({
 									label: name,
 								}))}
 							/>
-						</div>
+						</Field>
 					)}
 				</>
 			)}
 
 			{mode === 'custom' && (
 				<>
-					<div className="mb-4">
-						<Label className="mb-2 block">Main Text</Label>
+					<Field label="Main Text">
 						<Input value={customText} onChange={setCustomText} placeholder="Enter main text..." />
-					</div>
-					<div className="mb-4">
-						<Label className="mb-2 block">Subtext</Label>
+					</Field>
+
+					<Field label="Subtext">
 						<Input value={customSubtext} onChange={setCustomSubtext} placeholder="Enter subtext..." />
-					</div>
+					</Field>
 				</>
 			)}
-		</>
+		</div>
 	)
 }
