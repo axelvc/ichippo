@@ -3,17 +3,19 @@ import { cn } from '@/lib/utils'
 import { Label } from './Label'
 
 interface FieldProps {
-	label?: string
 	children: ReactNode
 	className?: string
+	htmlFor?: string
+	label?: string
 	orientation?: 'horizontal' | 'vertical'
 }
 
-export function Field({ label, children, className, orientation = 'vertical' }: FieldProps) {
+export function Field({ label, children, className, htmlFor, orientation = 'vertical' }: FieldProps) {
 	return (
 		<div className={cn(orientation === 'horizontal' && 'flex items-center justify-between', className)}>
 			{label && (
 				<Label
+					htmlFor={htmlFor}
 					className={cn(
 						'text-xs font-mono text-zinc-400 uppercase tracking-wider',
 						orientation === 'vertical' && 'mb-2 block',
