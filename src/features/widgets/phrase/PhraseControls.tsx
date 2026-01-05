@@ -1,26 +1,7 @@
 import { Field, FieldLegend, Input, SegmentedControl, Select, Switch } from '@/components'
 import type { LanguageCode } from '../shared/types'
 import { LANGUAGES, PHRASES } from './constants'
-import type { PhraseMode } from './types'
-
-interface PhraseControlsProps {
-	enabled: boolean
-	setEnabled: (enabled: boolean) => void
-	mode: PhraseMode
-	setMode: (mode: PhraseMode) => void
-	selectedIndex: number
-	setSelectedIndex: (index: number) => void
-	showHiragana: boolean
-	setShowHiragana: (show: boolean) => void
-	showTranslation: boolean
-	setShowTranslation: (show: boolean) => void
-	translationLang: LanguageCode
-	setTranslationLang: (lang: LanguageCode) => void
-	customText: string
-	setCustomText: (text: string) => void
-	customSubtext: string
-	setCustomSubtext: (text: string) => void
-}
+import type { PhraseActions, PhraseState } from './types'
 
 export function PhraseControls({
 	enabled,
@@ -39,7 +20,7 @@ export function PhraseControls({
 	setCustomText,
 	customSubtext,
 	setCustomSubtext,
-}: PhraseControlsProps) {
+}: PhraseState & PhraseActions) {
 	return (
 		<div className="space-y-4">
 			<Field orientation="horizontal">

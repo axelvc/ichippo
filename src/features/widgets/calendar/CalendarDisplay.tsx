@@ -7,16 +7,11 @@ import { cn } from '@/lib/utils'
 import { DraggableWrapper } from '../shared/components/DraggableWrapper'
 import type { LanguageCode } from '../shared/types'
 import { WEEK_LABELS_MONDAY, WEEK_LABELS_SUNDAY } from './constants'
-import type { CalendarDayState, CalendarLang, DotStyle, TimeMode, WeekStart } from './types'
+import type { CalendarDayState, CalendarState } from './types'
 
 dayjs.extend(isoWeek)
 
 interface CalendarDisplayProps {
-	timeMode: TimeMode
-	showLabel: boolean
-	labelLang: CalendarLang
-	dotStyle: DotStyle
-	weekStart: WeekStart
 	containerRef?: RefObject<HTMLDivElement | null>
 }
 
@@ -27,7 +22,7 @@ export function CalendarDisplay({
 	dotStyle,
 	weekStart,
 	containerRef,
-}: CalendarDisplayProps) {
+}: Omit<CalendarState, 'enabled'> & CalendarDisplayProps) {
 	const cells = useMemo<CalendarDayState[]>(() => {
 		const now = dayjs()
 		const today = now.startOf('day')

@@ -1,17 +1,9 @@
 import type { RefObject } from 'react'
 import { DraggableWrapper } from '../shared/components/DraggableWrapper'
-import type { LanguageCode } from '../shared/types'
 import { PHRASES } from './constants'
-import type { PhraseMode } from './types'
+import type { PhraseState } from './types'
 
 interface PhraseDisplayProps {
-	mode: PhraseMode
-	selectedIndex: number
-	showHiragana: boolean
-	showTranslation: boolean
-	translationLang: LanguageCode
-	customText: string
-	customSubtext: string
 	containerRef?: RefObject<HTMLDivElement | null>
 }
 
@@ -24,7 +16,7 @@ export function PhraseDisplay({
 	customText,
 	customSubtext,
 	containerRef,
-}: PhraseDisplayProps) {
+}: Omit<PhraseState, 'enabled'> & PhraseDisplayProps) {
 	const phrase = PHRASES[selectedIndex]
 
 	const isCustom = mode === 'custom'

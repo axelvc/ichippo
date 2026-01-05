@@ -1,21 +1,6 @@
 import { Field, FieldLegend, SegmentedControl, Select, Switch } from '@/components'
 import { LANGUAGES } from '@/features/widgets/phrase/constants'
-import type { CalendarLang, DotStyle, TimeMode, WeekStart } from './types'
-
-interface CalendarControlsProps {
-	enabled: boolean
-	setEnabled: (enabled: boolean) => void
-	timeMode: TimeMode
-	setTimeMode: (mode: TimeMode) => void
-	showLabel: boolean
-	setShowLabel: (show: boolean) => void
-	labelLang: CalendarLang
-	setLabelLang: (lang: CalendarLang) => void
-	dotStyle: DotStyle
-	setDotStyle: (style: DotStyle) => void
-	weekStart: WeekStart
-	setWeekStart: (start: WeekStart) => void
-}
+import type { CalendarActions, CalendarState } from './types'
 
 export function CalendarControls({
 	enabled,
@@ -30,7 +15,7 @@ export function CalendarControls({
 	setDotStyle,
 	weekStart,
 	setWeekStart,
-}: CalendarControlsProps) {
+}: CalendarState & CalendarActions) {
 	return (
 		<div className="space-y-4">
 			<Field orientation="horizontal">

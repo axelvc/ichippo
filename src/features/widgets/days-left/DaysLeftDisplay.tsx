@@ -3,19 +3,21 @@ import isLeapYear from 'dayjs/plugin/isLeapYear.js'
 import isoWeek from 'dayjs/plugin/isoWeek.js'
 import { type RefObject, useMemo } from 'react'
 import { DraggableWrapper } from '../shared/components/DraggableWrapper'
-import type { DateMode, DaysLeftMode, WeekStart } from './types'
+import type { DaysLeftState } from './types'
 
 dayjs.extend(isoWeek)
 dayjs.extend(isLeapYear)
 
 interface DaysLeftDisplayProps {
-	dateMode: DateMode
-	mode: DaysLeftMode
-	weekStart: WeekStart
 	containerRef?: RefObject<HTMLDivElement | null>
 }
 
-export function DaysLeftDisplay({ mode, dateMode, weekStart, containerRef }: DaysLeftDisplayProps) {
+export function DaysLeftDisplay({
+	mode,
+	dateMode,
+	weekStart,
+	containerRef,
+}: Omit<DaysLeftState, 'enabled'> & DaysLeftDisplayProps) {
 	const { currentDay, total } = useMemo(() => {
 		const today = dayjs()
 

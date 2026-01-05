@@ -1,16 +1,5 @@
 import { Field, FieldLegend, SegmentedControl, Switch } from '@/components'
-import type { DateMode, DaysLeftMode, WeekStart } from './types'
-
-interface DaysLeftControlsProps {
-	enabled: boolean
-	setEnabled: (enabled: boolean) => void
-	mode: DaysLeftMode
-	setMode: (mode: DaysLeftMode) => void
-	dateMode: DateMode
-	setDateMode: (dateMode: DateMode) => void
-	weekStart: WeekStart
-	setWeekStart: (start: WeekStart) => void
-}
+import type { DaysLeftActions, DaysLeftState } from './types'
 
 export function DaysLeftControls({
 	enabled,
@@ -21,7 +10,7 @@ export function DaysLeftControls({
 	setDateMode,
 	weekStart,
 	setWeekStart,
-}: DaysLeftControlsProps) {
+}: DaysLeftState & DaysLeftActions) {
 	return (
 		<div className="space-y-4">
 			<Field orientation="horizontal">
