@@ -1,20 +1,16 @@
-import { Edit2, Eye, EyeOff } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
-import { Button } from '@/components/ui'
 import { ControlsPanel } from '@/features/controls/ControlsPanel'
+import { IPHONE_MODELS, type ModelName } from '@/features/controls/constants.ts'
+import { TopControls } from '@/features/controls/TopControls'
 import { CalendarDisplay, useCalendar } from '@/features/widgets/calendar'
 import { DaysLeftDisplay, useDaysLeft } from '@/features/widgets/days-left'
 import { PhraseDisplay, usePhrase } from '@/features/widgets/phrase'
-import { cn } from '@/lib/utils'
-import { IPHONE_MODELS, type ModelName, SCALE_FACTOR } from './constants.ts'
-import ModelSelector from './ModelSelector'
+import { SCALE_FACTOR } from './constants.ts'
 import PhoneOverlay from './PhoneOverlay'
 
 export default function IPhonePreview() {
 	const [isPreview, setIsPreview] = useState(false)
 	const [selectedModel, setSelectedModel] = useState<ModelName>('iPhone 15 Pro Max')
-	const [time, setTime] = useState('')
-	const [date, setDate] = useState('')
 	const [showControls, setShowControls] = useState(true)
 	const [viewportScale, setViewportScale] = useState(1)
 
@@ -28,26 +24,6 @@ export default function IPhonePreview() {
 	const currentDevice = IPHONE_MODELS[selectedModel]
 	const scaledWidth = Math.round(currentDevice.width / SCALE_FACTOR)
 	const scaledHeight = Math.round(currentDevice.height / SCALE_FACTOR)
-
-	useEffect(() => {
-		const updateClock = () => {
-			const now = new Date()
-			const hours = now.getHours()
-			const minutes = now.getMinutes().toString().padStart(2, '0')
-			setTime(`${hours}:${minutes}`)
-
-			const options: Intl.DateTimeFormatOptions = {
-				weekday: 'long',
-				month: 'long',
-				day: 'numeric',
-			}
-			setDate(now.toLocaleDateString('en-US', options))
-		}
-
-		updateClock()
-		const interval = setInterval(updateClock, 1000)
-		return () => clearInterval(interval)
-	}, [])
 
 	// Viewport scaling logic
 	useEffect(() => {
@@ -68,90 +44,58 @@ export default function IPhonePreview() {
 
 	return (
 		<>
-			{/* Top Controls */}
-			<div className="fixed top-4 right-4 left-4 md:left-auto md:top-6 md:right-6 flex flex-col items-end justify-end gap-2 md:gap-3 z-50">
-				<ModelSelector selectedModel={selectedModel} setSelectedModel={setSelectedModel} />
+			<TopControls
+				selectedModel={selectedModel}
+				setSelectedModel={setSelectedModel}
+				showControls={showControls}
+				setShowControls={setShowControls}
+				isPreview={isPreview}
+				setIsPreview={setIsPreview}
+			/>
 
-				<div className="flex gap-2">
-					<Button
-						onClick={() => setShowControls(!showControls)}
-						icon={<Edit2 className="size-4" />}
-						variant={showControls ? 'primary' : 'secondary'}
-						size="sm"
-					>
-						{showControls ? 'DONE' : 'EDIT'}
-					</Button>
-
-					<Button
-						onClick={() => setIsPreview(!isPreview)}
-						icon={isPreview ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
-						variant={isPreview ? 'primary' : 'secondary'}
-						size="sm"
-					>
-						PREVIEW
-					</Button>
-				</div>
-			</div>
-
-			{/* Controls Panel */}
 			{showControls && <ControlsPanel phrase={phrase} calendar={calendar} daysLeft={daysLeft} />}
 
 			{/* iPhone Frame Container */}
-			<div
-				className="relative flex items-center justify-center transition-all duration-300 origin-center"
+			<main
+				ref={containerRef}
+				className="relative overflow-hidden bg-white dark:bg-black rounded-[50px] transition-all duration-200 shadow-2xl"
 				style={{
 					width: `${scaledWidth}px`,
 					height: `${scaledHeight}px`,
 					transform: `scale(${viewportScale})`,
 				}}
 			>
-				<PhoneOverlay isVisible={isPreview} time={time} date={date} />
+				{isPreview && <PhoneOverlay />}
 
-				{/* Main Content */}
-				<main
-					ref={containerRef}
-					className={cn(
-						'w-full h-full bg-neutral-50 dark:bg-neutral-950 rounded-[50px] transition-all duration-300 relative overflow-hidden',
-						isPreview && 'shadow-2xl',
-					)}
-				>
-					<PhraseDisplay
-						mode={phrase.mode}
-						selectedIndex={phrase.selectedIndex}
-						showHiragana={phrase.showHiragana}
-						showTranslation={phrase.showTranslation}
-						translationLang={phrase.translationLang}
-						customText={phrase.customText}
-						customSubtext={phrase.customSubtext}
+				<PhraseDisplay
+					mode={phrase.mode}
+					selectedIndex={phrase.selectedIndex}
+					showHiragana={phrase.showHiragana}
+					showTranslation={phrase.showTranslation}
+					translationLang={phrase.translationLang}
+					customText={phrase.customText}
+					customSubtext={phrase.customSubtext}
+					containerRef={containerRef}
+				/>
+				{calendar.enabled && (
+					<CalendarDisplay
+						timeMode={calendar.timeMode}
+						showLabel={calendar.showLabel}
+						labelLang={calendar.labelLang}
+						dotStyle={calendar.dotStyle}
+						weekStart={calendar.weekStart}
 						containerRef={containerRef}
 					/>
-					{calendar.enabled && (
-						<CalendarDisplay
-							timeMode={calendar.timeMode}
-							showLabel={calendar.showLabel}
-							labelLang={calendar.labelLang}
-							dotStyle={calendar.dotStyle}
-							weekStart={calendar.weekStart}
-							containerRef={containerRef}
-						/>
-					)}
-					{daysLeft.enabled && (
-						<DaysLeftDisplay
-							mode={daysLeft.mode}
-							dateMode={daysLeft.dateMode}
-							weekStart={daysLeft.weekStart}
-							containerRef={containerRef}
-						/>
-					)}
-				</main>
-			</div>
-
-			{/* Resolution indicator */}
-			{!showControls && (
-				<div className="fixed bottom-6 left-1/2 -translate-x-1/2 text-[10px] md:text-xs text-neutral-400 dark:text-neutral-600 bg-white/50 dark:bg-black/50 px-2 py-1 backdrop-blur-sm">
-					{currentDevice.width} × {currentDevice.height} ({Math.round(viewportScale * 100)}%)
-				</div>
-			)}
+				)}
+				{daysLeft.enabled && (
+					<DaysLeftDisplay
+						mode={daysLeft.mode}
+						dateMode={daysLeft.dateMode}
+						weekStart={daysLeft.weekStart}
+						containerRef={containerRef}
+					/>
+				)}
+			</main>
 		</>
 	)
 }

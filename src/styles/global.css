@@ -6,6 +6,7 @@
 @theme {
 	--font-zen: "Zen Maru Gothic", sans-serif;
 	--font-mono: "JetBrains Mono", monospace;
+	--font-apple: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
 }
 
 @keyframes fade-in {
