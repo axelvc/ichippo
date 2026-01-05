@@ -1,4 +1,4 @@
-import { Separator } from '@/components/ui'
+import { Separator } from '@/components'
 import type { CalendarActions, CalendarState } from '@/features/widgets/calendar'
 import { CalendarControls } from '@/features/widgets/calendar'
 import type { DaysLeftActions, DaysLeftState } from '@/features/widgets/days-left'

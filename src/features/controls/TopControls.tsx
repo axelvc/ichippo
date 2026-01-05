@@ -1,5 +1,5 @@
 import { Edit2, Eye, EyeOff } from 'lucide-react'
-import { Button, Select, type SelectOptions } from '@/components/ui'
+import { Button, Select, type SelectOptions } from '@/components'
 import { IPHONE_MODELS, MODEL_GROUPS, type ModelName } from './constants'
 
 interface TopControlsProps {

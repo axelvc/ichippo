@@ -1,4 +1,4 @@
-import { Field, FieldLegend, SegmentedControl, Switch } from '@/components/ui'
+import { Field, FieldLegend, SegmentedControl, Switch } from '@/components'
 import type { DateMode, DaysLeftMode, WeekStart } from './types'
 
 interface DaysLeftControlsProps {

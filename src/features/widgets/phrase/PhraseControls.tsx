@@ -1,4 +1,4 @@
-import { Field, FieldLegend, Input, SegmentedControl, Select, Switch } from '@/components/ui'
+import { Field, FieldLegend, Input, SegmentedControl, Select, Switch } from '@/components'
 import type { LanguageCode } from '../shared/types'
 import { LANGUAGES, PHRASES } from './constants'
 import type { PhraseMode } from './types'
