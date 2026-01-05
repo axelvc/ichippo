@@ -106,7 +106,7 @@ export function CalendarDisplay({
 							'text-zinc-200 dark:text-zinc-800',
 							cell.past && 'opacity-50',
 							cell.active && 'text-zinc-900 dark:text-zinc-100',
-							cell.current && 'text-purple-500 dark:text-purple-400',
+							cell.current && 'text-accent-500 dark:text-accent-400',
 						)}
 					>
 						{dotStyle === 'dots' && <Circle className="size-3 fill-current" />}

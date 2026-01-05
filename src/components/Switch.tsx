@@ -15,9 +15,9 @@ export function Switch({ checked, onChange, disabled = false }: SwitchProps) {
 			disabled={disabled}
 			onClick={onChange}
 			className={cn(
-				'relative inline-flex h-5 w-8 shrink-0 cursor-pointer border-3 border-transparent transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-zinc-900 disabled:cursor-not-allowed disabled:opacity-50',
+				'relative inline-flex h-5 w-8 shrink-0 cursor-pointer border-3 border-transparent transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2 focus:ring-offset-zinc-900 disabled:cursor-not-allowed disabled:opacity-50',
 				'after:content-[""] after:absolute after:-inset-2',
-				checked ? 'bg-purple-500' : 'bg-zinc-700',
+				checked ? 'bg-accent-500' : 'bg-zinc-700',
 			)}
 		>
 			<span
