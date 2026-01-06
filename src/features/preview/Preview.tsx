@@ -3,6 +3,7 @@ import { ControlsPanel } from '@/features/controls/ControlsPanel'
 import { CalendarDisplay, useCalendar } from '@/features/widgets/calendar'
 import { DaysLeftDisplay, useDaysLeft } from '@/features/widgets/days-left'
 import { PhraseDisplay, usePhrase } from '@/features/widgets/phrase'
+import { DraggableWrapper } from './DraggableWrapper.tsx'
 import PhoneOverlay from './PhoneOverlay'
 import { usePreviewState } from './usePreviewState.ts'
 
@@ -30,34 +31,33 @@ export default function Preview() {
 				{preview.isPreview && <PhoneOverlay />}
 
 				{phrase.enabled && (
-					<PhraseDisplay
-						mode={phrase.mode}
-						selectedIndex={phrase.selectedIndex}
-						showHiragana={phrase.showHiragana}
-						showTranslation={phrase.showTranslation}
-						translationLang={phrase.translationLang}
-						customText={phrase.customText}
-						customSubtext={phrase.customSubtext}
-						containerRef={containerRef}
-					/>
+					<DraggableWrapper container={containerRef} className="top-[calc(50%-50px)]">
+						<PhraseDisplay
+							mode={phrase.mode}
+							selectedIndex={phrase.selectedIndex}
+							showHiragana={phrase.showHiragana}
+							showTranslation={phrase.showTranslation}
+							translationLang={phrase.translationLang}
+							customText={phrase.customText}
+							customSubtext={phrase.customSubtext}
+						/>
+					</DraggableWrapper>
 				)}
 				{calendar.enabled && (
-					<CalendarDisplay
-						timeMode={calendar.timeMode}
-						showLabel={calendar.showLabel}
-						labelLang={calendar.labelLang}
-						dotStyle={calendar.dotStyle}
-						weekStart={calendar.weekStart}
-						containerRef={containerRef}
-					/>
+					<DraggableWrapper container={containerRef} className="top-[calc(50%+100px)]">
+						<CalendarDisplay
+							timeMode={calendar.timeMode}
+							showLabel={calendar.showLabel}
+							labelLang={calendar.labelLang}
+							dotStyle={calendar.dotStyle}
+							weekStart={calendar.weekStart}
+						/>
+					</DraggableWrapper>
 				)}
 				{daysLeft.enabled && (
-					<DaysLeftDisplay
-						mode={daysLeft.mode}
-						dateMode={daysLeft.dateMode}
-						weekStart={daysLeft.weekStart}
-						containerRef={containerRef}
-					/>
+					<DraggableWrapper container={containerRef} className="top-[calc(100%-80px)]">
+						<DaysLeftDisplay mode={daysLeft.mode} dateMode={daysLeft.dateMode} weekStart={daysLeft.weekStart} />
+					</DraggableWrapper>
 				)}
 			</main>
 		</div>

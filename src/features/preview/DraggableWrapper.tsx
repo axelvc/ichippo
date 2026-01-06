@@ -4,11 +4,11 @@ import { cn } from '@/lib/utils'
 
 interface DraggableWrapperProps {
 	children: ReactNode
-	containerRef?: RefObject<HTMLDivElement | null>
+	container?: RefObject<HTMLDivElement | null>
 	className?: string
 }
 
-export function DraggableWrapper({ children, containerRef, className }: DraggableWrapperProps) {
+export function DraggableWrapper({ children, container, className }: DraggableWrapperProps) {
 	const [isDragging, setIsDragging] = useState(false)
 	const elementRef = useRef<HTMLDivElement>(null)
 
@@ -18,7 +18,7 @@ export function DraggableWrapper({ children, containerRef, className }: Draggabl
 			drag="y"
 			dragElastic={0}
 			dragMomentum={false}
-			dragConstraints={containerRef}
+			dragConstraints={container}
 			onDragStart={() => setIsDragging(true)}
 			onDragEnd={() => setIsDragging(false)}
 			className={cn('absolute select-none w-full', isDragging ? 'cursor-grabbing' : 'cursor-grab', className)}

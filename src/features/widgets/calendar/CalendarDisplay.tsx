@@ -2,18 +2,13 @@
 import dayjs from 'dayjs'
 import isoWeek from 'dayjs/plugin/isoWeek.js'
 import { Circle, Square } from 'lucide-react'
-import { type RefObject, useMemo } from 'react'
+import { useMemo } from 'react'
 import { cn } from '@/lib/utils'
-import { DraggableWrapper } from '../shared/components/DraggableWrapper'
 import type { LanguageCode } from '../shared/types'
 import { WEEK_LABELS_MONDAY, WEEK_LABELS_SUNDAY } from './constants'
 import type { CalendarDayState, CalendarState } from './types'
 
 dayjs.extend(isoWeek)
-
-interface CalendarDisplayProps {
-	containerRef?: RefObject<HTMLDivElement | null>
-}
 
 export function CalendarDisplay({
 	timeMode,
@@ -21,8 +16,7 @@ export function CalendarDisplay({
 	labelLang,
 	dotStyle,
 	weekStart,
-	containerRef,
-}: Omit<CalendarState, 'enabled'> & CalendarDisplayProps) {
+}: Omit<CalendarState, 'enabled'>) {
 	const cells = useMemo<CalendarDayState[]>(() => {
 		const now = dayjs()
 		const today = now.startOf('day')
@@ -85,37 +79,35 @@ export function CalendarDisplay({
 			: WEEK_LABELS_SUNDAY[labelLang as LanguageCode]
 
 	return (
-		<DraggableWrapper containerRef={containerRef} className="top-[calc(50%+100px)] grid justify-center">
-			<div className="grid grid-cols-7 gap-4 justify-items-center">
-				{showLabel &&
-					weekLabels.map((label, i) => (
-						<span
-							key={i}
-							className={cn(
-								'text-xs text-zinc-400 dark:text-zinc-500 text-center -mb-1 size-3',
-								labelLang === 'ja' && 'font-zen',
-							)}
-						>
-							{label}
-						</span>
-					))}
-
-				{cells.map((cell, i) => (
-					<div
+		<div className="max-w-max mx-auto grid grid-cols-7 gap-4 justify-items-center">
+			{showLabel &&
+				weekLabels.map((label, i) => (
+					<span
 						key={i}
 						className={cn(
-							'text-zinc-200 dark:text-zinc-800',
-							cell.past && 'opacity-50',
-							cell.active && 'text-zinc-900 dark:text-zinc-100',
-							cell.current && 'text-accent-500 dark:text-accent-400',
+							'text-xs text-zinc-400 dark:text-zinc-500 text-center -mb-1 size-3',
+							labelLang === 'ja' && 'font-zen',
 						)}
 					>
-						{dotStyle === 'dots' && <Circle className="size-3 fill-current" />}
-						{dotStyle === 'squares' && <Square className="size-3 fill-current" />}
-						{dotStyle === 'lines' && <div className="w-0.5 h-3 bg-current" />}
-					</div>
+						{label}
+					</span>
 				))}
-			</div>
-		</DraggableWrapper>
+
+			{cells.map((cell, i) => (
+				<div
+					key={i}
+					className={cn(
+						'text-zinc-200 dark:text-zinc-800',
+						cell.past && 'opacity-50',
+						cell.active && 'text-zinc-900 dark:text-zinc-100',
+						cell.current && 'text-accent-500 dark:text-accent-400',
+					)}
+				>
+					{dotStyle === 'dots' && <Circle className="size-3 fill-current" />}
+					{dotStyle === 'squares' && <Square className="size-3 fill-current" />}
+					{dotStyle === 'lines' && <div className="w-0.5 h-3 bg-current" />}
+				</div>
+			))}
+		</div>
 	)
 }

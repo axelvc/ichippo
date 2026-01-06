@@ -1,23 +1,13 @@
 import dayjs from 'dayjs'
 import isLeapYear from 'dayjs/plugin/isLeapYear.js'
 import isoWeek from 'dayjs/plugin/isoWeek.js'
-import { type RefObject, useMemo } from 'react'
-import { DraggableWrapper } from '../shared/components/DraggableWrapper'
+import { useMemo } from 'react'
 import type { DaysLeftState } from './types'
 
 dayjs.extend(isoWeek)
 dayjs.extend(isLeapYear)
 
-interface DaysLeftDisplayProps {
-	containerRef?: RefObject<HTMLDivElement | null>
-}
-
-export function DaysLeftDisplay({
-	mode,
-	dateMode,
-	weekStart,
-	containerRef,
-}: Omit<DaysLeftState, 'enabled'> & DaysLeftDisplayProps) {
+export function DaysLeftDisplay({ mode, dateMode, weekStart }: Omit<DaysLeftState, 'enabled'>) {
 	const { currentDay, total } = useMemo(() => {
 		const today = dayjs()
 
@@ -56,12 +46,5 @@ export function DaysLeftDisplay({
 		return `${percentage}%`
 	}, [mode, currentDay, total])
 
-	return (
-		<DraggableWrapper
-			containerRef={containerRef}
-			className="top-[calc(100%-80px)] text-center text-zinc-400 dark:text-zinc-600 text-sm font-light"
-		>
-			<span>{displayText}</span>
-		</DraggableWrapper>
-	)
+	return <div className="text-center text-zinc-400 dark:text-zinc-600 text-sm font-light">{displayText}</div>
 }
