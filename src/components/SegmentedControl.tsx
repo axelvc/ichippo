@@ -25,7 +25,7 @@ export function SegmentedControl<T extends string>({
 					variant={value === option.value ? 'primary' : 'secondary'}
 					className={cn(
 						'flex-1 border-transparent focus:ring-offset-0',
-						value === option.value && 'focus:ring-accent-300',
+						// value === option.value && 'bg-zinc-100 text-zinc-900',
 					)}
 				>
 					{option.label}
