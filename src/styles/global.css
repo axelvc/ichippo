@@ -3,6 +3,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
+	--font-zen: "Zen Maru Gothic", var(--font-apple);
 	--font-apple: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
 
 	--color-accent-50: var(--color-violet-50);
