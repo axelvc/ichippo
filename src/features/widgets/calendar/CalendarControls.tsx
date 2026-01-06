@@ -1,6 +1,7 @@
+import { Circle, Square } from 'lucide-react'
 import { Field, FieldLegend, SegmentedControl, Select, Switch } from '@/components'
 import { LANGUAGES } from '@/features/widgets/phrase/constants'
-import type { CalendarActions, CalendarState } from './types'
+import type { CalendarActions, CalendarLang, CalendarState } from './types'
 
 export function CalendarControls({
 	enabled,
@@ -52,9 +53,9 @@ export function CalendarControls({
 							value={dotStyle}
 							onChange={setDotStyle}
 							options={[
-								{ value: 'dots', label: '●' },
-								{ value: 'squares', label: '■' },
-								{ value: 'lines', label: '│' },
+								{ value: 'dots', label: <Circle className="size-3 fill-current" /> },
+								{ value: 'squares', label: <Square className="size-3 fill-current" /> },
+								{ value: 'lines', label: <div className="w-0.5 h-3 bg-current" /> },
 							]}
 						/>
 					</Field>
