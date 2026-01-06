@@ -5,8 +5,8 @@ export default function PhoneOverlay() {
 	return (
 		<div className="absolute inset-0 z-10 pointer-events-none">
 			{/* Status bar */}
-			<div className="absolute top-0 inset-x-8 h-13 flex items-end justify-between font-apple">
-				<span className="text-sm font-semibold text-neutral-900 dark:text-white">Status</span>
+			<div className="absolute top-0 inset-x-8 h-13 flex items-end justify-between">
+				<span className="text-sm font-semibold text-neutral-900 dark:text-white font-zen">一日一歩</span>
 				<div className="flex items-center gap-1.5 text-neutral-900 dark:text-white">
 					<Signal className="size-5" />
 					<Wifi className="size-5" />
@@ -56,8 +56,8 @@ function Clock() {
 	}, [])
 
 	return (
-		<div className="absolute top-21 inset-x-0 text-center text-neutral-900 dark:text-white font-apple">
-			<p className="text-lg font-light -mb-2">{date}</p>
+		<div className="absolute top-21 inset-x-0 text-center text-neutral-900 dark:text-white">
+			<p className="text-lg font-medium -mb-2">{date}</p>
 			<p className="text-8xl font-bold">{time}</p>
 		</div>
 	)

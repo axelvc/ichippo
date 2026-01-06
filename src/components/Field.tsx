@@ -17,7 +17,7 @@ export function Field({ label, children, className, htmlFor, orientation = 'vert
 				<Label
 					htmlFor={htmlFor}
 					className={cn(
-						'text-xs font-mono text-zinc-400 uppercase tracking-wider',
+						'text-xs text-zinc-400 uppercase tracking-wider',
 						orientation === 'vertical' && 'mb-2 block',
 					)}
 				>
@@ -36,7 +36,7 @@ interface FieldLegendProps {
 
 export function FieldLegend({ children, className }: FieldLegendProps) {
 	return (
-		<h3 className={cn('text-sm font-semibold text-zinc-200 uppercase tracking-wider select-none', className)}>
+		<h3 className={cn('text-sm font-mono font-semibold text-zinc-200 uppercase tracking-wider select-none', className)}>
 			{children}
 		</h3>
 	)

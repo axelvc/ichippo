@@ -1,17 +1,18 @@
 ---
 import '../styles/global.css'
+import { Font } from 'astro:assets'
 import Preview from '@/features/preview/Preview.tsx'
 ---
 
-<html lang="ja">
+<html lang="en">
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>一日一歩</title>
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@300;400;500&display=swap" rel="stylesheet" />
+		<Font cssVariable="--font-sans" preload />
+		<Font cssVariable="--font-mono" preload />
+		<Font cssVariable="--font-zen" preload />
 		<script is:inline>
 			document.documentElement.classList.toggle(
 				"dark",

@@ -1,3 +1,4 @@
+import { cn } from '@/lib/utils'
 import { PHRASES } from './constants'
 import type { PhraseState } from './types'
 
@@ -15,20 +16,23 @@ export function PhraseDisplay({
 	const isCustom = mode === 'custom'
 	const text = isCustom ? customText : phrase.text
 
-	const subTexts = [
-		isCustom && customSubtext,
-		!isCustom && showHiragana && phrase.reading,
-		!isCustom && showTranslation && phrase.translations[translationLang],
-	].filter(Boolean)
-
 	return (
-		<div className="flex flex-col items-center gap-1 font-zen rounded-lg px-8 w-full">
-			{text && <p className="mb-1 text-2xl font-medium text-center text-zinc-900 dark:text-zinc-100">{text}</p>}
-			{subTexts.map((text, i) => (
-				<p key={String(i)} className="text-sm font-light text-center text-zinc-400 dark:text-zinc-500">
+		<div className="flex flex-col items-center gap-1 rounded-lg px-8 w-full)">
+			{text && (
+				<p
+					className={cn(
+						'mb-1 text-2xl font-medium text-center text-zinc-901 dark:text-zinc-100',
+						mode === 'preset' && 'font-zen',
+					)}
+				>
 					{text}
 				</p>
-			))}
+			)}
+			<div className="text-sm font-extralight text-center text-zinc-400 dark:text-zinc-500">
+				{isCustom && customSubtext && <p>{customSubtext}</p>}
+				{!isCustom && showHiragana && <p className="font-zen">{phrase.reading}</p>}
+				{!isCustom && showTranslation && <p>{phrase.translations[translationLang]}</p>}
+			</div>
 		</div>
 	)
 }
