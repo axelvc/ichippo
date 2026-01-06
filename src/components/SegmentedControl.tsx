@@ -22,7 +22,7 @@ export function SegmentedControl<T extends string>({
 					size={size}
 					onClick={() => onChange(option.value)}
 					variant={value === option.value ? 'primary' : 'secondary'}
-					className={'flex-1 border-transparent focus:ring-offset-0'}
+					className={'flex-1 border-transparent'}
 				>
 					{option.label}
 				</Button>

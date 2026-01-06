@@ -9,7 +9,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const baseStyles =
-	'cursor-pointer inline-flex items-center justify-center font-mono font-medium focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2 focus:ring-offset-zinc-900 disabled:opacity-50 disabled:cursor-not-allowed border border-transparent select-none'
+	'cursor-pointer inline-flex items-center justify-center font-mono font-medium disabled:opacity-50 disabled:cursor-not-allowed border border-transparent select-none'
 
 const variants = {
 	primary: 'bg-zinc-100 text-zinc-700 hover:bg-zinc-200',

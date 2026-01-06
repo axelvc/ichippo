@@ -18,18 +18,24 @@
 	--color-accent-950: var(--color-violet-950);
 }
 
-::-webkit-scrollbar {
-	@apply w-3.5 bg-zinc-800 m-2;
-}
+@layer base {
+	::-webkit-scrollbar {
+		@apply w-3.5 bg-zinc-800 m-2;
+	}
 
-::-webkit-scrollbar-thumb {
-	@apply bg-zinc-700 border-3 border-zinc-800;
-}
+	::-webkit-scrollbar-thumb {
+		@apply bg-zinc-700 border-3 border-zinc-800;
+	}
 
-::selection {
-	@apply bg-accent-300 text-zinc-900;
-}
+	::selection {
+		@apply bg-accent-300 text-zinc-900;
+	}
 
-a {
-	@apply text-accent-400 hover:text-accent-500 underline;
+	:focus-visible {
+		@apply z-1 outline-none ring-2 ring-accent-500 ring-offset-2 ring-offset-zinc-900;
+	}
+
+	a {
+		@apply text-accent-400 hover:text-accent-500 underline;
+	}
 }
