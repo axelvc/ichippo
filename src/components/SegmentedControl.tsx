@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react'
-import { cn } from '@/lib/utils'
 import { Button, type ButtonProps } from './Button'
 
 interface SegmentedControlProps<T extends string> {
@@ -23,10 +22,7 @@ export function SegmentedControl<T extends string>({
 					size={size}
 					onClick={() => onChange(option.value)}
 					variant={value === option.value ? 'primary' : 'secondary'}
-					className={cn(
-						'flex-1 border-transparent focus:ring-offset-0',
-						// value === option.value && 'bg-zinc-100 text-zinc-900',
-					)}
+					className={'flex-1 border-transparent focus:ring-offset-0'}
 				>
 					{option.label}
 				</Button>
