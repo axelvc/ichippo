@@ -1,21 +1,21 @@
 import type { LanguageCode } from '../shared/types'
 
-export type PhraseMode = 'preset' | 'custom'
+export type PhraseCategory = 'motivation' | 'affirmation' | 'haiku' | 'word'
+export type PhraseMode = PhraseCategory | 'custom'
+export type SubtextMode = 'none' | 'translation' | 'romaji' | 'custom'
 
 export interface Phrase {
 	id: string
-	text: string
-	reading: string
-	translations: Record<LanguageCode, string>
+	texts: Record<LanguageCode, string>
+	romaji: string
 }
 
 export interface PhraseState {
 	enabled: boolean
 	mode: PhraseMode
-	selectedIndex: number
-	showHiragana: boolean
-	showTranslation: boolean
-	translationLang: LanguageCode
+	mainLang: LanguageCode
+	subtextMode: SubtextMode
+	subtextLang: LanguageCode
 	customText: string
 	customSubtext: string
 }
@@ -23,10 +23,9 @@ export interface PhraseState {
 export interface PhraseActions {
 	setEnabled: (enabled: boolean) => void
 	setMode: (mode: PhraseMode) => void
-	setSelectedIndex: (index: number) => void
-	setShowHiragana: (show: boolean) => void
-	setShowTranslation: (show: boolean) => void
-	setTranslationLang: (lang: LanguageCode) => void
+	setMainLang: (lang: LanguageCode) => void
+	setSubtextMode: (mode: SubtextMode) => void
+	setSubtextLang: (lang: LanguageCode) => void
 	setCustomText: (text: string) => void
 	setCustomSubtext: (text: string) => void
 }

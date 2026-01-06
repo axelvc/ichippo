@@ -1,32 +1,29 @@
 import { useState } from 'react'
 import type { LanguageCode } from '../shared/types'
-import type { PhraseActions, PhraseMode, PhraseState } from './types'
+import type { PhraseActions, PhraseMode, PhraseState, SubtextMode } from './types'
 
-export function usePhrase(): PhraseState & PhraseActions {
-	const [enabled, setEnabled] = useState(true)
-	const [mode, setMode] = useState<PhraseMode>('preset')
-	const [selectedIndex, setSelectedIndex] = useState(0)
-	const [showHiragana, setShowHiragana] = useState(true)
-	const [showTranslation, setShowTranslation] = useState(true)
-	const [translationLang, setTranslationLang] = useState<LanguageCode>('en')
-	const [customText, setCustomText] = useState('')
-	const [customSubtext, setCustomSubtext] = useState('')
+export function usePhrase(initial?: Partial<PhraseState>): PhraseState & PhraseActions {
+	const [enabled, setEnabled] = useState(initial?.enabled ?? true)
+	const [mode, setMode] = useState<PhraseMode>(initial?.mode ?? 'motivation')
+	const [mainLang, setMainLang] = useState<LanguageCode>(initial?.mainLang ?? 'ja')
+	const [subtextMode, setSubtextMode] = useState<SubtextMode>(initial?.subtextMode ?? 'translation')
+	const [subtextLang, setSubtextLang] = useState<LanguageCode>(initial?.subtextLang ?? 'en')
+	const [customText, setCustomText] = useState(initial?.customText ?? '')
+	const [customSubtext, setCustomSubtext] = useState(initial?.customSubtext ?? '')
 
 	return {
 		enabled,
 		mode,
-		selectedIndex,
-		showHiragana,
-		showTranslation,
-		translationLang,
+		mainLang,
+		subtextMode,
+		subtextLang,
 		customText,
 		customSubtext,
 		setEnabled,
 		setMode,
-		setSelectedIndex,
-		setShowHiragana,
-		setShowTranslation,
-		setTranslationLang,
+		setMainLang,
+		setSubtextMode,
+		setSubtextLang,
 		setCustomText,
 		setCustomSubtext,
 	}

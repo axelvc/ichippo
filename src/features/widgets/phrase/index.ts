@@ -1,4 +1,3 @@
-export { LANGUAGES, PHRASES } from './constants'
 export { PhraseControls } from './PhraseControls'
 export { PhraseDisplay } from './PhraseDisplay'
 export type { Phrase, PhraseActions, PhraseMode, PhraseState } from './types'

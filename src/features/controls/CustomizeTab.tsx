@@ -42,24 +42,7 @@ export function CustomizeTab({ phrase, calendar, daysLeft, preview }: CustomizeT
 
 			<Separator />
 
-			<PhraseControls
-				enabled={phrase.enabled}
-				setEnabled={phrase.setEnabled}
-				mode={phrase.mode}
-				setMode={phrase.setMode}
-				selectedIndex={phrase.selectedIndex}
-				setSelectedIndex={phrase.setSelectedIndex}
-				showHiragana={phrase.showHiragana}
-				setShowHiragana={phrase.setShowHiragana}
-				showTranslation={phrase.showTranslation}
-				setShowTranslation={phrase.setShowTranslation}
-				translationLang={phrase.translationLang}
-				setTranslationLang={phrase.setTranslationLang}
-				customText={phrase.customText}
-				setCustomText={phrase.setCustomText}
-				customSubtext={phrase.customSubtext}
-				setCustomSubtext={phrase.setCustomSubtext}
-			/>
+			<PhraseControls {...phrase} />
 
 			<Separator />
 

@@ -1,1 +1,1 @@
-export type LanguageCode = 'en' | 'es' | 'fr' | 'de' | 'pt'
+export type LanguageCode = 'ja' | 'en' | 'es' | 'fr' | 'de' | 'pt'

@@ -16,10 +16,7 @@ export function Field({ label, children, className, htmlFor, orientation = 'vert
 			{label && (
 				<Label
 					htmlFor={htmlFor}
-					className={cn(
-						'text-xs text-zinc-400 uppercase tracking-wider',
-						orientation === 'vertical' && 'mb-2 block',
-					)}
+					className={cn('text-xs text-zinc-400 uppercase tracking-wider', orientation === 'vertical' && 'mb-2 block')}
 				>
 					{label}
 				</Label>

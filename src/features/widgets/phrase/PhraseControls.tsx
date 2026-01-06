@@ -1,26 +1,59 @@
-import { Field, FieldLegend, Input, SegmentedControl, Select, Switch } from '@/components'
+import { Field, FieldLegend, Input, Select, Switch } from '@/components'
 import type { LanguageCode } from '../shared/types'
-import { LANGUAGES, PHRASES } from './constants'
-import type { PhraseActions, PhraseState } from './types'
+import { CATEGORY_LABELS, LANGUAGES, SUBTEXT_MODE_LABELS } from './constants'
+import type { PhraseActions, PhraseMode, PhraseState, SubtextMode } from './types'
+
+const MODE_OPTIONS = Object.entries(CATEGORY_LABELS).map(([value, label]) => ({
+	value,
+	label,
+}))
+
+const LANGUAGE_OPTIONS = Object.entries(LANGUAGES).map(([code, name]) => ({
+	value: code,
+	label: name,
+}))
+
+const SUBTEXT_OPTIONS = Object.entries(SUBTEXT_MODE_LABELS).map(([value, label]) => ({
+	value,
+	label,
+}))
+
+const SUBTEXT_OPTIONS_WITHOUT_ROMAJI = SUBTEXT_OPTIONS.filter((opt) => opt.value !== 'romaji')
 
 export function PhraseControls({
 	enabled,
 	setEnabled,
 	mode,
 	setMode,
-	selectedIndex,
-	setSelectedIndex,
-	showHiragana,
-	setShowHiragana,
-	showTranslation,
-	setShowTranslation,
-	translationLang,
-	setTranslationLang,
+	mainLang,
+	setMainLang,
+	subtextMode,
+	setSubtextMode,
+	subtextLang,
+	setSubtextLang,
 	customText,
 	setCustomText,
 	customSubtext,
 	setCustomSubtext,
 }: PhraseState & PhraseActions) {
+	const isCustom = mode === 'custom'
+	const isPreset = !isCustom
+	const isJapanese = mainLang === 'ja'
+
+	const subtextOptions = isJapanese ? SUBTEXT_OPTIONS : SUBTEXT_OPTIONS_WITHOUT_ROMAJI
+
+	function handleMainLangChange(lang: LanguageCode) {
+		if (subtextMode === 'translation' && lang === subtextLang) {
+			setSubtextLang(mainLang)
+		}
+
+		setMainLang(lang)
+
+		if (lang !== 'ja' && subtextMode === 'romaji') {
+			setSubtextMode('translation')
+		}
+	}
+
 	return (
 		<div className="space-y-4">
 			<Field orientation="horizontal">
@@ -30,52 +63,47 @@ export function PhraseControls({
 
 			{enabled && (
 				<>
-					<SegmentedControl
-						value={mode}
-						onChange={setMode}
-						options={[
-							{ value: 'preset', label: 'PRESET' },
-							{ value: 'custom', label: 'CUSTOM' },
-						]}
-					/>
+					<Field label="Type">
+						<Select value={mode} onChange={(v) => setMode(v as PhraseMode)} options={MODE_OPTIONS} />
+					</Field>
 
-					{mode === 'preset' && (
+					{isPreset && (
 						<>
-							<Field label="Topic">
+							<Field label="Language">
 								<Select
-									value={String(selectedIndex)}
-									onChange={(v) => setSelectedIndex(Number(v))}
-									options={PHRASES.map((phrase, i) => ({
-										value: String(i),
-										label: phrase.text,
-									}))}
+									value={mainLang}
+									onChange={(v) => handleMainLangChange(v as LanguageCode)}
+									options={LANGUAGE_OPTIONS}
 								/>
 							</Field>
 
-							<Field label="Hiragana" orientation="horizontal">
-								<Switch checked={showHiragana} onChange={() => setShowHiragana(!showHiragana)} />
+							<Field label="Subtext">
+								<Select
+									value={subtextMode}
+									onChange={(v) => setSubtextMode(v as SubtextMode)}
+									options={subtextOptions}
+								/>
 							</Field>
 
-							<Field label="Translation" orientation="horizontal">
-								<Switch checked={showTranslation} onChange={() => setShowTranslation(!showTranslation)} />
-							</Field>
-
-							{showTranslation && (
-								<Field label="Language">
+							{subtextMode === 'translation' && (
+								<Field label="Translation Language">
 									<Select
-										value={translationLang}
-										onChange={(v) => setTranslationLang(v as LanguageCode)}
-										options={Object.entries(LANGUAGES).map(([code, name]) => ({
-											value: code,
-											label: name,
-										}))}
+										value={subtextLang}
+										onChange={(v) => setSubtextLang(v as LanguageCode)}
+										options={LANGUAGE_OPTIONS.filter((opt) => opt.value !== mainLang)}
 									/>
+								</Field>
+							)}
+
+							{subtextMode === 'custom' && (
+								<Field label="Custom Subtext">
+									<Input value={customSubtext} onChange={setCustomSubtext} placeholder="Enter subtext..." />
 								</Field>
 							)}
 						</>
 					)}
 
-					{mode === 'custom' && (
+					{isCustom && (
 						<>
 							<Field label="Main Text">
 								<Input value={customText} onChange={setCustomText} placeholder="Enter main text..." />

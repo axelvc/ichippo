@@ -34,10 +34,9 @@ export default function Preview() {
 					<DraggableWrapper container={containerRef} className="top-[calc(50%-50px)]">
 						<PhraseDisplay
 							mode={phrase.mode}
-							selectedIndex={phrase.selectedIndex}
-							showHiragana={phrase.showHiragana}
-							showTranslation={phrase.showTranslation}
-							translationLang={phrase.translationLang}
+							mainLang={phrase.mainLang}
+							subtextMode={phrase.subtextMode}
+							subtextLang={phrase.subtextLang}
 							customText={phrase.customText}
 							customSubtext={phrase.customSubtext}
 						/>
