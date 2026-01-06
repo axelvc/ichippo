@@ -26,6 +26,8 @@ const options: SelectOptions = Object.entries(MODEL_GROUPS).map(([series, models
 export function CustomizeTab({ phrase, calendar, daysLeft, preview }: CustomizeTabProps) {
 	return (
 		<>
+			<p className="text-xs text-zinc-500 mb-4">Drag widgets on the preview to arrange them as you like.</p>
+
 			<div className="space-y-4">
 				<Field label="Model">
 					<Select
