@@ -1,6 +1,6 @@
-import type { CalendarLang } from './types'
+import type { LanguageCode } from "../shared/types"
 
-export const WEEK_LABELS_SUNDAY: Record<CalendarLang, string[]> = {
+export const WEEK_LABELS_SUNDAY: Record<LanguageCode, string[]> = {
 	en: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
 	es: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
 	fr: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
@@ -9,7 +9,7 @@ export const WEEK_LABELS_SUNDAY: Record<CalendarLang, string[]> = {
 	ja: ['日', '月', '火', '水', '木', '金', '土'],
 }
 
-export const WEEK_LABELS_MONDAY: Record<CalendarLang, string[]> = {
+export const WEEK_LABELS_MONDAY: Record<LanguageCode, string[]> = {
 	en: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
 	es: ['L', 'M', 'M', 'J', 'V', 'S', 'D'],
 	fr: ['L', 'M', 'M', 'J', 'V', 'S', 'D'],

@@ -4,5 +4,5 @@ export {
 	WEEK_LABELS_MONDAY,
 	WEEK_LABELS_SUNDAY,
 } from './constants'
-export type { CalendarActions, CalendarLang, CalendarState, DotStyle, TimeMode, WeekStart } from './types'
+export type { CalendarActions, CalendarState, DotStyle, TimeMode, WeekStart } from './types'
 export { useCalendar } from './useCalendar'

@@ -1,7 +1,13 @@
 import { Circle, Square } from 'lucide-react'
 import { Field, FieldLegend, SegmentedControl, Select, Switch } from '@/components'
 import { LANGUAGES } from '@/features/widgets/phrase/constants'
-import type { CalendarActions, CalendarLang, CalendarState } from './types'
+import type { LanguageCode } from '../shared/types'
+import type { CalendarActions, CalendarState } from './types'
+
+const LANGUAGE_OPTIONS = Object.entries(LANGUAGES).map(([code, name]) => ({
+	value: code,
+	label: name,
+}))
 
 export function CalendarControls({
 	enabled,
@@ -66,17 +72,7 @@ export function CalendarControls({
 
 					{showLabel && (
 						<Field label="Label Lang">
-							<Select
-								value={labelLang}
-								onChange={(v) => setLabelLang(v as CalendarLang)}
-								options={[
-									{ value: 'ja', label: '日本語' },
-									...Object.entries(LANGUAGES).map(([code, name]) => ({
-										value: code,
-										label: name,
-									})),
-								]}
-							/>
+							<Select value={labelLang} onChange={(v) => setLabelLang(v as LanguageCode)} options={LANGUAGE_OPTIONS} />
 						</Field>
 					)}
 				</>
