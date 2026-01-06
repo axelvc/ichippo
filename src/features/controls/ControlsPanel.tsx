@@ -4,10 +4,11 @@ import type { PreviewActions, PreviewState } from '@/features/preview/usePreview
 import type { CalendarActions, CalendarState } from '@/features/widgets/calendar'
 import type { DaysLeftActions, DaysLeftState } from '@/features/widgets/days-left'
 import type { PhraseActions, PhraseState } from '@/features/widgets/phrase'
+import { AboutTab } from './AboutTab'
 import { CustomizeTab } from './CustomizeTab'
 import { InstructionsTab } from './InstructionsTab'
 
-type TabId = 'instructions' | 'customize'
+type TabId = 'instructions' | 'customize' | 'about'
 
 interface ControlsPanelProps {
 	phrase: PhraseState & PhraseActions
@@ -38,6 +39,14 @@ export function ControlsPanel({ phrase, calendar, daysLeft, preview }: ControlsP
 				>
 					Customize
 				</Button>
+				<Button
+					size="md"
+					variant={activeTab === 'about' ? 'secondary' : 'ghost'}
+					onClick={() => setActiveTab('about')}
+					className="flex-1"
+				>
+					About
+				</Button>
 			</div>
 
 			<div className="max-h-230 overflow-auto bg-zinc-900 border border-zinc-800 p-3 shadow-2xl">
@@ -46,6 +55,8 @@ export function ControlsPanel({ phrase, calendar, daysLeft, preview }: ControlsP
 				{activeTab === 'customize' && (
 					<CustomizeTab phrase={phrase} calendar={calendar} daysLeft={daysLeft} preview={preview} />
 				)}
+
+				{activeTab === 'about' && <AboutTab />}
 			</div>
 		</div>
 	)
