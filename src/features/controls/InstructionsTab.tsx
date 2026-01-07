@@ -1,8 +1,19 @@
-import { Copy } from 'lucide-react'
+import { Check, Copy } from 'lucide-react'
+import { useRef, useState } from 'react'
 import { Button, Input, Separator } from '@/components'
+import { cn } from '@/lib/utils'
 
 export function InstructionsTab() {
 	const configUrl = 'https://localhost:4321'
+	const [copied, setCopied] = useState(false)
+	const copyClearRef = useRef(0)
+
+	function handleCopy() {
+		navigator.clipboard.writeText(configUrl)
+		setCopied(true)
+		clearTimeout(copyClearRef.current)
+		copyClearRef.current = window.setTimeout(() => setCopied(false), 1000)
+	}
 
 	return (
 		<div className="space-y-4">
@@ -20,8 +31,12 @@ export function InstructionsTab() {
 
 						<div className="flex mt-3">
 							<Input value={configUrl} readOnly className="text-zinc-400 h-7" />
-							<Button onClick={() => navigator.clipboard.writeText(configUrl)} className="size-7 p-0 shrink-0">
-								<Copy className="size-4" />
+							<Button
+								onClick={handleCopy}
+								className={cn('size-7 p-0 shrink-0 transition-colors')}
+								variant={copied ? 'primary' : 'secondary'}
+							>
+								{copied ? <Check className="size-4" /> : <Copy className="size-4" />}
 							</Button>
 						</div>
 					</div>
