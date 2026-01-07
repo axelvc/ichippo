@@ -86,7 +86,9 @@ export function InstructionsTab() {
 
 			<Section idx="2" title="Automate Daily Updates">
 				<ol className="text-zinc-400 text-sm space-y-2 list-decimal list-inside">
-					<li>Go to the <span className="text-zinc-300">Automation</span> tab</li>
+					<li>
+						Go to the <span className="text-zinc-300">Automation</span> tab
+					</li>
 					<li>
 						Tap <kbd className="bg-zinc-700 select-none inline-block size-4 leading-none text-center">+</kbd> to create
 						a new automation

@@ -69,6 +69,10 @@ export function PhraseControls({
 
 					{isPreset && (
 						<>
+							<p className="text-xs text-zinc-500">
+								This is a sample phrase. Your wallpaper will show the actual daily phrase.
+							</p>
+
 							<Field label="Language">
 								<Select
 									value={mainLang}

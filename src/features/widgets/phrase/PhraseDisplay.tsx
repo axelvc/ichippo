@@ -1,7 +1,12 @@
-import { useMemo } from 'react'
+import { useMemo, useRef } from 'react'
 import { cn } from '@/lib/utils'
-import { getDailyPhrase } from './constants'
-import type { PhraseState } from './types'
+import { PHRASES_BY_CATEGORY } from './constants'
+import type { Phrase, PhraseCategory, PhraseState } from './types'
+
+function getRandomPhrase(mode: PhraseCategory): Phrase {
+	const phrases = PHRASES_BY_CATEGORY[mode]
+	return phrases[Math.floor(Math.random() * phrases.length)]
+}
 
 export function PhraseDisplay({
 	mode,
@@ -12,11 +17,15 @@ export function PhraseDisplay({
 	customSubtext,
 }: Omit<PhraseState, 'enabled'>) {
 	const isCustom = mode === 'custom'
+	const prevModeRef = useRef(mode)
+	const phraseRef = useRef<Phrase | null>(isCustom ? null : PHRASES_BY_CATEGORY[mode][0])
 
-	const phrase = useMemo(() => {
-		if (isCustom) return null
-		return getDailyPhrase(mode)
-	}, [mode, isCustom])
+	if (mode !== prevModeRef.current) {
+		prevModeRef.current = mode
+		phraseRef.current = isCustom ? null : getRandomPhrase(mode)
+	}
+
+	const phrase = phraseRef.current
 
 	const text = phrase?.texts[mainLang] || customText
 

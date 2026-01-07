@@ -451,15 +451,3 @@ export const PHRASES_BY_CATEGORY: Record<PhraseCategory, Phrase[]> = {
 	haiku: HAIKUS,
 	word: WORDS,
 }
-
-/**
- * Get a deterministic random phrase for a given category based on the current date.
- * This ensures the same phrase is shown throughout the day but changes daily.
- */
-export function getDailyPhrase(category: PhraseCategory): Phrase {
-	const phrases = PHRASES_BY_CATEGORY[category]
-	const today = new Date()
-	const seed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate()
-	const index = seed % phrases.length
-	return phrases[index]
-}
