@@ -1,35 +1,12 @@
 import { useMemo, useState } from 'react'
 import { IPHONE_MODELS, type ModelName } from '@/features/controls/constants'
 import { SCALE_FACTOR } from './constants'
-
-export type WidgetId = 'phrase' | 'calendar' | 'daysLeft'
-
-export interface WidgetOffsets {
-	phrase: number
-	calendar: number
-	daysLeft: number
-}
+import type { PreviewActions, PreviewState, WidgetId, WidgetOffsets } from './types'
 
 const DEFAULT_OFFSETS: WidgetOffsets = {
 	phrase: -50,
 	calendar: 50,
 	daysLeft: -75,
-}
-
-export interface PreviewState {
-	selectedModel: ModelName
-	isPreview: boolean
-	size: {
-		width: number
-		height: number
-	}
-	widgetOffsets: WidgetOffsets
-}
-
-export interface PreviewActions {
-	setSelectedModel: (model: ModelName) => void
-	setIsPreview: (preview: boolean) => void
-	setWidgetOffset: (widget: WidgetId, offset: number) => void
 }
 
 export function usePreviewState(): PreviewState & PreviewActions {

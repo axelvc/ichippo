@@ -1,5 +1,5 @@
 import { Field, Select, type SelectOptions, Separator, Switch } from '@/components'
-import type { PreviewActions, PreviewState } from '@/features/preview/usePreviewState'
+import type { PreviewActions, PreviewState } from '@/features/preview/types'
 import type { CalendarActions, CalendarState } from '@/features/widgets/calendar'
 import { CalendarControls } from '@/features/widgets/calendar'
 import type { DaysLeftActions, DaysLeftState } from '@/features/widgets/days-left'
