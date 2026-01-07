@@ -63,7 +63,7 @@ export function InstructionsTab({ configUrl }: InstructionsTabProps) {
 										<dd className="ml-4 mt-1">Paste the URL from above</dd>
 										<dd className="ml-4 mt-1 text-zinc-500">
 											Note: set your iPhone model in the <span className="text-zinc-400">Customize</span> tab — or pass{' '}
-											<span className="text-zinc-400">Width</span> and <span className="text-zinc-400">Height</span>{' '}
+											<span className="text-zinc-400">X-Width</span> and <span className="text-zinc-400">X-Height</span>{' '}
 											headers using <span className="text-zinc-400">Device Details → Screen Width/Height</span> for
 											pixel-perfect sizing
 										</dd>

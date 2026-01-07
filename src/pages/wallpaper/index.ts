@@ -77,7 +77,7 @@ function findLocalChromium(): string | null {
 	return null
 }
 
-export const GET: APIRoute = async ({ url }) => {
+export const GET: APIRoute = async ({ url, request }) => {
 	const configParam = url.searchParams.get('config')
 
 	if (!configParam) {
@@ -89,7 +89,31 @@ export const GET: APIRoute = async ({ url }) => {
 		return new Response('Invalid config', { status: 400 })
 	}
 
-	const { width, height } = IPHONE_MODELS[config.model]
+	// Get dimensions from headers or fallback to model defaults
+	const widthHeader = request.headers.get('X-Width')
+	const heightHeader = request.headers.get('X-Height')
+
+	let width: number
+	let height: number
+
+	if (widthHeader && heightHeader) {
+		const parsedWidth = Number.parseInt(widthHeader, 10)
+		const parsedHeight = Number.parseInt(heightHeader, 10)
+
+		// Use parsed values if valid, otherwise fallback to model defaults
+		if (!Number.isNaN(parsedWidth) && !Number.isNaN(parsedHeight) && parsedWidth > 0 && parsedHeight > 0) {
+			width = parsedWidth
+			height = parsedHeight
+		} else {
+			const dimensions = IPHONE_MODELS[config.model]
+			width = dimensions.width
+			height = dimensions.height
+		}
+	} else {
+		const dimensions = IPHONE_MODELS[config.model]
+		width = dimensions.width
+		height = dimensions.height
+	}
 
 	const renderUrl = new URL('/wallpaper/render', url.origin)
 	renderUrl.searchParams.set('config', configParam)
