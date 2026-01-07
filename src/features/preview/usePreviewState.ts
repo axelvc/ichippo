@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { IPHONE_MODELS, type ModelName } from '@/features/controls/constants'
+import { IPHONE_MODELS, type ModelName } from '@/features/controls'
 import { SCALE_FACTOR } from './constants'
 import type { PreviewActions, PreviewState, WidgetId, WidgetOffsets } from './types'
 

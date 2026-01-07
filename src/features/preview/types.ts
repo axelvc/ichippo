@@ -1,4 +1,4 @@
-import type { ModelName } from '@/features/controls/constants'
+import type { ModelName } from '@/features/controls'
 
 export type WidgetId = 'phrase' | 'calendar' | 'daysLeft'
 

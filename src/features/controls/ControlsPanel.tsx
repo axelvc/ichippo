@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Button } from '@/components'
-import type { PreviewActions, PreviewState } from '@/features/preview/types'
+import type { PreviewActions, PreviewState } from '@/features/preview'
 import type { CalendarActions, CalendarState } from '@/features/widgets/calendar'
 import type { DaysLeftActions, DaysLeftState } from '@/features/widgets/days-left'
 import type { PhraseActions, PhraseState } from '@/features/widgets/phrase'

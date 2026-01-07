@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { ControlsPanel } from '@/features/controls/ControlsPanel'
+import { ControlsPanel } from '@/features/controls'
 import { CalendarDisplay, useCalendar } from '@/features/widgets/calendar'
 import { DaysLeftDisplay, useDaysLeft } from '@/features/widgets/days-left'
 import { PhraseDisplay, usePhrase } from '@/features/widgets/phrase'
