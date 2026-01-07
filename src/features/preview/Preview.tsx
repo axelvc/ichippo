@@ -4,10 +4,10 @@ import { CalendarDisplay, useCalendar } from '@/features/widgets/calendar'
 import { DaysLeftDisplay, useDaysLeft } from '@/features/widgets/days-left'
 import { PhraseDisplay, usePhrase } from '@/features/widgets/phrase'
 import { DraggableWrapper } from './DraggableWrapper.tsx'
-import PhoneOverlay from './PhoneOverlay'
+import { PhoneOverlay } from './PhoneOverlay'
 import { usePreviewState } from './usePreviewState.ts'
 
-export default function Preview() {
+export function Preview() {
 	// Feature hooks
 	const phrase = usePhrase()
 	const calendar = useCalendar()

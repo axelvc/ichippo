@@ -1,7 +1,7 @@
 import { Battery, Camera, Flashlight, Signal, Wifi } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
-export default function PhoneOverlay() {
+export function PhoneOverlay() {
 	return (
 		<div className="absolute inset-0 z-10 pointer-events-none">
 			{/* Status bar */}
