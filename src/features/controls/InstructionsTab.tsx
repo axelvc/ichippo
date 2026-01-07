@@ -3,8 +3,11 @@ import { useRef, useState } from 'react'
 import { Button, Input, Separator } from '@/components'
 import { cn } from '@/lib/utils'
 
-export function InstructionsTab() {
-	const configUrl = 'https://localhost:4321'
+interface InstructionsTabProps {
+	configUrl: string
+}
+
+export function InstructionsTab({ configUrl }: InstructionsTabProps) {
 	const [copied, setCopied] = useState(false)
 	const copyClearRef = useRef(0)
 

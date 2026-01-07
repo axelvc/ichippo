@@ -4,6 +4,7 @@ import type { PreviewActions, PreviewState } from '@/features/preview'
 import type { CalendarActions, CalendarState } from '@/features/widgets/calendar'
 import type { DaysLeftActions, DaysLeftState } from '@/features/widgets/days-left'
 import type { PhraseActions, PhraseState } from '@/features/widgets/phrase'
+import { useConfigUrl } from '@/lib/useConfigUrl'
 import { AboutTab } from './AboutTab'
 import { CustomizeTab } from './CustomizeTab'
 import { InstructionsTab } from './InstructionsTab'
@@ -19,6 +20,14 @@ interface ControlsPanelProps {
 
 export function ControlsPanel({ phrase, calendar, daysLeft, preview }: ControlsPanelProps) {
 	const [activeTab, setActiveTab] = useState<TabId>('instructions')
+
+	const configUrl = useConfigUrl({
+		model: preview.selectedModel,
+		preview,
+		phrase,
+		calendar,
+		daysLeft,
+	})
 
 	return (
 		<div className="w-90">
@@ -50,7 +59,7 @@ export function ControlsPanel({ phrase, calendar, daysLeft, preview }: ControlsP
 			</div>
 
 			<div className="max-h-230 overflow-auto bg-zinc-900 border border-zinc-800 p-3 shadow-2xl">
-				{activeTab === 'instructions' && <InstructionsTab />}
+				{activeTab === 'instructions' && <InstructionsTab configUrl={configUrl} />}
 
 				{activeTab === 'customize' && (
 					<CustomizeTab phrase={phrase} calendar={calendar} daysLeft={daysLeft} preview={preview} />
