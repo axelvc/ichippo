@@ -1,0 +1,82 @@
+---
+import { Font } from 'astro:assets'
+import Layout from '@/components/layout.astro'
+import { IPHONE_MODELS } from '@/features/controls'
+import { SCALE_FACTOR } from '@/features/preview'
+import { CalendarDisplay } from '@/features/widgets/calendar'
+import { DaysLeftDisplay } from '@/features/widgets/days-left'
+import { PhraseDisplay } from '@/features/widgets/phrase'
+import { decodeConfig } from '@/lib/config'
+
+export const prerender = false
+
+const configParam = Astro.url.searchParams.get('config')
+if (!configParam) {
+	return new Response('Missing config parameter', { status: 400 })
+}
+
+const config = decodeConfig(configParam)
+if (!config) {
+	return new Response('Invalid config', { status: 400 })
+}
+
+const { width, height } = IPHONE_MODELS[config.model]
+const scaledWidth = width / SCALE_FACTOR
+const scaledHeight = height / SCALE_FACTOR
+---
+
+<Layout>
+	<Fragment slot="head">
+		<Font cssVariable="--font-zen" preload />
+		<style>
+			html, body {
+				background: black;
+			}
+		</style>
+	</Fragment>
+	<div
+		id="wallpaper"
+		class="relative overflow-hidden bg-black font-apple"
+		style={`width: ${width}px; height: ${height}px;`}
+	>
+		<div
+			class="relative w-full h-full origin-top-left"
+			style={`width: ${scaledWidth}px; height: ${scaledHeight}px; transform: scale(${SCALE_FACTOR});`}
+		>
+			{config.phrase.enabled && (
+				<div class="absolute w-full top-1/2" style={`transform: translateY(${config.offsets.phrase}px);`}>
+					<PhraseDisplay
+						mode={config.phrase.mode}
+						mainLang={config.phrase.mainLang}
+						subtextMode={config.phrase.subtextMode}
+						subtextLang={config.phrase.subtextLang}
+						customText={config.phrase.customText}
+						customSubtext={config.phrase.customSubtext}
+					/>
+				</div>
+			)}
+
+			{config.calendar.enabled && (
+				<div class="absolute w-full top-1/2" style={`transform: translateY(${config.offsets.calendar}px);`}>
+					<CalendarDisplay
+						timeMode={config.calendar.timeMode}
+						showLabel={config.calendar.showLabel}
+						labelLang={config.calendar.labelLang}
+						dotStyle={config.calendar.dotStyle}
+						weekStart={config.calendar.weekStart}
+					/>
+				</div>
+			)}
+
+			{config.daysLeft.enabled && (
+				<div class="absolute w-full top-full" style={`transform: translateY(${config.offsets.daysLeft}px);`}>
+					<DaysLeftDisplay
+						mode={config.daysLeft.mode}
+						dateMode={config.daysLeft.dateMode}
+						weekStart={config.daysLeft.weekStart}
+					/>
+				</div>
+			)}
+		</div>
+	</div>
+</Layout>

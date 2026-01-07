@@ -1,6 +1,7 @@
 // @ts-check
 
 import react from '@astrojs/react'
+import vercel from '@astrojs/vercel'
 import tailwindcss from '@tailwindcss/vite'
 import { defineConfig, fontProviders } from 'astro/config'
 
@@ -37,4 +38,8 @@ export default defineConfig({
 			},
 		],
 	},
+	output: 'server',
+	adapter: vercel({
+		edgeMiddleware: true,
+	}),
 })

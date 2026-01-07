@@ -9,10 +9,13 @@
 		"astro": "astro",
 		"format": "biome format --write",
 		"lint": "biome lint --write",
-		"check": "biome check --write"
+		"check": "biome check --write",
+		"postinstall": "node scripts/postinstall.mjs"
 	},
 	"dependencies": {
 		"@astrojs/react": "^4.4.2",
+		"@astrojs/vercel": "^9.0.2",
+		"@sparticuz/chromium": "^143.0.4",
 		"@tailwindcss/vite": "^4.1.18",
 		"@types/react": "^19.2.7",
 		"@types/react-dom": "^19.2.3",
@@ -21,6 +24,7 @@
 		"dayjs": "^1.11.19",
 		"lucide-react": "^0.562.0",
 		"motion": "^12.23.26",
+		"puppeteer-core": "^24.34.0",
 		"react": "^19.2.3",
 		"react-dom": "^19.2.3",
 		"tailwind-merge": "^3.4.0",
