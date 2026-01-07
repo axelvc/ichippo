@@ -40,7 +40,23 @@
 			"tailwindDirectives": true
 		}
 	},
-	"overrides": [{ "includes": ["*.astro"] }],
+	"overrides": [
+		{
+			"includes": ["**/*.svelte", "**/*.astro", "**/*.vue"],
+			"linter": {
+				"rules": {
+					"style": {
+						"useConst": "off",
+						"useImportType": "off"
+					},
+					"correctness": {
+						"noUnusedVariables": "off",
+						"noUnusedImports": "off"
+					}
+				}
+			}
+		}
+	],
 	"assist": {
 		"enabled": true,
 		"actions": { "source": { "organizeImports": "on" } }
