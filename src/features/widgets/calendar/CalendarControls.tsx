@@ -1,7 +1,7 @@
-import { Circle, Square } from 'lucide-react'
 import { Field, FieldLegend, SegmentedControl, Select, Switch } from '@/components'
 import { LANGUAGES } from '@/features/widgets/phrase/constants'
 import type { LanguageCode } from '../shared/types'
+import { CalendarDot } from './CalendarDot'
 import type { CalendarActions, CalendarState } from './types'
 
 const LANGUAGE_OPTIONS = Object.entries(LANGUAGES).map(([code, name]) => ({
@@ -59,9 +59,9 @@ export function CalendarControls({
 							value={dotStyle}
 							onChange={setDotStyle}
 							options={[
-								{ value: 'dots', label: <Circle className="size-3 fill-current" /> },
-								{ value: 'squares', label: <Square className="size-3 fill-current" /> },
-								{ value: 'lines', label: <div className="w-0.5 h-3 bg-current" /> },
+								{ value: 'dots', label: <CalendarDot style="dots" /> },
+								{ value: 'squares', label: <CalendarDot style="squares" /> },
+								{ value: 'lines', label: <CalendarDot style="lines" /> },
 							]}
 						/>
 					</Field>

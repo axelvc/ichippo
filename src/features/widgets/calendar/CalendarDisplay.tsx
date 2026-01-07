@@ -1,10 +1,10 @@
 /** biome-ignore-all lint/suspicious/noArrayIndexKey: Week labels are hardcoded */
 import dayjs from 'dayjs'
 import isoWeek from 'dayjs/plugin/isoWeek.js'
-import { Circle, Square } from 'lucide-react'
 import { useMemo } from 'react'
 import { cn } from '@/lib/utils'
 import type { LanguageCode } from '../shared/types'
+import { CalendarDot } from './CalendarDot'
 import { WEEK_LABELS_MONDAY, WEEK_LABELS_SUNDAY } from './constants'
 import type { CalendarDayState, CalendarState } from './types'
 
@@ -103,9 +103,7 @@ export function CalendarDisplay({
 						cell.current && 'text-accent-500 dark:text-accent-400',
 					)}
 				>
-					{dotStyle === 'dots' && <Circle className="size-3 fill-current" />}
-					{dotStyle === 'squares' && <Square className="size-3 fill-current" />}
-					{dotStyle === 'lines' && <div className="w-0.5 h-3 bg-current" />}
+					<CalendarDot style={dotStyle} />
 				</div>
 			))}
 		</div>
