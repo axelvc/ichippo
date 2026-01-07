@@ -1,4 +1,4 @@
-import type { LanguageCode } from "../shared/types"
+import type { LanguageCode } from '../shared/types'
 
 export const WEEK_LABELS_SUNDAY: Record<LanguageCode, string[]> = {
 	en: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],

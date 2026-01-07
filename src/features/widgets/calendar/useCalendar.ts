@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import type { CalendarActions, CalendarState, DotStyle, TimeMode, WeekStart } from './types'
 import type { LanguageCode } from '../shared/types'
+import type { CalendarActions, CalendarState, DotStyle, TimeMode, WeekStart } from './types'
 
 export function useCalendar(): CalendarState & CalendarActions {
 	const [enabled, setEnabled] = useState(true)

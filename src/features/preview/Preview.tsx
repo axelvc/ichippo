@@ -31,7 +31,12 @@ export default function Preview() {
 				{preview.isPreview && <PhoneOverlay />}
 
 				{phrase.enabled && (
-					<DraggableWrapper container={containerRef} className="top-[calc(50%-50px)]">
+					<DraggableWrapper
+						container={containerRef}
+						className="top-1/2"
+						yOffset={preview.widgetOffsets.phrase}
+						onOffsetChange={(offset) => preview.setWidgetOffset('phrase', offset)}
+					>
 						<PhraseDisplay
 							mode={phrase.mode}
 							mainLang={phrase.mainLang}
@@ -43,7 +48,12 @@ export default function Preview() {
 					</DraggableWrapper>
 				)}
 				{calendar.enabled && (
-					<DraggableWrapper container={containerRef} className="top-[calc(50%+100px)]">
+					<DraggableWrapper
+						container={containerRef}
+						className="top-1/2"
+						yOffset={preview.widgetOffsets.calendar}
+						onOffsetChange={(offset) => preview.setWidgetOffset('calendar', offset)}
+					>
 						<CalendarDisplay
 							timeMode={calendar.timeMode}
 							showLabel={calendar.showLabel}
@@ -54,7 +64,12 @@ export default function Preview() {
 					</DraggableWrapper>
 				)}
 				{daysLeft.enabled && (
-					<DraggableWrapper container={containerRef} className="top-[calc(100%-80px)]">
+					<DraggableWrapper
+						container={containerRef}
+						className="top-full"
+						yOffset={preview.widgetOffsets.daysLeft}
+						onOffsetChange={(offset) => preview.setWidgetOffset('daysLeft', offset)}
+					>
 						<DaysLeftDisplay mode={daysLeft.mode} dateMode={daysLeft.dateMode} weekStart={daysLeft.weekStart} />
 					</DraggableWrapper>
 				)}
