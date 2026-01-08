@@ -26,7 +26,11 @@ export function InstructionsTab({ configUrl }: InstructionsTabProps) {
 						<h4 className="font-medium text-zinc-300">The Easy Way</h4>
 						<p>
 							Add this{' '}
-							<a href="#shortcut" target="_blank" rel="noopener noreferrer">
+							<a
+								href="https://www.icloud.com/shortcuts/46ed14a38dbb4e9ea7722aebbb46e33b"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
 								pre-made shortcut
 							</a>{' '}
 							to your iPhone. Then replace the default URL with this:
