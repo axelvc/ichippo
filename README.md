@@ -4,6 +4,8 @@
 
 A customizable phone wallpaper generator built with Astro, React, and Tailwind CSS v4. Create personalized wallpapers with calendar, countdown, and phrase widgets.
 
+![Preview](public/Screenshot.png)
+
 ## Features
 
 - **Visual Editor**: Interactive preview to customize your wallpaper in real-time.
