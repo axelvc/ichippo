@@ -138,13 +138,6 @@ export const GET: APIRoute = async ({ url, request }) => {
 
 		const page = await browser.newPage()
 
-		// Set viewport to exact wallpaper dimensions
-		await page.setViewport({
-			width,
-			height,
-			deviceScaleFactor: 1,
-		})
-
 		// Navigate to render page and wait for fonts
 		await page.goto(renderUrl.toString(), {
 			waitUntil: 'networkidle0',

@@ -22,7 +22,7 @@ export function Preview() {
 
 			<main
 				ref={containerRef}
-				className="box-content relative overflow-hidden bg-white dark:bg-black rounded-[70px] transition-all duration-200 shadow-2xl border-4 border-zinc-800 font-apple"
+				className="dark box-content relative overflow-hidden bg-white dark:bg-black rounded-[70px] transition-all duration-200 shadow-2xl border-4 border-zinc-800 font-apple"
 				style={{
 					width: `${preview.size.width}px`,
 					height: `${preview.size.height}px`,

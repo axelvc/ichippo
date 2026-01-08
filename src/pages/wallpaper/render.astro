@@ -28,10 +28,15 @@ const scaledHeight = height / SCALE_FACTOR
 <Layout>
 	<Fragment slot="head">
 		<Font cssVariable="--font-zen" preload />
+		<style>
+			html, body {
+				background: black;
+			}
+		</style>
 	</Fragment>
 	<div
 		id="wallpaper"
-		class="relative overflow-hidden bg-black font-apple"
+		class="relative overflow-hidden bg-black font-apple dark"
 		style={`width: ${width}px; height: ${height}px;`}
 	>
 		<div
