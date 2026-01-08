@@ -1,8 +1,8 @@
 ---
+import '@/styles/global.css'
 import { Font } from 'astro:assets'
-import Layout from '@/components/layout.astro'
 import { IPHONE_MODELS } from '@/features/controls'
-import { SCALE_FACTOR } from '@/features/preview'
+import { DEVICE_DPR, DOWNSAMPLING_FACTOR } from '@/features/preview'
 import { CalendarDisplay } from '@/features/widgets/calendar'
 import { DaysLeftDisplay } from '@/features/widgets/days-left'
 import { PhraseDisplay } from '@/features/widgets/phrase'
@@ -20,28 +20,57 @@ if (!config) {
 	return new Response('Invalid config', { status: 400 })
 }
 
-const { width, height } = IPHONE_MODELS[config.model]
-const scaledWidth = width / SCALE_FACTOR
-const scaledHeight = height / SCALE_FACTOR
+const model = IPHONE_MODELS[config.model]
+let width = model.width / DEVICE_DPR
+let height = model.height / DEVICE_DPR
+
+const headerHeight = Astro.request.headers.get('X-Height')
+const headerWidth = Astro.request.headers.get('X-Width')
+
+if (headerHeight && headerWidth) {
+	const parsedWidth = Number.parseInt(headerWidth, 10)
+	const parsedHeight = Number.parseInt(headerHeight, 10)
+
+	if (!Number.isNaN(parsedWidth) && !Number.isNaN(height) && parsedWidth > 0 && parsedHeight > 0) {
+		width = parsedWidth
+		height = parsedHeight
+	}
+}
+
+width = width * DOWNSAMPLING_FACTOR
+height = height * DOWNSAMPLING_FACTOR
 ---
 
-<Layout>
-	<Fragment slot="head">
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>一日一歩</title>
 		<Font cssVariable="--font-zen" preload />
-		<style>
+    <style define:vars={{ width, height }}>
+			@media print {
+				@page {
+					margin: 0;
+					padding: 0;
+				}
+			}
+
 			html, body {
 				background: black;
 			}
+
+			#wallpaper {
+        width: calc(var(--width) * 1px);
+        height: calc(var(--height) * 1px);
+				box-shadow: 0 0 0 100dvh inset black;
+			}
 		</style>
-	</Fragment>
-	<div
-		id="wallpaper"
-		class="relative overflow-hidden bg-black font-apple dark"
-		style={`width: ${width}px; height: ${height}px;`}
-	>
+	</head>
+	<body>
 		<div
-			class="relative w-full h-full origin-top-left"
-			style={`width: ${scaledWidth}px; height: ${scaledHeight}px; transform: scale(${SCALE_FACTOR});`}
+			id="wallpaper"
+			class="relative overflow-hidden bg-black font-apple dark"
 		>
 			{config.phrase.enabled && (
 				<div class="absolute w-full top-1/2" style={`transform: translateY(${config.offsets.phrase}px);`}>
@@ -78,5 +107,5 @@ const scaledHeight = height / SCALE_FACTOR
 				</div>
 			)}
 		</div>
-	</div>
-</Layout>
+	</body>
+</html>

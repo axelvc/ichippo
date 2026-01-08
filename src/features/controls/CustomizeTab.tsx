@@ -1,5 +1,5 @@
 import { Field, Select, type SelectOptions, Separator, Switch } from '@/components'
-import { type PreviewActions, type PreviewState, SCALE_FACTOR } from '@/features/preview'
+import { DEVICE_DPR, type PreviewActions, type PreviewState } from '@/features/preview'
 import type { CalendarActions, CalendarState } from '@/features/widgets/calendar'
 import { CalendarControls } from '@/features/widgets/calendar'
 import type { DaysLeftActions, DaysLeftState } from '@/features/widgets/days-left'
@@ -19,7 +19,7 @@ const options: SelectOptions = Object.entries(MODEL_GROUPS).map(([series, models
 	label: series,
 	options: models.map((model) => ({
 		value: model,
-		label: `${model} (${IPHONE_MODELS[model].width / SCALE_FACTOR}×${IPHONE_MODELS[model].height / SCALE_FACTOR})`,
+		label: `${model} (${IPHONE_MODELS[model].width / DEVICE_DPR}×${IPHONE_MODELS[model].height / DEVICE_DPR})`,
 	})),
 }))
 

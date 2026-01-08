@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { IPHONE_MODELS, type ModelName } from '@/features/controls'
-import { SCALE_FACTOR } from './constants'
+import { DEVICE_DPR } from './constants'
 import type { PreviewActions, PreviewState, WidgetId, WidgetOffsets } from './types'
 
 const DEFAULT_OFFSETS: WidgetOffsets = {
@@ -21,8 +21,8 @@ export function usePreviewState(): PreviewState & PreviewActions {
 	const size = useMemo(() => {
 		const { width, height } = IPHONE_MODELS[selectedModel]
 		return {
-			width: Math.round(width / SCALE_FACTOR),
-			height: Math.round(height / SCALE_FACTOR),
+			width: Math.round(width / DEVICE_DPR),
+			height: Math.round(height / DEVICE_DPR),
 		}
 	}, [selectedModel])
 
