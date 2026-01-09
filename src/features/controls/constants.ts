@@ -30,3 +30,5 @@ export const MODEL_GROUPS: Record<string, ModelName[]> = {
 	'iPhone 16': ['iPhone 16', 'iPhone 16 Plus', 'iPhone 16 Pro', 'iPhone 16 Pro Max'],
 	'iPhone 17': ['iPhone 17', 'iPhone 17 Air', 'iPhone 17 Pro', 'iPhone 17 Pro Max'],
 } as const
+
+export const SHORTCUT_URL = import.meta.env.PUBLIC_SHORTCUT_URL || '#shortcut-url-not-configured-in-env-file'

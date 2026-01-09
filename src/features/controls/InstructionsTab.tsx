@@ -2,6 +2,7 @@ import { Check, ChevronRight, Copy } from 'lucide-react'
 import { useRef, useState } from 'react'
 import { Accordion, Button, Input, Separator } from '@/components'
 import { cn } from '@/lib/utils'
+import { SHORTCUT_URL } from './constants'
 
 interface InstructionsTabProps {
 	configUrl: string
@@ -20,17 +21,21 @@ export function InstructionsTab({ configUrl }: InstructionsTabProps) {
 
 	return (
 		<div className="space-y-4">
+			<Section idx="0" title="Customize">
+				<div className="text-sm text-zinc-400">
+					<p className="text-zinc-500">Optional</p>
+					<p>
+						Customize your wallpaper in the <span className="text-zinc-300">Customize</span> tab
+					</p>
+				</div>
+			</Section>
 			<Section idx="1" title="Set Up Your Shortcut">
 				<div className="space-y-4 text-sm text-zinc-400">
 					<div className="space-y-2">
 						<h4 className="font-medium text-zinc-300">The Easy Way</h4>
 						<p>
-							Add this{' '}
-							<a
-								href="https://www.icloud.com/shortcuts/46ed14a38dbb4e9ea7722aebbb46e33b"
-								target="_blank"
-								rel="noopener noreferrer"
-							>
+							Clone this{' '}
+							<a href={SHORTCUT_URL} target="_blank" rel="noopener noreferrer">
 								pre-made shortcut
 							</a>{' '}
 							to your iPhone. Then replace the default URL with this:
