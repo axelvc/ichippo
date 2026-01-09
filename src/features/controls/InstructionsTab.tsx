@@ -1,6 +1,6 @@
-import { Check, Copy } from 'lucide-react'
+import { Check, ChevronRight, Copy } from 'lucide-react'
 import { useRef, useState } from 'react'
-import { Button, Input, Separator } from '@/components'
+import { Accordion, Button, Input, Separator } from '@/components'
 import { cn } from '@/lib/utils'
 
 interface InstructionsTabProps {
@@ -35,7 +35,6 @@ export function InstructionsTab({ configUrl }: InstructionsTabProps) {
 							</a>{' '}
 							to your iPhone. Then replace the default URL with this:
 						</p>
-
 						<div className="flex mt-3">
 							<Input value={configUrl} readOnly className="text-zinc-400 h-7" />
 							<Button
@@ -48,64 +47,108 @@ export function InstructionsTab({ configUrl }: InstructionsTabProps) {
 						</div>
 					</div>
 
-					<div className="space-y-2">
-						<h4 className="font-medium text-zinc-300">Build It Yourself</h4>
-						<p className="text-zinc-500 mb-2">Prefer to build it yourself? Here's how:</p>
-						<ol className="space-y-2 list-decimal list-inside">
-							<li>
-								Open <a href="shortcuts://">Shortcuts</a> → Library
-							</li>
-							<li>
-								Tap <kbd className="bg-zinc-700 select-none inline-block size-4 leading-none text-center">+</kbd> to
-								create a new shortcut
-							</li>
-							<li>Add two actions:</li>
-							<ul className="ml-4 space-y-3">
-								<li>
-									<dl>
-										<dt className="text-zinc-200">Get Contents of URL</dt>
-										<dd className="ml-4 mt-1">Paste the URL from above</dd>
-										<dd className="ml-4 mt-1 text-zinc-500">
-											Note: set your iPhone model in the <span className="text-zinc-400">Customize</span> tab — or pass{' '}
-											<span className="text-zinc-400">X-Width</span> and <span className="text-zinc-400">X-Height</span>{' '}
-											headers using <span className="text-zinc-400">Device Details → Screen Width/Height</span> for
-											pixel-perfect sizing
-										</dd>
-									</dl>
-								</li>
-								<li>
-									<dl>
-										<dt className="text-zinc-200">Set Wallpaper Photo</dt>
-										<dd className="ml-4 mt-1">
-											Turn off <span className="text-zinc-100">Show Preview</span> and{' '}
-											<span className="text-zinc-100">Crop to Subject</span> for seamless updates
-										</dd>
-									</dl>
-								</li>
-							</ul>
-							<li>Name it and save — you're done!</li>
-						</ol>
-					</div>
+					<Accordion title="Build It Yourself">
+						<div className="space-y-5 mt-4">
+							<div className="text-zinc-400">
+								<span className="text-zinc-300">Shortcuts</span>
+								<ChevronRight size={12} className="inline mx-1 text-zinc-600" />
+								<span className="text-zinc-300">Library</span>
+								<ChevronRight size={12} className="inline mx-1 text-zinc-600" />
+								<kbd className="bg-zinc-700 text-zinc-200 select-none inline-flex items-center justify-center size-5 text-xs">
+									+
+								</kbd>
+							</div>
+
+							<ol className="space-y-3 pl-1 list-decimal list-inside">
+								<InstructionStep title="Get Contents of URL">
+									<div className="space-y-1">
+										<ul>
+											<li className="text-zinc-400">
+												<span className="text-zinc-300">X-Width</span> ={' '}
+												<span className="text-zinc-300">Device Details</span>
+												<ChevronRight size={12} className="inline mx-1 text-zinc-600" />
+												Screen Width
+											</li>
+											<li className="text-zinc-400">
+												<span className="text-zinc-300">X-Height</span> ={' '}
+												<span className="text-zinc-300">Device Details</span>
+												<ChevronRight size={12} className="inline mx-1 text-zinc-600" />
+												Screen Height
+											</li>
+										</ul>
+									</div>
+								</InstructionStep>
+
+								<InstructionStep title="Make PDF from URL">
+									<ul className="text-zinc-400">
+										<li>
+											<span className="text-zinc-300">Include Margins</span> = OFF
+										</li>
+									</ul>
+								</InstructionStep>
+
+								<InstructionStep title="Convert PDF to Image" />
+
+								<InstructionStep title="Crop Image">
+									<ul className="space-y-1 text-zinc-400">
+										<li>
+											<span className="text-zinc-300">Position</span> = Top Left
+										</li>
+										<li>
+											<span className="text-zinc-300">Width</span> = Screen Width × 3
+										</li>
+										<li>
+											<span className="text-zinc-300">Height</span> = Screen Height × 3
+										</li>
+									</ul>
+								</InstructionStep>
+
+								<InstructionStep title="Set Wallpaper">
+									<ul className="space-y-1 text-zinc-400">
+										<li>
+											<span className="text-zinc-300">Show Preview</span> = OFF
+										</li>
+										<li>
+											<span className="text-zinc-300">Crop to Subject</span> = OFF
+										</li>
+									</ul>
+								</InstructionStep>
+							</ol>
+
+							<p className="text-zinc-400">Name your shortcut and save — you're all set!</p>
+						</div>
+					</Accordion>
 				</div>
 			</Section>
 
 			<Separator />
 
 			<Section idx="2" title="Automate Daily Updates">
-				<ol className="text-zinc-400 text-sm space-y-2 list-decimal list-inside">
-					<li>
-						Go to the <span className="text-zinc-300">Automation</span> tab
-					</li>
-					<li>
-						Tap <kbd className="bg-zinc-700 select-none inline-block size-4 leading-none text-center">+</kbd> to create
-						a new automation
-					</li>
-					<li>
-						Select <span className="text-zinc-200">Time of Day</span> as the trigger
-					</li>
-					<li>Choose your preferred refresh time</li>
-					<li>Select your wallpaper shortcut — that's it!</li>
-				</ol>
+				<div className="space-y-5 text-sm text-zinc-400">
+					<div className="text-zinc-400">
+						<span className="text-zinc-300">Automation</span>
+						<ChevronRight size={12} className="inline mx-1 text-zinc-600" />
+						<kbd className="bg-zinc-700 text-zinc-200 select-none inline-flex items-center justify-center size-5 text-xs">
+							+
+						</kbd>
+					</div>
+
+					<ol className="space-y-4 pl-1 list-decimal list-inside">
+						<InstructionStep title="Set Trigger">
+							<div className="text-zinc-400">
+								Select <span className="text-zinc-300">Time of Day</span>
+							</div>
+						</InstructionStep>
+
+						<InstructionStep title="Choose Time">
+							<div className="text-zinc-400">Pick your preferred refresh time</div>
+						</InstructionStep>
+
+						<InstructionStep title="Select Shortcut">
+							<div className="text-zinc-400">Choose your wallpaper shortcut — done!</div>
+						</InstructionStep>
+					</ol>
+				</div>
 			</Section>
 		</div>
 	)
@@ -116,7 +159,7 @@ function Section({ title, idx, children }: { title: string; idx?: string; childr
 		<section>
 			<div className="flex items-center gap-2 mb-3">
 				{idx && (
-					<div className="size-4 bg-zinc-100 text-zinc-900 font-mono font-semibold text-xs grid place-items-center">
+					<div className="size-4 bg-zinc-100 text-zinc-900 font-mono font-semibold text-xs grid place-items-center select-none">
 						{idx}
 					</div>
 				)}
@@ -125,5 +168,14 @@ function Section({ title, idx, children }: { title: string; idx?: string; childr
 
 			{children}
 		</section>
+	)
+}
+
+function InstructionStep({ title, children }: { title: string; children?: React.ReactNode }) {
+	return (
+		<li>
+			<span className="text-zinc-300">{title}</span>
+			{children && <div className="ml-4">{children}</div>}
+		</li>
 	)
 }

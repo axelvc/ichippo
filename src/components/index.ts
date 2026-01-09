@@ -1,3 +1,4 @@
+export { Accordion } from './Accordion'
 export { Button } from './Button'
 export { Field, FieldLegend } from './Field'
 export { Input } from './Input'
