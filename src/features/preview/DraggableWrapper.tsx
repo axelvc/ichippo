@@ -1,5 +1,5 @@
 import { motion, useMotionValue } from 'motion/react'
-import { type ReactNode, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { type ReactNode, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { cn } from '@/lib/utils'
 
 interface DraggableWrapperProps {
@@ -41,6 +41,20 @@ export function DraggableWrapper({
 
 		return () => observer.disconnect()
 	}, [])
+
+	// Clamp position when element or container size changes
+	useEffect(() => {
+		if (containerHeight <= 0 || elementHeight <= 0) return
+
+		// Calculate max allowed percent so element stays within container
+		const maxPercent = Math.max(0, (containerHeight - elementHeight) / containerHeight)
+		const clampedPercent = Math.max(0, Math.min(maxPercent, currentPercent))
+
+		if (clampedPercent !== currentPercent) {
+			setCurrentPercent(clampedPercent)
+			onOffsetChange?.(clampedPercent)
+		}
+	}, [containerHeight, currentPercent, elementHeight, onOffsetChange])
 
 	// Calculate drag constraints manually based on container and element dimensions
 	// because motion doesn't update constraints when container size changes
