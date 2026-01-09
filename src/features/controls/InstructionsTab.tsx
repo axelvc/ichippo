@@ -95,10 +95,14 @@ export function InstructionsTab({ configUrl }: InstructionsTabProps) {
 											<span className="text-zinc-300">Position</span> = Top Left
 										</li>
 										<li>
-											<span className="text-zinc-300">Width</span> = Screen Width × 3
+											<span className="text-zinc-300">Width</span> = <span className="text-zinc-300">Calculate</span>
+											<ChevronRight size={12} className="inline mx-1 text-zinc-600" />
+											Screen Width × 3
 										</li>
 										<li>
-											<span className="text-zinc-300">Height</span> = Screen Height × 3
+											<span className="text-zinc-300">Height</span> = <span className="text-zinc-300">Calculate</span>
+											<ChevronRight size={12} className="inline mx-1 text-zinc-600" />
+											Screen Height × 3
 										</li>
 									</ul>
 								</InstructionStep>
