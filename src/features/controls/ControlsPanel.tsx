@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Button } from '@/components'
 import type { PreviewActions, PreviewState } from '@/features/preview'
 import type { CalendarActions, CalendarState } from '@/features/widgets/calendar'
@@ -9,18 +8,18 @@ import { AboutTab } from './AboutTab'
 import { CustomizeTab } from './CustomizeTab'
 import { InstructionsTab } from './InstructionsTab'
 
-type TabId = 'instructions' | 'customize' | 'about'
+export type TabId = 'instructions' | 'customize' | 'about'
 
 interface ControlsPanelProps {
 	phrase: PhraseState & PhraseActions
 	calendar: CalendarState & CalendarActions
 	daysLeft: DaysLeftState & DaysLeftActions
 	preview: PreviewState & PreviewActions
+	activeTab: TabId
+	onTabChange: (tab: TabId) => void
 }
 
-export function ControlsPanel({ phrase, calendar, daysLeft, preview }: ControlsPanelProps) {
-	const [activeTab, setActiveTab] = useState<TabId>('instructions')
-
+export function ControlsPanel({ phrase, calendar, daysLeft, preview, activeTab, onTabChange }: ControlsPanelProps) {
 	const configUrl = useConfigUrl({
 		model: preview.selectedModel,
 		preview,
@@ -35,7 +34,7 @@ export function ControlsPanel({ phrase, calendar, daysLeft, preview }: ControlsP
 				<Button
 					size="md"
 					variant={activeTab === 'instructions' ? 'secondary' : 'ghost'}
-					onClick={() => setActiveTab('instructions')}
+					onClick={() => onTabChange('instructions')}
 					className="flex-1"
 				>
 					Instructions
@@ -43,7 +42,7 @@ export function ControlsPanel({ phrase, calendar, daysLeft, preview }: ControlsP
 				<Button
 					size="md"
 					variant={activeTab === 'customize' ? 'secondary' : 'ghost'}
-					onClick={() => setActiveTab('customize')}
+					onClick={() => onTabChange('customize')}
 					className="flex-1"
 				>
 					Customize
@@ -51,7 +50,7 @@ export function ControlsPanel({ phrase, calendar, daysLeft, preview }: ControlsP
 				<Button
 					size="md"
 					variant={activeTab === 'about' ? 'secondary' : 'ghost'}
-					onClick={() => setActiveTab('about')}
+					onClick={() => onTabChange('about')}
 					className="flex-1"
 				>
 					About

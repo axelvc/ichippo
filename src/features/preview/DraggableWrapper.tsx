@@ -9,6 +9,7 @@ interface DraggableWrapperProps {
 	/** 0-1 range representing percentage of container height */
 	yOffsetPercent?: number
 	onOffsetChange?: (offsetPercent: number) => void
+	isDraggable?: boolean
 }
 
 export function DraggableWrapper({
@@ -17,6 +18,7 @@ export function DraggableWrapper({
 	className,
 	yOffsetPercent = 0,
 	onOffsetChange,
+	isDraggable = true,
 }: DraggableWrapperProps) {
 	const yPercent = useMotionValue(yOffsetPercent)
 	const top = useTransform(yPercent, [0, 1], ['0%', '100%'])
@@ -34,14 +36,14 @@ export function DraggableWrapper({
 
 	return (
 		<motion.div
-			drag="y"
+			drag={isDraggable ? 'y' : false}
 			dragElastic={0}
 			dragMomentum={false}
 			dragConstraints={container}
 			onDragEnd={handleDragEnd}
 			style={{ top, y }}
 			whileDrag={{ cursor: 'grabbing' }}
-			className={cn('absolute select-none w-full cursor-grab', className)}
+			className={cn('absolute select-none w-full', isDraggable && 'cursor-grab', className)}
 		>
 			{children}
 		</motion.div>

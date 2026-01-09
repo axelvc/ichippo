@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { ControlsPanel } from '@/features/controls'
 import { CalendarDisplay, useCalendar } from '@/features/widgets/calendar'
 import { DaysLeftDisplay, useDaysLeft } from '@/features/widgets/days-left'
@@ -7,18 +7,27 @@ import { DraggableWrapper } from './DraggableWrapper.tsx'
 import { PhoneOverlay } from './PhoneOverlay'
 import { usePreviewState } from './usePreviewState.ts'
 
+type TabId = 'instructions' | 'customize' | 'about'
+
 export function Preview() {
-	// Feature hooks
 	const phrase = usePhrase()
 	const calendar = useCalendar()
 	const daysLeft = useDaysLeft()
 	const preview = usePreviewState()
 
+	const [activeTab, setActiveTab] = useState<TabId>('instructions')
 	const containerRef = useRef<HTMLDivElement>(null)
 
 	return (
 		<div className="w-220 grid grid-cols-[auto_1fr] place-items-center gap-8">
-			<ControlsPanel phrase={phrase} calendar={calendar} daysLeft={daysLeft} preview={preview} />
+			<ControlsPanel
+				phrase={phrase}
+				calendar={calendar}
+				daysLeft={daysLeft}
+				preview={preview}
+				activeTab={activeTab}
+				onTabChange={setActiveTab}
+			/>
 
 			<main
 				ref={containerRef}
@@ -35,6 +44,7 @@ export function Preview() {
 						container={containerRef}
 						yOffsetPercent={preview.widgetOffsets.phrase}
 						onOffsetChange={(offset) => preview.setWidgetOffset('phrase', offset)}
+						isDraggable={activeTab === 'customize'}
 					>
 						<PhraseDisplay
 							mode={phrase.mode}
@@ -51,6 +61,7 @@ export function Preview() {
 						container={containerRef}
 						yOffsetPercent={preview.widgetOffsets.calendar}
 						onOffsetChange={(offset) => preview.setWidgetOffset('calendar', offset)}
+						isDraggable={activeTab === 'customize'}
 					>
 						<CalendarDisplay
 							timeMode={calendar.timeMode}
@@ -66,6 +77,7 @@ export function Preview() {
 						container={containerRef}
 						yOffsetPercent={preview.widgetOffsets.daysLeft}
 						onOffsetChange={(offset) => preview.setWidgetOffset('daysLeft', offset)}
+						isDraggable={activeTab === 'customize'}
 					>
 						<DaysLeftDisplay mode={daysLeft.mode} dateMode={daysLeft.dateMode} weekStart={daysLeft.weekStart} />
 					</DraggableWrapper>
