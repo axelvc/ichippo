@@ -29,11 +29,21 @@ export function AboutTab() {
 			<Separator />
 
 			<section>
-				<div className="text-sm text-zinc-400">
+				<div className="text-sm text-zinc-400 flex justify-between">
 					<p>
 						Created by{' '}
 						<a href="https://x.com/axel__vc" target="_blank" rel="noopener noreferrer">
 							@axel__vc
+						</a>
+					</p>
+					<p className="text-xs">
+						<a
+							href="https://buymeacoffee.com/axelvc"
+							target="_blank"
+							rel="noopener noreferrer"
+							className="text-zinc-500"
+						>
+							Buy me a coffee
 						</a>
 					</p>
 				</div>
