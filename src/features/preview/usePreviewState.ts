@@ -4,9 +4,9 @@ import { DEVICE_DPR } from './constants'
 import type { PreviewActions, PreviewState, WidgetId, WidgetOffsets } from './types'
 
 const DEFAULT_OFFSETS: WidgetOffsets = {
-	phrase: -50,
-	calendar: 50,
-	daysLeft: -75,
+	phrase: 0.45,
+	calendar: 0.55,
+	daysLeft: 0.90,
 }
 
 export function usePreviewState(): PreviewState & PreviewActions {

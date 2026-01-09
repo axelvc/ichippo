@@ -2,7 +2,7 @@
 import '@/styles/global.css'
 import { Font } from 'astro:assets'
 import { IPHONE_MODELS } from '@/features/controls'
-import { DEVICE_DPR, DOWNSAMPLING_FACTOR } from '@/features/preview'
+import { DEVICE_DPR, DOWNSAMPLING_FACTOR, DraggableWrapper } from '@/features/preview'
 import { CalendarDisplay } from '@/features/widgets/calendar'
 import { DaysLeftDisplay } from '@/features/widgets/days-left'
 import { PhraseDisplay } from '@/features/widgets/phrase'
@@ -73,7 +73,7 @@ height = height * DOWNSAMPLING_FACTOR
 			class="relative overflow-hidden bg-black font-apple dark"
 		>
 			{config.phrase.enabled && (
-				<div class="absolute w-full top-1/2" style={`transform: translateY(${config.offsets.phrase}px);`}>
+				<DraggableWrapper yOffsetPercent={config.offsets.phrase}>
 					<PhraseDisplay
 						mode={config.phrase.mode}
 						mainLang={config.phrase.mainLang}
@@ -82,11 +82,11 @@ height = height * DOWNSAMPLING_FACTOR
 						customText={config.phrase.customText}
 						customSubtext={config.phrase.customSubtext}
 					/>
-				</div>
+				</DraggableWrapper>
 			)}
 
 			{config.calendar.enabled && (
-				<div class="absolute w-full top-1/2" style={`transform: translateY(${config.offsets.calendar}px);`}>
+				<DraggableWrapper yOffsetPercent={config.offsets.calendar}>
 					<CalendarDisplay
 						timeMode={config.calendar.timeMode}
 						showLabel={config.calendar.showLabel}
@@ -94,17 +94,17 @@ height = height * DOWNSAMPLING_FACTOR
 						dotStyle={config.calendar.dotStyle}
 						weekStart={config.calendar.weekStart}
 					/>
-				</div>
+				</DraggableWrapper>
 			)}
 
 			{config.daysLeft.enabled && (
-				<div class="absolute w-full top-full" style={`transform: translateY(${config.offsets.daysLeft}px);`}>
+				<DraggableWrapper yOffsetPercent={config.offsets.daysLeft}>
 					<DaysLeftDisplay
 						mode={config.daysLeft.mode}
 						dateMode={config.daysLeft.dateMode}
 						weekStart={config.daysLeft.weekStart}
 					/>
-				</div>
+				</DraggableWrapper>
 			)}
 		</div>
 	</body>

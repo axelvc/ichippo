@@ -1,32 +1,35 @@
-import { motion, useMotionValue } from 'motion/react'
-import { type ReactNode, type RefObject, useEffect, useState } from 'react'
+import { motion, useMotionValue, useTransform } from 'motion/react'
+import type { ReactNode, RefObject } from 'react'
 import { cn } from '@/lib/utils'
 
 interface DraggableWrapperProps {
 	children: ReactNode
 	container?: RefObject<HTMLDivElement | null>
 	className?: string
-	yOffset?: number
-	onOffsetChange?: (offset: number) => void
+	/** 0-1 range representing percentage of container height */
+	yOffsetPercent?: number
+	onOffsetChange?: (offsetPercent: number) => void
 }
 
 export function DraggableWrapper({
 	children,
 	container,
 	className,
-	yOffset = 0,
+	yOffsetPercent = 0,
 	onOffsetChange,
 }: DraggableWrapperProps) {
-	const [isDragging, setIsDragging] = useState(false)
-	const y = useMotionValue(yOffset)
-
-	useEffect(() => {
-		y.set(yOffset)
-	}, [yOffset, y])
+	const yPercent = useMotionValue(yOffsetPercent)
+	const top = useTransform(yPercent, [0, 1], ['0%', '100%'])
+	const y = useMotionValue(0)
 
 	function handleDragEnd() {
-		setIsDragging(false)
-		onOffsetChange?.(y.get())
+		const containerHeight = container?.current?.clientHeight ?? 0
+		const moveOffset = containerHeight > 0 ? y.get() / containerHeight : 0
+		const newPercent = yPercent.get() + moveOffset
+
+		y.set(0)
+		yPercent.set(newPercent)
+		onOffsetChange?.(newPercent)
 	}
 
 	return (
@@ -35,10 +38,10 @@ export function DraggableWrapper({
 			dragElastic={0}
 			dragMomentum={false}
 			dragConstraints={container}
-			onDragStart={() => setIsDragging(true)}
 			onDragEnd={handleDragEnd}
-			style={{ y }}
-			className={cn('absolute select-none w-full', isDragging ? 'cursor-grabbing' : 'cursor-grab', className)}
+			style={{ top, y }}
+			whileDrag={{ cursor: 'grabbing' }}
+			className={cn('absolute select-none w-full cursor-grab', className)}
 		>
 			{children}
 		</motion.div>

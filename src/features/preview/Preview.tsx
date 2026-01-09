@@ -22,7 +22,7 @@ export function Preview() {
 
 			<main
 				ref={containerRef}
-				className="dark box-content relative overflow-hidden bg-white dark:bg-black rounded-[70px] transition-all duration-200 shadow-2xl border-4 border-zinc-800 font-apple"
+				className="dark relative overflow-hidden bg-white dark:bg-black rounded-[70px] transition-all duration-200 shadow-2xl ring-4 ring-zinc-800 font-apple"
 				style={{
 					width: `${preview.size.width}px`,
 					height: `${preview.size.height}px`,
@@ -33,8 +33,7 @@ export function Preview() {
 				{phrase.enabled && (
 					<DraggableWrapper
 						container={containerRef}
-						className="top-1/2"
-						yOffset={preview.widgetOffsets.phrase}
+						yOffsetPercent={preview.widgetOffsets.phrase}
 						onOffsetChange={(offset) => preview.setWidgetOffset('phrase', offset)}
 					>
 						<PhraseDisplay
@@ -50,8 +49,7 @@ export function Preview() {
 				{calendar.enabled && (
 					<DraggableWrapper
 						container={containerRef}
-						className="top-1/2"
-						yOffset={preview.widgetOffsets.calendar}
+						yOffsetPercent={preview.widgetOffsets.calendar}
 						onOffsetChange={(offset) => preview.setWidgetOffset('calendar', offset)}
 					>
 						<CalendarDisplay
@@ -66,8 +64,7 @@ export function Preview() {
 				{daysLeft.enabled && (
 					<DraggableWrapper
 						container={containerRef}
-						className="top-full"
-						yOffset={preview.widgetOffsets.daysLeft}
+						yOffsetPercent={preview.widgetOffsets.daysLeft}
 						onOffsetChange={(offset) => preview.setWidgetOffset('daysLeft', offset)}
 					>
 						<DaysLeftDisplay mode={daysLeft.mode} dateMode={daysLeft.dateMode} weekStart={daysLeft.weekStart} />
