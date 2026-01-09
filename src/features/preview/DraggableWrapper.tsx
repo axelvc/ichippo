@@ -1,48 +1,82 @@
-import { motion, useMotionValue, useTransform } from 'motion/react'
-import type { ReactNode, RefObject } from 'react'
+import { motion, useMotionValue } from 'motion/react'
+import { type ReactNode, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { cn } from '@/lib/utils'
 
 interface DraggableWrapperProps {
 	children: ReactNode
-	container?: RefObject<HTMLDivElement | null>
 	className?: string
 	/** 0-1 range representing percentage of container height */
 	yOffsetPercent?: number
 	onOffsetChange?: (offsetPercent: number) => void
 	isDraggable?: boolean
+	/** Container height in pixels - used to calculate drag constraints */
+	containerHeight?: number
 }
 
 export function DraggableWrapper({
 	children,
-	container,
 	className,
 	yOffsetPercent = 0,
 	onOffsetChange,
 	isDraggable = true,
+	containerHeight = 0,
 }: DraggableWrapperProps) {
-	const yPercent = useMotionValue(yOffsetPercent)
-	const top = useTransform(yPercent, [0, 1], ['0%', '100%'])
+	const elementRef = useRef<HTMLDivElement>(null)
+	const [elementHeight, setElementHeight] = useState(0)
+	const [currentPercent, setCurrentPercent] = useState(yOffsetPercent)
+
 	const y = useMotionValue(0)
 
+	// Measure element height for accurate constraints
+	useLayoutEffect(() => {
+		const element = elementRef.current
+		if (!element) return
+
+		const observer = new ResizeObserver(() => {
+			setElementHeight(element.offsetHeight)
+		})
+
+		observer.observe(element)
+		setElementHeight(element.offsetHeight)
+
+		return () => observer.disconnect()
+	}, [])
+
+	// Calculate drag constraints manually based on container and element dimensions
+	// because motion doesn't update constraints when container size changes
+	const dragConstraints = useMemo(() => {
+		if (containerHeight <= 0) return { top: 0, bottom: 0 }
+
+		const currentTopPx = currentPercent * containerHeight
+		const maxBottom = containerHeight - currentTopPx - elementHeight
+
+		return {
+			top: -currentTopPx,
+			bottom: Math.max(0, maxBottom),
+		}
+	}, [containerHeight, currentPercent, elementHeight])
+
 	function handleDragEnd() {
-		const containerHeight = container?.current?.clientHeight ?? 0
-		const moveOffset = containerHeight > 0 ? y.get() / containerHeight : 0
-		const newPercent = yPercent.get() + moveOffset
+		if (containerHeight <= 0) return
+
+		const moveOffset = y.get() / containerHeight
+		const newPercent = Math.max(0, Math.min(1, currentPercent + moveOffset))
 
 		y.set(0)
-		yPercent.set(newPercent)
+		setCurrentPercent(newPercent)
 		onOffsetChange?.(newPercent)
 	}
 
 	return (
 		<motion.div
-			drag={isDraggable ? 'y' : false}
+			ref={elementRef}
+			drag={isDraggable && 'y'}
 			dragElastic={0}
 			dragMomentum={false}
-			dragConstraints={container}
-			onDragEnd={handleDragEnd}
-			style={{ top, y }}
+			dragConstraints={dragConstraints}
 			whileDrag={{ cursor: 'grabbing' }}
+			onDragEnd={handleDragEnd}
+			style={{ top: `${currentPercent * 100}%`, y }}
 			className={cn('absolute select-none w-full', isDraggable && 'cursor-grab', className)}
 		>
 			{children}

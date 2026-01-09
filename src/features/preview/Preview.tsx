@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import { ControlsPanel } from '@/features/controls'
 import { CalendarDisplay, useCalendar } from '@/features/widgets/calendar'
 import { DaysLeftDisplay, useDaysLeft } from '@/features/widgets/days-left'
@@ -16,7 +16,6 @@ export function Preview() {
 	const preview = usePreviewState()
 
 	const [activeTab, setActiveTab] = useState<TabId>('instructions')
-	const containerRef = useRef<HTMLDivElement>(null)
 
 	return (
 		<div className="w-220 grid grid-cols-[auto_1fr] place-items-center gap-8">
@@ -30,7 +29,6 @@ export function Preview() {
 			/>
 
 			<main
-				ref={containerRef}
 				className="dark relative overflow-hidden bg-white dark:bg-black rounded-[70px] transition-all duration-200 shadow-2xl ring-4 ring-zinc-800 font-apple"
 				style={{
 					width: `${preview.size.width}px`,
@@ -41,7 +39,7 @@ export function Preview() {
 
 				{phrase.enabled && (
 					<DraggableWrapper
-						container={containerRef}
+						containerHeight={preview.size.height}
 						yOffsetPercent={preview.widgetOffsets.phrase}
 						onOffsetChange={(offset) => preview.setWidgetOffset('phrase', offset)}
 						isDraggable={activeTab === 'customize'}
@@ -58,7 +56,7 @@ export function Preview() {
 				)}
 				{calendar.enabled && (
 					<DraggableWrapper
-						container={containerRef}
+						containerHeight={preview.size.height}
 						yOffsetPercent={preview.widgetOffsets.calendar}
 						onOffsetChange={(offset) => preview.setWidgetOffset('calendar', offset)}
 						isDraggable={activeTab === 'customize'}
@@ -74,7 +72,7 @@ export function Preview() {
 				)}
 				{daysLeft.enabled && (
 					<DraggableWrapper
-						container={containerRef}
+						containerHeight={preview.size.height}
 						yOffsetPercent={preview.widgetOffsets.daysLeft}
 						onOffsetChange={(offset) => preview.setWidgetOffset('daysLeft', offset)}
 						isDraggable={activeTab === 'customize'}
