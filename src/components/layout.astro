@@ -10,7 +10,7 @@ import '@/styles/global.css'
 		<title>一日一歩</title>
     <slot name="head" />
 	</head>
-	<body>
+	<body class={Astro.props.class}>
 		<slot />
 	</body>
 </html>

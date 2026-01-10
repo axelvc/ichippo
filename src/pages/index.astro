@@ -9,13 +9,11 @@ export const prerender = false
 const timezone = Astro.request.headers.get('X-Vercel-IP-Timezone')
 ---
 
-<Layout>
+<Layout class="bg-zinc-950 min-h-screen flex justify-center items-center md:p-6 transition-colors">
 	<Fragment slot="head">
 		<Font cssVariable="--font-sans" preload />
 		<Font cssVariable="--font-mono" preload />
 		<Font cssVariable="--font-zen" preload />
 	</Fragment>
-	<div class="min-h-screen bg-zinc-950 flex justify-center items-center p-6 transition-colors">
-		<Preview client:load timezone={timezone} />
-	</div>
+	<Preview client:load timezone={timezone} />
 </Layout>
