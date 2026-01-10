@@ -74,7 +74,8 @@ export function DraggableWrapper({
 		if (containerHeight <= 0) return
 
 		const moveOffset = y.get() / containerHeight
-		const newPercent = Math.max(0, Math.min(1, currentPercent + moveOffset))
+		// Round to 3 decimal places to avoid floating point errors
+		const newPercent = Math.round(Math.max(0, Math.min(1, currentPercent + moveOffset)) * 1000) / 1000
 
 		y.set(0)
 		setCurrentPercent(newPercent)
