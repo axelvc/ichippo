@@ -2,6 +2,11 @@
 import { Font } from 'astro:assets'
 import Layout from '@/components/layout.astro'
 import { Preview } from '@/features/preview'
+
+export const prerender = false
+
+// Get user timezone from Vercel geolocation header (e.g., "Asia/Tokyo", "America/New_York")
+const timezone = Astro.request.headers.get('X-Vercel-IP-Timezone')
 ---
 
 <Layout>
@@ -11,6 +16,6 @@ import { Preview } from '@/features/preview'
 		<Font cssVariable="--font-zen" preload />
 	</Fragment>
 	<div class="min-h-screen bg-zinc-950 flex justify-center items-center p-6 transition-colors">
-		<Preview client:load />
+		<Preview client:load timezone={timezone} />
 	</div>
 </Layout>

@@ -1,15 +1,21 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { ControlsPanel } from '@/features/controls'
 import { CalendarDisplay, useCalendar } from '@/features/widgets/calendar'
 import { DaysLeftDisplay, useDaysLeft } from '@/features/widgets/days-left'
 import { PhraseDisplay, usePhrase } from '@/features/widgets/phrase'
+import dayjs from '@/lib/dayjs'
 import { DraggableWrapper } from './DraggableWrapper.tsx'
 import { PhoneOverlay } from './PhoneOverlay'
 import { usePreviewState } from './usePreviewState.ts'
 
 type TabId = 'instructions' | 'customize' | 'about'
 
-export function Preview() {
+interface PreviewProps {
+	timezone?: string | null
+}
+
+export function Preview({ timezone }: PreviewProps) {
+	const now = useMemo(() => dayjs().tz(timezone ?? undefined), [timezone])
 	const phrase = usePhrase()
 	const calendar = useCalendar()
 	const daysLeft = useDaysLeft()
@@ -62,6 +68,7 @@ export function Preview() {
 						isDraggable={activeTab === 'customize'}
 					>
 						<CalendarDisplay
+							now={now}
 							timeMode={calendar.timeMode}
 							showLabel={calendar.showLabel}
 							labelLang={calendar.labelLang}
@@ -77,7 +84,12 @@ export function Preview() {
 						onOffsetChange={(offset) => preview.setWidgetOffset('daysLeft', offset)}
 						isDraggable={activeTab === 'customize'}
 					>
-						<DaysLeftDisplay mode={daysLeft.mode} dateMode={daysLeft.dateMode} weekStart={daysLeft.weekStart} />
+						<DaysLeftDisplay
+							now={now}
+							mode={daysLeft.mode}
+							dateMode={daysLeft.dateMode}
+							weekStart={daysLeft.weekStart}
+						/>
 					</DraggableWrapper>
 				)}
 			</main>
