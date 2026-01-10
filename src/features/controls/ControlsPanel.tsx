@@ -6,7 +6,6 @@ import type { DaysLeftActions, DaysLeftState } from '@/features/widgets/days-lef
 import type { PhraseActions, PhraseState } from '@/features/widgets/phrase'
 import type dayjs from '@/lib/dayjs'
 import { useConfigUrl } from '@/lib/useConfigUrl'
-import { cn } from '@/lib/utils'
 import { AboutTab } from './AboutTab'
 import { CustomizeTab } from './CustomizeTab'
 import { InstructionsTab } from './InstructionsTab'
@@ -87,16 +86,18 @@ export function ControlsPanel({
 				{activeTab === 'about' && <AboutTab />}
 
 				{activeTab === 'preview' && (
-					<MobilePreview
-						activeTab={activeTab}
-						phrase={phrase}
-						calendar={calendar}
-						daysLeft={daysLeft}
-						preview={preview}
-						now={now}
-						className="w-auto h-full aspect-9/19 mx-auto"
-						isMobile
-					/>
+					<div className="h-full w-full flex items-center justify-center @container-[size]">
+						<MobilePreview
+							activeTab={activeTab}
+							phrase={phrase}
+							calendar={calendar}
+							daysLeft={daysLeft}
+							preview={preview}
+							now={now}
+							className="mx-auto aspect-9/19 w-[min(100cqw,calc(100cqh*9/19))] h-[min(100cqh,calc(100cqw*19/9))]"
+							isMobile
+						/>
+					</div>
 				)}
 			</div>
 		</div>
