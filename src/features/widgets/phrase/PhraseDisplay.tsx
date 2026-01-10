@@ -1,11 +1,15 @@
 import { useMemo, useRef } from 'react'
+import dayjs from '@/lib/dayjs'
 import { cn } from '@/lib/utils'
 import { PHRASES_BY_CATEGORY } from './constants'
 import type { Phrase, PhraseCategory, PhraseState } from './types'
 
-function getRandomPhrase(mode: PhraseCategory): Phrase {
+function getDayBasedPhrase(mode: PhraseCategory): Phrase {
 	const phrases = PHRASES_BY_CATEGORY[mode]
-	return phrases[Math.floor(Math.random() * phrases.length)]
+	const daysSinceEpoch = dayjs().diff(dayjs(0), 'day')
+	const phraseIndex = daysSinceEpoch % phrases.length
+
+	return phrases[phraseIndex]
 }
 
 export function PhraseDisplay({
@@ -18,14 +22,12 @@ export function PhraseDisplay({
 }: Omit<PhraseState, 'enabled'>) {
 	const isCustom = mode === 'custom'
 	const prevModeRef = useRef(mode)
-	const phraseRef = useRef<Phrase | null>(isCustom ? null : PHRASES_BY_CATEGORY[mode][0])
+	const phrase = useMemo(() => {
+		if (isCustom) return null
 
-	if (mode !== prevModeRef.current) {
 		prevModeRef.current = mode
-		phraseRef.current = isCustom ? null : getRandomPhrase(mode)
-	}
-
-	const phrase = phraseRef.current
+		return getDayBasedPhrase(mode)
+	}, [mode, isCustom])
 
 	const text = phrase?.texts[mainLang] || customText
 
