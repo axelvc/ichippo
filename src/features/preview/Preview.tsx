@@ -24,7 +24,7 @@ export function Preview({ timezone }: PreviewProps) {
 	const [activeTab, setActiveTab] = useState<TabId>('instructions')
 
 	return (
-		<div className="w-220 grid grid-cols-[auto_1fr] place-items-center gap-8">
+		<div className="w-220 grid md:grid-cols-[auto_1fr] place-items-center gap-8">
 			<ControlsPanel
 				phrase={phrase}
 				calendar={calendar}
@@ -35,7 +35,7 @@ export function Preview({ timezone }: PreviewProps) {
 			/>
 
 			<main
-				className="dark relative overflow-hidden bg-white dark:bg-black rounded-[70px] transition-all duration-200 shadow-2xl ring-4 ring-zinc-800 font-apple"
+				className="dark hidden md:block relative overflow-hidden bg-white dark:bg-black rounded-[70px] transition-all duration-200 shadow-2xl ring-4 ring-zinc-800 font-apple"
 				style={{
 					width: `${preview.size.width}px`,
 					height: `${preview.size.height}px`,
