@@ -7,6 +7,7 @@ import { CalendarDisplay } from '@/features/widgets/calendar'
 import { DaysLeftDisplay } from '@/features/widgets/days-left'
 import { PhraseDisplay } from '@/features/widgets/phrase'
 import { decodeConfig } from '@/lib/config'
+import dayjs from '@/lib/dayjs'
 
 export const prerender = false
 
@@ -39,6 +40,10 @@ if (headerHeight && headerWidth) {
 
 width = width * DOWNSAMPLING_FACTOR
 height = height * DOWNSAMPLING_FACTOR
+
+// Get user timezone from Vercel geolocation header (e.g., "Asia/Tokyo", "America/New_York")
+const timezone = Astro.request.headers.get('X-Vercel-IP-Timezone')
+const now = timezone ? dayjs().tz(timezone) : dayjs()
 ---
 
 <html lang="en">
@@ -88,6 +93,7 @@ height = height * DOWNSAMPLING_FACTOR
 			{config.calendar.enabled && (
 				<DraggableWrapper yOffsetPercent={config.offsets.calendar}>
 					<CalendarDisplay
+						now={now}
 						timeMode={config.calendar.timeMode}
 						showLabel={config.calendar.showLabel}
 						labelLang={config.calendar.labelLang}
@@ -100,6 +106,7 @@ height = height * DOWNSAMPLING_FACTOR
 			{config.daysLeft.enabled && (
 				<DraggableWrapper yOffsetPercent={config.offsets.daysLeft}>
 					<DaysLeftDisplay
+						now={now}
 						mode={config.daysLeft.mode}
 						dateMode={config.daysLeft.dateMode}
 						weekStart={config.daysLeft.weekStart}

@@ -13,6 +13,10 @@ export interface CalendarState {
 	weekStart: WeekStart
 }
 
+export interface CalendarDisplayProps extends Omit<CalendarState, 'enabled'> {
+	now?: import('dayjs').Dayjs
+}
+
 export interface CalendarActions {
 	setEnabled: (enabled: boolean) => void
 	setTimeMode: (mode: TimeMode) => void

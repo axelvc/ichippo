@@ -10,6 +10,10 @@ export interface DaysLeftState {
 	weekStart: WeekStart
 }
 
+export interface DaysLeftDisplayProps extends Omit<DaysLeftState, 'enabled'> {
+	now?: import('dayjs').Dayjs
+}
+
 export interface DaysLeftActions {
 	setEnabled: (enabled: boolean) => void
 	setMode: (mode: DaysLeftMode) => void

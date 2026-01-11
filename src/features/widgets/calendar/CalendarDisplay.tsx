@@ -1,14 +1,12 @@
 /** biome-ignore-all lint/suspicious/noArrayIndexKey: Week labels are hardcoded */
-import dayjs from 'dayjs'
-import isoWeek from 'dayjs/plugin/isoWeek.js'
+
 import { useMemo } from 'react'
+import dayjs from '@/lib/dayjs'
 import { cn } from '@/lib/utils'
 import type { LanguageCode } from '../shared/types'
 import { CalendarDot } from './CalendarDot'
 import { WEEK_LABELS_MONDAY, WEEK_LABELS_SUNDAY } from './constants'
-import type { CalendarDayState, CalendarState } from './types'
-
-dayjs.extend(isoWeek)
+import type { CalendarDayState, CalendarDisplayProps } from './types'
 
 export function CalendarDisplay({
 	timeMode,
@@ -16,9 +14,10 @@ export function CalendarDisplay({
 	labelLang,
 	dotStyle,
 	weekStart,
-}: Omit<CalendarState, 'enabled'>) {
+	now: nowProp,
+}: CalendarDisplayProps) {
 	const cells = useMemo<CalendarDayState[]>(() => {
-		const now = dayjs()
+		const now = nowProp ?? dayjs()
 		const today = now.startOf('day')
 
 		if (timeMode === 'week') {
@@ -71,7 +70,7 @@ export function CalendarDisplay({
 				active: !isPast && (day.isBefore(today, 'day') || day.isSame(today, 'day')),
 			}
 		})
-	}, [timeMode, weekStart])
+	}, [timeMode, weekStart, nowProp])
 
 	const weekLabels =
 		weekStart === 'monday'

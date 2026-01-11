@@ -1,15 +1,10 @@
-import dayjs from 'dayjs'
-import isLeapYear from 'dayjs/plugin/isLeapYear.js'
-import isoWeek from 'dayjs/plugin/isoWeek.js'
 import { useMemo } from 'react'
-import type { DaysLeftState } from './types'
+import dayjs from '@/lib/dayjs'
+import type { DaysLeftDisplayProps } from './types'
 
-dayjs.extend(isoWeek)
-dayjs.extend(isLeapYear)
-
-export function DaysLeftDisplay({ mode, dateMode, weekStart }: Omit<DaysLeftState, 'enabled'>) {
+export function DaysLeftDisplay({ mode, dateMode, weekStart, now }: DaysLeftDisplayProps) {
 	const { currentDay, total } = useMemo(() => {
-		const today = dayjs()
+		const today = now ?? dayjs()
 
 		if (dateMode === 'year') {
 			const startOfYear = today.startOf('year')
@@ -30,7 +25,7 @@ export function DaysLeftDisplay({ mode, dateMode, weekStart }: Omit<DaysLeftStat
 			currentDay: weekStart === 'monday' ? today.isoWeekday() : today.day() + 1,
 			total: 7,
 		}
-	}, [dateMode, weekStart])
+	}, [dateMode, weekStart, now])
 
 	const displayText = useMemo(() => {
 		if (mode === 'count') {
