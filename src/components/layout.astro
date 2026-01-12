@@ -1,5 +1,6 @@
 ---
 import '@/styles/global.css'
+import Analytics from '@vercel/analytics/astro'
 ---
 
 <html lang="en">
@@ -9,6 +10,7 @@ import '@/styles/global.css'
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>一日一歩</title>
     <slot name="head" />
+		<Analytics />
 	</head>
 	<body class={Astro.props.class}>
 		<slot />

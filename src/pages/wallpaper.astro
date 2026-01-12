@@ -1,6 +1,6 @@
 ---
-import '@/styles/global.css'
 import { Font } from 'astro:assets'
+import Layout from '@/components/layout.astro'
 import { IPHONE_MODELS } from '@/features/controls'
 import { DEVICE_DPR, DOWNSAMPLING_FACTOR, DraggableWrapper } from '@/features/preview'
 import { CalendarDisplay } from '@/features/widgets/calendar'
@@ -46,18 +46,14 @@ const timezone = Astro.request.headers.get('X-Vercel-IP-Timezone')
 const now = timezone ? dayjs().tz(timezone) : dayjs()
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>一日一歩</title>
+<Layout>
+	<Fragment slot="head">
 		<Font cssVariable="--font-zen" preload />
-    <style define:vars={{ width, height }}>
+		<style define:vars={{ width, height }}>
 			@media print {
-				@page {
-					margin: 0;
-					padding: 0;
+					@page {
+						margin: 0;
+						padding: 0;
 				}
 			}
 
@@ -66,53 +62,52 @@ const now = timezone ? dayjs().tz(timezone) : dayjs()
 			}
 
 			#wallpaper {
-        width: calc(var(--width) * 1px);
-        height: calc(var(--height) * 1px);
+				width: calc(var(--width) * 1px);
+				height: calc(var(--height) * 1px);
 				box-shadow: 0 0 0 100dvh inset black;
 			}
 		</style>
-	</head>
-	<body>
-		<div
-			id="wallpaper"
-			class="relative overflow-hidden bg-black font-apple dark"
-		>
-			{config.phrase.enabled && (
-				<DraggableWrapper yOffsetPercent={config.offsets.phrase}>
-					<PhraseDisplay
-						mode={config.phrase.mode}
-						mainLang={config.phrase.mainLang}
-						subtextMode={config.phrase.subtextMode}
-						subtextLang={config.phrase.subtextLang}
-						customText={config.phrase.customText}
-						customSubtext={config.phrase.customSubtext}
-					/>
-				</DraggableWrapper>
-			)}
+	</Fragment>
 
-			{config.calendar.enabled && (
-				<DraggableWrapper yOffsetPercent={config.offsets.calendar}>
-					<CalendarDisplay
-						now={now}
-						timeMode={config.calendar.timeMode}
-						showLabel={config.calendar.showLabel}
-						labelLang={config.calendar.labelLang}
-						dotStyle={config.calendar.dotStyle}
-						weekStart={config.calendar.weekStart}
-					/>
-				</DraggableWrapper>
-			)}
+	<div
+		id="wallpaper"
+		class="relative overflow-hidden bg-black font-apple dark"
+	>
+		{config.phrase.enabled && (
+			<DraggableWrapper yOffsetPercent={config.offsets.phrase}>
+				<PhraseDisplay
+					mode={config.phrase.mode}
+					mainLang={config.phrase.mainLang}
+					subtextMode={config.phrase.subtextMode}
+					subtextLang={config.phrase.subtextLang}
+					customText={config.phrase.customText}
+					customSubtext={config.phrase.customSubtext}
+				/>
+			</DraggableWrapper>
+		)}
 
-			{config.daysLeft.enabled && (
-				<DraggableWrapper yOffsetPercent={config.offsets.daysLeft}>
-					<DaysLeftDisplay
-						now={now}
-						mode={config.daysLeft.mode}
-						dateMode={config.daysLeft.dateMode}
-						weekStart={config.daysLeft.weekStart}
-					/>
-				</DraggableWrapper>
-			)}
-		</div>
-	</body>
-</html>
+		{config.calendar.enabled && (
+			<DraggableWrapper yOffsetPercent={config.offsets.calendar}>
+				<CalendarDisplay
+					now={now}
+					timeMode={config.calendar.timeMode}
+					showLabel={config.calendar.showLabel}
+					labelLang={config.calendar.labelLang}
+					dotStyle={config.calendar.dotStyle}
+					weekStart={config.calendar.weekStart}
+				/>
+			</DraggableWrapper>
+		)}
+
+		{config.daysLeft.enabled && (
+			<DraggableWrapper yOffsetPercent={config.offsets.daysLeft}>
+				<DaysLeftDisplay
+					now={now}
+					mode={config.daysLeft.mode}
+					dateMode={config.daysLeft.dateMode}
+					weekStart={config.daysLeft.weekStart}
+				/>
+			</DraggableWrapper>
+		)}
+	</div>
+</Layout>
